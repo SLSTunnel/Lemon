@@ -6,7 +6,7 @@ Cinnamon makes users feel at home with an easy-to-use and comfortable desktop ex
 
 Contributing
 ============
-Cinnamon is on GitHub at https://github.com/linuxmint/cinnamon.
+Cinnamon is on GitHub at https://github.com/SLSTunnel/cinnamon.
 
 Note that some issues may not be with Cinnamon itself. For a list of related components,
 please see https://projects.linuxmint.com/cinnamon/.

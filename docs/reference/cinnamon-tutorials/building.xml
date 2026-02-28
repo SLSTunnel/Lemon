@@ -31,7 +31,7 @@
       </screen>
       <para>Now get the latest git code for everything. Run (not as root):</para>
       <screen>
-        git clone git://github.com/linuxmint/cinnamon.git
+        git clone git://github.com/SLSTunnel/cinnamon.git
         git clone git://github.com/linuxmint/cinnamon-control-center.git
         git clone git://github.com/linuxmint/cinnamon-desktop.git
         git clone git://github.com/linuxmint/cinnamon-menus.git
