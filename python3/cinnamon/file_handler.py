@@ -20,7 +20,6 @@ None of the handlers modify existing Cinnamon flows.
 
 import os
 import shutil
-import struct
 import zipfile
 import logging
 
@@ -272,8 +271,8 @@ def handle_exe(path, _notify_fn=None):
 def handle_apk(path, _notify_fn=None):
     """Handle an Android APK file.
 
-    Returns a ``dict`` describing the recommended action.  Does not attempt to
-    install system packages automatically.
+    Returns a ``dict`` describing the recommended action.  When ``adb`` is not
+    installed, attempts to auto-install it via the system package manager.
     """
     result = {
         "path": path,
