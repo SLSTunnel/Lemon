@@ -203,10 +203,10 @@ class TestBuildIsoDefaults(unittest.TestCase):
         self.assertIn('OUTPUT_DIR="build/iso"', content)
 
     def test_iso_name_pattern(self):
-        """ISO filename follows <suite>-cinnamon-<arch>.iso convention."""
+        """ISO filename follows <suite>-lemon-<arch>.iso convention."""
         with open(_SCRIPT) as fh:
             content = fh.read()
-        self.assertIn('ISO_NAME="${SUITE}-cinnamon-${ARCH}.iso"', content)
+        self.assertIn('ISO_NAME="${SUITE}-lemon-${ARCH}.iso"', content)
 
 
 if __name__ == "__main__":
