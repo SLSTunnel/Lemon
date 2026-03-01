@@ -18,12 +18,12 @@
 #include "gdk-event-filter.h"
 #include "event-grabber.h"
 
-#define BUS_NAME "org.cinnamon.BackupLocker"
-#define BUS_PATH "/org/cinnamon/BackupLocker"
+#define BUS_NAME "org.lemon.BackupLocker"
+#define BUS_PATH "/org/lemon/BackupLocker"
 
-#define LAUNCHER_BUS_NAME "org.cinnamon.Launcher"
-#define LAUNCHER_BUS_PATH "/org/cinnamon/Launcher"
-#define LAUNCHER_INTERFACE "org.cinnamon.Launcher"
+#define LAUNCHER_BUS_NAME "org.lemon.Launcher"
+#define LAUNCHER_BUS_PATH "/org/lemon/Launcher"
+#define LAUNCHER_INTERFACE "org.lemon.Launcher"
 
 #define BACKUP_TYPE_LOCKER (backup_locker_get_type ())
 G_DECLARE_FINAL_TYPE (BackupLocker, backup_locker, BACKUP, LOCKER, GtkApplication)
@@ -66,7 +66,7 @@ static GDBusNodeInfo *introspection_data = NULL;
 
 static const gchar introspection_xml[] =
     "<node>"
-    "  <interface name='org.cinnamon.BackupLocker'>"
+    "  <interface name='org.lemon.BackupLocker'>"
     "    <method name='Lock'>"
     "      <arg type='t' name='xid' direction='in'/>"
     "      <arg type='u' name='term_tty' direction='in'/>"
@@ -550,13 +550,13 @@ create_window (BackupLocker *self)
     box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_valign (box, GTK_ALIGN_CENTER);
 
-    widget = gtk_image_new_from_icon_name ("cinnamon-symbolic", GTK_ICON_SIZE_DIALOG);
+    widget = gtk_image_new_from_icon_name ("lemon-symbolic", GTK_ICON_SIZE_DIALOG);
     gtk_image_set_pixel_size (GTK_IMAGE (widget), 100);
     gtk_widget_set_halign (widget, GTK_ALIGN_CENTER);
     gtk_box_pack_start (GTK_BOX (box), widget, FALSE, FALSE, 6);
     // This is the first line of text for the backup-locker, explaining how to switch to tty
-    // and run 'cinnamon-unlock-desktop' command.  This appears if the screensaver crashes.
-    widget = gtk_label_new (_("Something went wrong with Cinnamon."));
+    // and run 'lemon-unlock-desktop' command.  This appears if the screensaver crashes.
+    widget = gtk_label_new (_("Something went wrong with Lemon."));
     attrs = pango_attr_list_new ();
     pango_attr_list_insert (attrs, pango_attr_size_new (20 * PANGO_SCALE));
     pango_attr_list_insert (attrs, pango_attr_foreground_new (65535, 65535, 65535));
@@ -595,13 +595,13 @@ create_window (BackupLocker *self)
             // Bulleted list of steps to take to unlock the desktop
             N_("Switch to a console using <Control-Alt-F%u>."),
             N_("Log in by typing your user name followed by your password."),
-            N_("At the prompt, type 'cinnamon-unlock-desktop' and press Enter."),
+            N_("At the prompt, type 'lemon-unlock-desktop' and press Enter."),
             N_("Switch back to your unlocked desktop using <Control-Alt-F%u>.")
         };
 
         const gchar *bug_report[] = {
             N_("If you can reproduce this behavior, please file a report here:"),
-            "https://github.com/SLSTunnel/cinnamon"
+            "https://github.com/SLSTunnel/lemon"
         };
 
         GString *str = g_string_new (NULL);
@@ -1124,7 +1124,7 @@ backup_locker_class_init (BackupLockerClass *klass)
 static void
 update_debug_from_gsettings (void)
 {
-    GSettings *settings = g_settings_new ("org.cinnamon");
+    GSettings *settings = g_settings_new ("org.lemon");
     gboolean debug = g_settings_get_boolean (settings, "debug-screensaver");
     g_object_unref (settings);
 

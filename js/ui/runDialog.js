@@ -8,13 +8,13 @@ const Pango = imports.gi.Pango;
 const Mainloop = imports.mainloop;
 const Meta = imports.gi.Meta;
 const St = imports.gi.St;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 
 const FileUtils = imports.misc.fileUtils;
 const Main = imports.ui.main;
 const Dialog = imports.ui.dialog;
 const ModalDialog = imports.ui.modalDialog;
-const CinnamonEntry = imports.ui.cinnamonEntry;
+const LemonEntry = imports.ui.lemonEntry;
 const Util = imports.misc.util;
 const History = imports.misc.history;
 
@@ -22,10 +22,10 @@ const MAX_FILE_DELETED_BEFORE_INVALID = 10;
 
 const HISTORY_KEY = 'command-history';
 
-const LOCKDOWN_SCHEMA = 'org.cinnamon.desktop.lockdown';
+const LOCKDOWN_SCHEMA = 'org.lemon.desktop.lockdown';
 const DISABLE_COMMAND_LINE_KEY = 'disable-command-line';
 
-const TERMINAL_SCHEMA = 'org.cinnamon.desktop.default-applications.terminal';
+const TERMINAL_SCHEMA = 'org.lemon.desktop.default-applications.terminal';
 const EXEC_KEY = 'exec';
 const EXEC_ARG_KEY = 'exec-arg';
 
@@ -42,8 +42,8 @@ const UP = 1;
 const DOWN = 2;
 
 const DEVEL_COMMANDS = { 'lg': x => Main.createLookingGlass().open(),
-                         'r': x => Main.restartCinnamon(true),
-                         'restart': x => Main.restartCinnamon(true),
+                         'r': x => Main.restartLemon(true),
+                         'restart': x => Main.restartLemon(true),
                          'debugexit': x => Meta.quit(Meta.ExitCode.ERROR),
                          'rt': x => Main.themeManager._changeTheme() };
 
@@ -163,7 +163,7 @@ class RunDialog extends ModalDialog.ModalDialog {
         this.contentLayout.add_actor(content);
 
         let entry = new St.Entry({ style_class: 'run-dialog-entry' });
-        CinnamonEntry.addContextMenu(entry);
+        LemonEntry.addContextMenu(entry);
 
         this._entryText = entry.clutter_text;
         this._oldText = "";
@@ -218,7 +218,7 @@ class RunDialog extends ModalDialog.ModalDialog {
             }
 
             this.popModal();
-            if (Cinnamon.get_event_state(e) & Clutter.ModifierType.CONTROL_MASK)
+            if (Lemon.get_event_state(e) & Clutter.ModifierType.CONTROL_MASK)
                 this._run(o.get_text(), true);
             else
                 this._run(o.get_text(), false);
@@ -393,7 +393,7 @@ class RunDialog extends ModalDialog.ModalDialog {
         this._commandError = false;
         if (this._enableInternalCommands && input in DEVEL_COMMANDS) {
             /* Delay 10ms past the modalDialog's openAndCloseTime to ensure the dialog
-            * is closed before doing something disruptive like restarting cinnamon */
+            * is closed before doing something disruptive like restarting lemon */
             Mainloop.timeout_add(this.openAndCloseTime + 10, ()=>DEVEL_COMMANDS[input]());
             return;
         }

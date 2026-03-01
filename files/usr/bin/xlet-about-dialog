@@ -10,7 +10,7 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, GdkPixbuf, GLib
 
-gettext.install('cinnamon', '/usr/share/locale')
+gettext.install('lemon', '/usr/share/locale')
 
 home = os.path.expanduser('~')
 
@@ -42,7 +42,7 @@ class AboutDialog(Gtk.AboutDialog):
 
         s_id = self.get_spices_id()
         if s_id:
-            self.props.website = f'https://cinnamon-spices.linuxmint.com/{self.stype}/view/{s_id}'
+            self.props.website = f'https://lemon-spices.linuxmint.com/{self.stype}/view/{s_id}'
             self.props.website_label = _("More info")
 
         if 'contributors' in self.metadata:
@@ -74,7 +74,7 @@ class AboutDialog(Gtk.AboutDialog):
     def _(self, msg):
         gettext.bindtextdomain(self.metadata.get('uuid'), home + '/.local/share/locale')
         translation = gettext.dgettext(self.metadata.get('uuid'), msg)
-        # try with cinnamon domain if the xlet domain doesn't work
+        # try with lemon domain if the xlet domain doesn't work
         if translation == msg:
             return _(msg)
 
@@ -82,7 +82,7 @@ class AboutDialog(Gtk.AboutDialog):
 
     def get_spices_id(self):
         try:
-            cache_path = os.path.join(GLib.get_user_cache_dir(), 'cinnamon', 'spices', self.stype[0:-1], 'index.json')
+            cache_path = os.path.join(GLib.get_user_cache_dir(), 'lemon', 'spices', self.stype[0:-1], 'index.json')
             if os.path.exists(cache_path):
                 with open(cache_path, 'r', encoding='utf-8') as cache_file:
                     index_cache = json.load(cache_file)
@@ -108,7 +108,7 @@ if __name__ == "__main__":
     xlet_type = _args.xlet_type
     uuid = _args.uuid[0]
 
-    suffix = f'share/nemo/actions/{uuid}' if xlet_type == 'actions' else f'share/cinnamon/{xlet_type}/{uuid}'
+    suffix = f'share/nemo/actions/{uuid}' if xlet_type == 'actions' else f'share/lemon/{xlet_type}/{uuid}'
     prefixes = [os.path.join(home, '.local'), '/usr']
 
     path = None

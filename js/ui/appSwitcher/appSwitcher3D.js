@@ -7,7 +7,7 @@ const Graphene = imports.gi.Graphene;
 const St = imports.gi.St;
 const Meta = imports.gi.Meta;
 const Pango = imports.gi.Pango;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const Mainloop = imports.mainloop;
 
 const AppSwitcher = imports.ui.appSwitcher.appSwitcher;

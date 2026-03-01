@@ -1,0 +1,6 @@
+{
+ "uuid": "power@lemon.org",
+ "name": "Power Manager",
+ "description": "Lemon power management applet",
+ "icon": "cs-power"
+}

@@ -13,14 +13,14 @@ const Gettext = imports.gettext;
 const Signals = imports.signals;
 const GLib = imports.gi.GLib;
 const Gtk = imports.gi.Gtk;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const St = imports.gi.St;
 const Meta = imports.gi.Meta;
 const Overrides = imports.ui.overrides;
 const Params = imports.misc.params;
 const SignalTracker = imports.misc.signalTracker;
 
-// We can't import cinnamon JS modules yet, because they may have
+// We can't import lemon JS modules yet, because they may have
 // variable initializations, etc, that depend on init() already having
 // been run.
 
@@ -284,7 +284,7 @@ function init() {
     // browser convention of having that namespace be called 'window'.)
     Object.defineProperty(window, 'global', {
         get: function() {
-            return Cinnamon.Global.get();
+            return Lemon.Global.get();
         },
         set: function() {
             readOnlyError('global');
@@ -429,18 +429,18 @@ function init() {
 
     // Work around https://bugzilla.mozilla.org/show_bug.cgi?id=508783
     Date.prototype.toLocaleFormat = function(format) {
-        return Cinnamon.util_format_date(format, this.getTime());
+        return Lemon.util_format_date(format, this.getTime());
     };
     Gtk.IconTheme.get_default = () => St.TextureCache.get_default().get_icon_theme();
 
-    let slowdownEnv = GLib.getenv('CINNAMON_SLOWDOWN_FACTOR');
+    let slowdownEnv = GLib.getenv('LEMON_SLOWDOWN_FACTOR');
     if (slowdownEnv) {
         let factor = parseFloat(slowdownEnv);
         if (!isNaN(factor) && factor > 0.0)
             St.Settings.get().slow_down_factor = factor;
     }
 
-    // OK, now things are initialized enough that we can import cinnamon JS
+    // OK, now things are initialized enough that we can import lemon JS
     const Format = imports.format;
     const Tweener = imports.ui.tweener;
 

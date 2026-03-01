@@ -1,1 +1,1 @@
-subdir('cinnamon-sass')
+subdir('lemon-sass')

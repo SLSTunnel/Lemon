@@ -1,0 +1,5 @@
+{
+    "description": "Search using tracker", 
+    "uuid": "trackerprovider@lemon.org", 
+    "name": "Tracker search"
+}

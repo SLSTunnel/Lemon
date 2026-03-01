@@ -12,11 +12,11 @@
  * @notificationDaemon (NotificationDaemon.NotificationDaemon): The notification daemon
  * @windowAttentionHandler (WindowAttentionHandler.WindowAttentionHandler): The window attention handle
  * @screenRecorder (ScreenRecorder.ScreenRecorder): The recorder
- * @cinnamonDBusService (CinnamonDBus.Cinnamon): The cinnamon dbus object
+ * @lemonDBusService (LemonDBus.Lemon): The lemon dbus object
  * @screenshotService (Screenshot.ScreenshotService): Implementation of gnome-shell's screenshot interface.
  * @modalCount (int): The number of modals "pushed"
  * @modalActorFocusStack (array): Array of pushed modal actors
- * @uiGroup (Cinnamon.GenericContainer): The group containing all Cinnamon and
+ * @uiGroup (Lemon.GenericContainer): The group containing all Lemon and
  * Muffin actors
  *
  * @magnifier (Magnifier.Magnifier): The magnifier
@@ -49,7 +49,7 @@
  * @slideshowManager (SlideshowManager.SlideshowManager): The slideshow manager.
  * \
  * This is responsible for managing the background slideshow, since the
- * background "slideshow" is created by cinnamon changing the active background
+ * background "slideshow" is created by lemon changing the active background
  * gsetting every x minutes.
  *
  * @keybindingManager (KeybindingManager.KeybindingManager): The keybinding manager
@@ -60,7 +60,7 @@
  * 
  * @osdWindow (OsdWindow.OsdWindow): Osd window that pops up when you use media
  * keys.
- * @tracker (Cinnamon.WindowTracker): The window tracker
+ * @tracker (Lemon.WindowTracker): The window tracker
  * @workspace_names (array): Names of workspace
  * @deskletContainer (DeskletManager.DeskletContainer): The desklet container.
  * \
@@ -73,7 +73,7 @@
  * not manage to load
  *
  * The main file is responsible for launching Lemon as well as creating its
- * components. The C part of cinnamon calls the @start() function, which then
+ * components. The C part of lemon calls the @start() function, which then
  * initializes all of lemon. Most components of Lemon can be accessed
  * through main.
  */
@@ -85,7 +85,7 @@ const GLib = imports.gi.GLib;
 const Gtk = imports.gi.Gtk;
 const Mainloop = imports.mainloop;
 const Meta = imports.gi.Meta;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const St = imports.gi.St;
 const GObject = imports.gi.GObject;
 const XApp = imports.gi.XApp;
@@ -115,7 +115,7 @@ const LookingGlass = imports.ui.lookingGlass;
 const NetworkAgent = imports.ui.networkAgent;
 const NotificationDaemon = imports.ui.notificationDaemon;
 const WindowAttentionHandler = imports.ui.windowAttentionHandler;
-const CinnamonDBus = imports.ui.cinnamonDBus;
+const LemonDBus = imports.ui.lemonDBus;
 const Screenshot = imports.ui.screenshot;
 const ScreenShield = imports.ui.screensaver.screenShield;
 const AwayMessageDialog = imports.ui.screensaver.awayMessageDialog;
@@ -135,7 +135,7 @@ const InputMethod = imports.misc.inputMethod;
 const ScreenRecorder = imports.ui.screenRecorder;
 const {GesturesManager} = imports.ui.gestures.gesturesManager;
 const {MonitorLabeler} = imports.ui.monitorLabeler;
-const {CinnamonPortalHandler} = imports.misc.portalHandlers;
+const {LemonPortalHandler} = imports.misc.portalHandlers;
 const {EndSessionDialog} = imports.ui.endSessionDialog;;
 const {KeyboardManager} = imports.ui.keyboardManager;
 
@@ -167,8 +167,8 @@ var messageTray = null;
 var notificationDaemon = null;
 var windowAttentionHandler = null;
 var screenRecorder = null;
-var cinnamonAudioSelectionDBusService = null;
-var cinnamonDBusService = null;
+var lemonAudioSelectionDBusService = null;
+var lemonDBusService = null;
 var screenshotService = null;
 var modalCount = 0;
 var modalActorFocusStack = [];
@@ -198,7 +198,7 @@ var gesturesManager = null;
 var keyboardManager = null;
 var workspace_names = [];
 
-var actionMode = Cinnamon.ActionMode.NORMAL;
+var actionMode = Lemon.ActionMode.NORMAL;
 
 var applet_side = St.Side.TOP; // Kept to maintain compatibility. Doesn't seem to be used anywhere
 var deskletContainer = null;
@@ -225,8 +225,8 @@ var runState = RunState.INIT;
 
 // Override Gettext localization
 const Gettext = imports.gettext;
-Gettext.bindtextdomain('cinnamon', '/usr/share/locale');
-Gettext.textdomain('cinnamon');
+Gettext.bindtextdomain('lemon', '/usr/share/locale');
+Gettext.textdomain('lemon');
 const _ = Gettext.gettext;
 
 function setRunState(state) {
@@ -234,7 +234,7 @@ function setRunState(state) {
 
     if (state != oldState) {
         runState = state;
-        cinnamonDBusService.EmitRunStateChanged();
+        lemonDBusService.EmitRunStateChanged();
     }
 }
 
@@ -268,13 +268,13 @@ function _initUserSession() {
             if (!lockdownSettings.get_boolean('disable-command-line')) {
                 getRunDialog().open();
             }
-        }, Cinnamon.ActionMode.NORMAL);
+        }, Lemon.ActionMode.NORMAL);
 }
 
 function _loadOskLayouts() {
-    _oskResource = Gio.Resource.load('%s/cinnamon-osk-layouts.gresource'.format(global.datadir));
+    _oskResource = Gio.Resource.load('%s/lemon-osk-layouts.gresource'.format(global.datadir));
     _oskResource._register();
-    St.TextureCache.get_default().get_icon_theme().add_resource_path('/org/cinnamon/osk-layouts');
+    St.TextureCache.get_default().get_icon_theme().add_resource_path('/org/lemon/osk-layouts');
 }
 
 function do_shutdown_sequence() {
@@ -294,7 +294,7 @@ function _reparentActor(actor, newParent) {
 /**
  * start:
  *
- * Starts cinnamon. Should not be called in JavaScript code
+ * Starts lemon. Should not be called in JavaScript code
  */
 function start() {
     global.reparentActor = _reparentActor;
@@ -313,23 +313,23 @@ function start() {
         global.logWarning('CJS clearCache not available. Xlet reloading may not work correctly (cjs update required).');
     }
 
-    let cinnamonStartTime = new Date().getTime();
+    let lemonStartTime = new Date().getTime();
 
     log(`About to start Lemon (${Meta.is_wayland_compositor() ? "Wayland" : "X11"} backend)`);
 
     let backend = Meta.get_backend();
 
-    // Only cinnamon2d launcher will set CINNAMON_2D - this is deliberate by the user.
-    let cinnamon_2d = GLib.getenv("CINNAMON_2D") === true;
+    // Only lemon2d launcher will set LEMON_2D - this is deliberate by the user.
+    let lemon_2d = GLib.getenv("LEMON_2D") === true;
     let live = false;
 
-    if (!backend.is_rendering_hardware_accelerated() || cinnamon_2d) {
+    if (!backend.is_rendering_hardware_accelerated() || lemon_2d) {
         global.logError("Lemon Software Rendering mode enabled");
         software_rendering = true;
 
         // We only warn if software_rendering is not of the user's volition.
-        if (!cinnamon_2d && GLib.file_test("/proc/cmdline", GLib.FileTest.EXISTS)) {
-            let content = Cinnamon.get_file_contents_utf8_sync("/proc/cmdline");
+        if (!lemon_2d && GLib.file_test("/proc/cmdline", GLib.FileTest.EXISTS)) {
+            let content = Lemon.get_file_contents_utf8_sync("/proc/cmdline");
             if (content.match("boot=casper") || content.match("boot=live")) {
                 // If we're in a live session, pretend we're using hardware rendering,
                 // so all animations end up being enabled.
@@ -342,30 +342,30 @@ function start() {
     // Chain up async errors reported from C
     global.connect('notify-error', function (global, msg, detail) { notifyError(msg, detail); });
 
-    GioUnix.DesktopAppInfo.set_desktop_env('X-Cinnamon');
+    GioUnix.DesktopAppInfo.set_desktop_env('X-Lemon');
 
     // Clutter.get_default_backend().set_input_method(new InputMethod.InputMethod());
 
-    new CinnamonPortalHandler();
-    cinnamonAudioSelectionDBusService = new AudioDeviceSelection.AudioDeviceSelectionDBus();
-    cinnamonDBusService = new CinnamonDBus.CinnamonDBus();
+    new LemonPortalHandler();
+    lemonAudioSelectionDBusService = new AudioDeviceSelection.AudioDeviceSelectionDBus();
+    lemonDBusService = new LemonDBus.LemonDBus();
     setRunState(RunState.STARTUP);
 
     screenshotService = new Screenshot.ScreenshotService();
 
-    // Ensure CinnamonWindowTracker and CinnamonAppUsage are initialized; this will
-    // also initialize CinnamonAppSystem first.  CinnamonAppSystem
-    // needs to load all the .desktop files, and CinnamonWindowTracker
+    // Ensure LemonWindowTracker and LemonAppUsage are initialized; this will
+    // also initialize LemonAppSystem first.  LemonAppSystem
+    // needs to load all the .desktop files, and LemonWindowTracker
     // will use those to associate with windows.  Right now
     // the Monitor doesn't listen for installed app changes
     // and recalculate application associations, so to avoid
     // races for now we initialize it here.  It's better to
     // be predictable anyways.
-    tracker = Cinnamon.WindowTracker.get_default();
+    tracker = Lemon.WindowTracker.get_default();
 
     let startTime = new Date().getTime();
-    Cinnamon.AppSystem.get_default();
-    global.log('Cinnamon.AppSystem.get_default() started in %d ms'.format(new Date().getTime() - startTime));
+    Lemon.AppSystem.get_default();
+    global.log('Lemon.AppSystem.get_default() started in %d ms'.format(new Date().getTime() - startTime));
 
     // The stage is always covered so Clutter doesn't need to clear it; however
     // the color is used as the default contents for the Muffin root background
@@ -373,7 +373,7 @@ function start() {
     global.stage.background_color = DEFAULT_BACKGROUND_COLOR;
     global.stage.no_clear_hint = true;
 
-    _defaultCssStylesheet = global.datadir + '/theme/cinnamon.css';
+    _defaultCssStylesheet = global.datadir + '/theme/lemon.css';
 
     soundManager = new SoundManager.SoundManager();
 
@@ -485,7 +485,7 @@ function start() {
     locatePointer = new LocatePointer.LocatePointer();
 
     layoutManager.init();
-    lockdownSettings = new Gio.Settings({ schema_id: 'org.cinnamon.desktop.lockdown' });
+    lockdownSettings = new Gio.Settings({ schema_id: 'org.lemon.desktop.lockdown' });
 
     overview.init();
     expo.init();
@@ -506,7 +506,7 @@ function start() {
     global.log('loaded at ' + _startDate);
     log('Lemon started at ' + _startDate);
 
-    wmSettings = new Gio.Settings({schema_id: "org.cinnamon.desktop.wm.preferences"})
+    wmSettings = new Gio.Settings({schema_id: "org.lemon.desktop.wm.preferences"})
     workspace_names = wmSettings.get_strv("workspace-names");
 
     wmSettings.connect("changed::workspace-names", function (settings, pspec) {
@@ -539,10 +539,10 @@ function start() {
         }
     });
 
-    _screensaverSettings = new Gio.Settings({ schema_id: 'org.cinnamon.desktop.screensaver' });
+    _screensaverSettings = new Gio.Settings({ schema_id: 'org.lemon.desktop.screensaver' });
 
     // The internal screensaver is the only option for wayland sessions. X11 sessions can use either
-    // the internal one or cinnamon-screensaver (>= 6.7).
+    // the internal one or lemon-screensaver (>= 6.7).
     if (Meta.is_wayland_compositor() || global.settings.get_boolean('internal-screensaver-enabled')) {
         _screenShield = new ScreenShield.ScreenShield();
         new ScreenSaver.ScreenSaverService(_screenShield);
@@ -568,14 +568,14 @@ function start() {
         a11yHandler = new Accessibility.A11yHandler();
 
         // We only warn if software_rendering is not of the user's volition.
-        if (software_rendering && !cinnamon_2d && !live) {
-            notifyCinnamon2d();
+        if (software_rendering && !lemon_2d && !live) {
+            notifyLemon2d();
         }
 
         if (xlet_startup_error)
             Mainloop.timeout_add_seconds(3, notifyXletStartupError);
 
-        let sound_settings = new Gio.Settings( {schema_id: "org.cinnamon.sounds"} );
+        let sound_settings = new Gio.Settings( {schema_id: "org.lemon.sounds"} );
         let do_login_sound = sound_settings.get_boolean("login-enabled");
 
         // We're mostly prepared for the startup animation
@@ -604,7 +604,7 @@ function start() {
 
         global.connect('shutdown', do_shutdown_sequence);
 
-        global.log('Lemon took %d ms to start'.format(new Date().getTime() - cinnamonStartTime));
+        global.log('Lemon took %d ms to start'.format(new Date().getTime() - lemonStartTime));
     }).catch(error => {
         global.logError(`promise failed: ${error}`);
     });
@@ -618,10 +618,10 @@ function updateAnimationsEnabled() {
         `Animations: ${animations_enabled ? "enabled" : "disabled"} ` +
         `(${software_rendering ? "software rendering" : "hardware rendering"}, ` +
         `${settings_enabled ? "enabled" : "disabled"} in settings)`);
-    cinnamonDBusService.notifyAnimationsEnabled();
+    lemonDBusService.notifyAnimationsEnabled();
 }
 
-function notifyCinnamon2d() {
+function notifyLemon2d() {
     let icon = new St.Icon({ icon_name: 'driver-manager',
                              icon_type: St.IconType.FULLCOLOR,
                              icon_size: 36 });
@@ -632,7 +632,7 @@ function notifyCinnamon2d() {
                        _("You may experience poor performance and high CPU usage."),
                        icon);
 
-    if (GLib.file_test("/usr/bin/cinnamon-driver-manager", GLib.FileTest.EXISTS)) {
+    if (GLib.file_test("/usr/bin/lemon-driver-manager", GLib.FileTest.EXISTS)) {
         notification.addButton("driver-manager", _("Launch Driver Manager"));
         notification.connect("action-invoked", this.launchDriverManager);
     }
@@ -869,7 +869,7 @@ function criticalNotify(msg, details, icon) {
 }
 
 function launchDriverManager() {
-    Util.spawnCommandLineAsync("cinnamon-driver-manager", null, null);
+    Util.spawnCommandLineAsync("lemon-driver-manager", null, null);
 }
 
 /**
@@ -891,7 +891,7 @@ function warningNotify(msg, details, icon) {
  * @msg (string): An error message
  * @details (string): Additional information
  *
- * See cinnamon_global_notify_problem().
+ * See lemon_global_notify_problem().
  */
 function notifyError(msg, details) {
     // Also print to stderr so it's logged somewhere
@@ -1220,12 +1220,12 @@ function getWindowActorsForWorkspace(workspaceIndex) {
  */
 function _shouldFilterKeybinding(entry) {
     // Check if all keybindings should be blocked
-    if (actionMode == Cinnamon.ActionMode.NONE)
+    if (actionMode == Lemon.ActionMode.NONE)
         return true;
 
     if (entry === undefined) {
         // Binding not in our registry, fall back to old behavior
-        return global.stage_input_mode !== Cinnamon.StageInputMode.NORMAL;
+        return global.stage_input_mode !== Lemon.StageInputMode.NORMAL;
     }
 
     // Check if current ActionMode is in the allowed modes for this binding
@@ -1233,7 +1233,7 @@ function _shouldFilterKeybinding(entry) {
     let allowed = (entry.allowedModes & actionMode) !== 0;
 
     if (allowed) {
-        let lockModes = Cinnamon.ActionMode.LOCK_SCREEN | Cinnamon.ActionMode.UNLOCK_SCREEN;
+        let lockModes = Lemon.ActionMode.LOCK_SCREEN | Lemon.ActionMode.UNLOCK_SCREEN;
         if ((actionMode & lockModes) !== 0 && (entry.allowedModes & lockModes) !== 0) {
             if (_screenShield && !_screensaverSettings.get_boolean('allow-keyboard-shortcuts')) {
                 return true;
@@ -1260,7 +1260,7 @@ function _stageEventHandler(actor, event) {
     }
 
     let keyCode = event.get_key_code();
-    let modifierState = Cinnamon.get_event_state(event);
+    let modifierState = Lemon.get_event_state(event);
 
     let action = global.display.get_keybinding_action(keyCode, modifierState);
     if (!(event.get_source() instanceof Clutter.Text && (event.get_flags() & Clutter.EventFlags.INPUT_METHOD))) {
@@ -1290,7 +1290,7 @@ function _findModal(actor) {
  * @timestamp (int): optional timestamp
  * @options (Meta.ModalOptions): (optional) flags to indicate that the pointer
  * is already grabbed
- * @mode (Cinnamon.ActionMode): (optional) action mode, defaults to SYSTEM_MODAL
+ * @mode (Lemon.ActionMode): (optional) action mode, defaults to SYSTEM_MODAL
  *
  * Ensure we are in a mode where all keyboard and mouse input goes to
  * the stage, and focus @actor. Multiple calls to this function act in
@@ -1315,7 +1315,7 @@ function pushModal(actor, timestamp, options, mode) {
         timestamp = global.get_current_time();
 
     if (mode == undefined)
-        mode = Cinnamon.ActionMode.SYSTEM_MODAL;
+        mode = Lemon.ActionMode.SYSTEM_MODAL;
 
     if (modalCount == 0) {
         if (!global.begin_modal(timestamp, options ? options : 0)) {
@@ -1325,7 +1325,7 @@ function pushModal(actor, timestamp, options, mode) {
         Meta.disable_unredirect_for_display(global.display);
     }
 
-    global.set_stage_input_mode(Cinnamon.StageInputMode.FULLSCREEN);
+    global.set_stage_input_mode(Lemon.StageInputMode.FULLSCREEN);
 
     actionMode = mode;
 
@@ -1359,7 +1359,7 @@ function pushModal(actor, timestamp, options, mode) {
 /**
  * setActionMode:
  * @actor (Clutter.Actor): actor currently holding the modal grab.
- * @mode (Cinnamon.ActionMode): the new action mode.
+ * @mode (Lemon.ActionMode): the new action mode.
  *
  * Change the action mode for an existing modal grab without releasing
  * and reacquiring the grab. This avoids a window where there is no
@@ -1400,7 +1400,7 @@ function popModal(actor, timestamp) {
     if (focusIndex < 0) {
         global.stage.set_key_focus(null);
         global.end_modal(timestamp);
-        global.set_stage_input_mode(Cinnamon.StageInputMode.NORMAL);
+        global.set_stage_input_mode(Lemon.StageInputMode.NORMAL);
 
         throw new Error('incorrect pop');
     }
@@ -1436,8 +1436,8 @@ function popModal(actor, timestamp) {
     }
 
     global.end_modal(timestamp);
-    global.set_stage_input_mode(Cinnamon.StageInputMode.NORMAL);
-    actionMode = Cinnamon.ActionMode.NORMAL;
+    global.set_stage_input_mode(Lemon.StageInputMode.NORMAL);
+    actionMode = Lemon.ActionMode.NORMAL;
 
     layoutManager.updateChrome(true);
 
@@ -1684,14 +1684,14 @@ function getTabList(workspaceOpt) {
     return windows;
 }
 
-function restartCinnamon(showOsd = false) {
+function restartLemon(showOsd = false) {
     if (Meta.is_wayland_compositor()) {
         global.logWarning("Lemon restart not supported with Wayland");
         return;
     }
     global.display.connect("show-restart-message", () => {
         if (showOsd) {
-            let dialog = new ModalDialog.InfoOSD(_("Restarting Cinnamon..."));
+            let dialog = new ModalDialog.InfoOSD(_("Restarting Lemon..."));
             dialog.actor.add_style_class_name('restart-osd');
             dialog.show();
 

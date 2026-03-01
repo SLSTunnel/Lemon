@@ -1094,7 +1094,7 @@ st_scroll_view_init (StScrollView *self)
   priv->auto_scroll = FALSE;
   priv->auto_scroll_timeout_id = 0;
   priv->mouse_pointer = device;
-  priv->settings = g_settings_new ("org.cinnamon");
+  priv->settings = g_settings_new ("org.lemon");
   priv->setting_connect_id = g_signal_connect (priv->settings, "changed::enable-vfade", G_CALLBACK (vfade_setting_changed_cb), self);
 }
 

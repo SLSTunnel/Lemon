@@ -8,11 +8,11 @@ body:
     attributes:
       value: |
         ## STOP! Before continuing:
-        ### Please try searching for [existing reports](https://github.com/SLSTunnel/cinnamon/issues?q=is%3Aissue+state%3Aall) that may match the behavior you're seeing. *If you find one, add to that issue instead of opening a new one*. Include any relevant details that may differ from the original author's.
+        ### Please try searching for [existing reports](https://github.com/SLSTunnel/lemon/issues?q=is%3Aissue+state%3Aall) that may match the behavior you're seeing. *If you find one, add to that issue instead of opening a new one*. Include any relevant details that may differ from the original author's.
         ### If this is specifically an issue with Wayland, please report it at the [Wayland issue tracker](https://github.com/linuxmint/wayland/issues/new?assignees=&labels=bug&projects=&template=bug_report.yaml).
         _______
         ### Other troubleshooting suggestions:
-        - If this is related to Cinnamon, sometimes third-party xlets (applets, desklets and extensions) can cause erroneous or unexpected behavior. Try disabling these first to see if the behavior goes away. After disabling, be sure to restart Cinnamon before continuing. Right-click an empty portion of the panel, select Troubleshooting, then 'Restart Cinnamon'. Alternately, you can open the run dialog - Alt-F2, type 'r' or 'restart', and enter.
+        - If this is related to Lemon, sometimes third-party xlets (applets, desklets and extensions) can cause erroneous or unexpected behavior. Try disabling these first to see if the behavior goes away. After disabling, be sure to restart Lemon before continuing. Right-click an empty portion of the panel, select Troubleshooting, then 'Restart Lemon'. Alternately, you can open the run dialog - Alt-F2, type 'r' or 'restart', and enter.
         - Check your logs - there may be some obvious cause for your trouble - in Linux Mint you can check ~/.xsession-errors (a hidden file in your Home folder).
         - If this is a *crash*, provide information about it if possible (CoreDump file, stack trace, etc...). In Linux Mint you can check the System Reports program.
         - Have you tried rebooting?
@@ -34,7 +34,7 @@ body:
     id: pkgver
     attributes:
       label: Package version
-      description: Please provide the Cinnamon version. You can get this by running `cinnamon --version` in a terminal, or launching 'System Info" from the menu.
+      description: Please provide the Lemon version. You can get this by running `lemon --version` in a terminal, or launching 'System Info" from the menu.
       placeholder: "example: 5.6.1"
     validations:
       required: true

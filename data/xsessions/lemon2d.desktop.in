@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Lemon (Software Rendering)
+Comment=This session logs you into Lemon (using software rendering)
+Exec=lemon-session-lemon2d
+TryExec=@bindir@/lemon2d
+Icon=
+Type=Application
+X-Ubuntu-Gettext-Domain=lemon
+X-GNOME-Provides=lemon2d
+

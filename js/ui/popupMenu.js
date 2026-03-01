@@ -6,7 +6,7 @@ const Clutter = imports.gi.Clutter;
 const Graphene = imports.gi.Graphene;
 const Gtk = imports.gi.Gtk;
 const Lang = imports.lang;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const Signals = imports.signals;
 const St = imports.gi.St;
 const Atk = imports.gi.Atk;
@@ -108,7 +108,7 @@ var PopupBaseMenuItem = class PopupBaseMenuItem {
                                          focusOnHover: true
                                        });
         this._signals = new SignalManager.SignalManager(null);
-        this.actor = new Cinnamon.GenericContainer({ style_class: 'popup-menu-item',
+        this.actor = new Lemon.GenericContainer({ style_class: 'popup-menu-item',
                                                   reactive: params.reactive,
                                                   track_hover: params.reactive,
                                                   can_focus: params.reactive,
@@ -1188,7 +1188,7 @@ var PopupIndicatorMenuItem = class PopupIndicatorMenuItem extends PopupBaseMenuI
  * @short_description: A class to represent any abstract menu item.
  *
  * This is an abstract class for create a binding between the PopupMenuItem class ,
- * and an abstract representation of a menu item. If you want to create a cinnamon
+ * and an abstract representation of a menu item. If you want to create a lemon
  * menu structure, you need to inherit from this class and implement the functions
  * getItemById and handleEvent. All instances of this class need to have a unique
  * id to represent a menu item.
@@ -1584,7 +1584,7 @@ var PopupMenuAbstractItem = class PopupMenuAbstractItem {
         this._destroyShellItem(this.shellItem);
     }
 
-    // We try to not crash cinnamon if a shellItem will be destroyed and has the focus,
+    // We try to not crash lemon if a shellItem will be destroyed and has the focus,
     // then we are moving the focus to the source actor.
     _destroyShellItem(shellItem) {
         if (shellItem) {
@@ -1768,7 +1768,7 @@ var PopupMenuBase = class PopupMenuBase {
      */
     addSettingsAction(title, module, tab) {
         let menuItem = this.addAction(title, function() {
-            let cmd = "cinnamon-settings " + module;
+            let cmd = "lemon-settings " + module;
             if (tab) {
                 cmd += " -t " + tab;
             }
@@ -2196,7 +2196,7 @@ var PopupMenu = class PopupMenu extends PopupMenuBase {
 
         this.setOrientation(orientation);
 
-        this._boxWrapper = new Cinnamon.GenericContainer();
+        this._boxWrapper = new Lemon.GenericContainer();
         this._signals.connect(this._boxWrapper, 'get-preferred-width', Lang.bind(this, this._boxGetPreferredWidth));
         this._signals.connect(this._boxWrapper, 'get-preferred-height', Lang.bind(this, this._boxGetPreferredHeight));
         this._signals.connect(this._boxWrapper, 'allocate', Lang.bind(this, this._boxAllocate));
@@ -2534,7 +2534,7 @@ var PopupMenu = class PopupMenu extends PopupMenuBase {
         if (!this.actor.visible) {
             this.box.show();
         }
-        let sourceBox = Cinnamon.util_get_transformed_allocation(this.sourceActor);
+        let sourceBox = Lemon.util_get_transformed_allocation(this.sourceActor);
         let [minWidth, minHeight, natWidth, natHeight] = this.actor.get_preferred_size();
         let monitor = Main.layoutManager.findMonitorForActor(this.sourceActor);
         let x1 = monitor.x;
@@ -3075,7 +3075,7 @@ var PopupComboBoxMenuItem = class PopupComboBoxMenuItem extends PopupBaseMenuIte
     _init (params) {
         super._init.call(this, params);
 
-        this._itemBox = new Cinnamon.Stack();
+        this._itemBox = new Lemon.Stack();
 
         this.actor.accessible_role = Atk.Role.COMBO_BOX;
 
@@ -3205,9 +3205,9 @@ var PopupComboBoxMenuItem = class PopupComboBoxMenuItem extends PopupBaseMenuIte
 
 /**
  * #PopupMenuFactory:
- * @short_description: A class to build a cinnamon menu using some abstract menu items.
+ * @short_description: A class to build a lemon menu using some abstract menu items.
  *
- * This class can build a cinnamon menu, using the instances of a heir of the
+ * This class can build a lemon menu, using the instances of a heir of the
  * PopupMenuAbstractItem class. Please see the description of the PopupMenuAbstractItem
  * class to more details. To initialize the construction you need to provide the root
  * instance of your abstract menu items.
@@ -3295,7 +3295,7 @@ var PopupMenuFactory = class PopupMenuFactory {
         factoryItem.destroyShellItem();
         let shellItem = this._createShellItem(factoryItem);
 
-        // Initially create children on idle, to not stop cinnamon mainloop.
+        // Initially create children on idle, to not stop lemon mainloop.
         Mainloop.idle_add(() => this._createChildrens(factoryItem));
 
         // Now, connect various events
@@ -3489,7 +3489,7 @@ var PopupMenuManager = class PopupMenuManager {
     }
 
     _grab() {
-        if (!Main.pushModal(this._owner.actor, undefined, undefined, Cinnamon.ActionMode.POPUP)) {
+        if (!Main.pushModal(this._owner.actor, undefined, undefined, Lemon.ActionMode.POPUP)) {
             return;
         }
         this._signals.connect(global.stage, 'captured-event', this._onEventCapture, this);
@@ -3551,8 +3551,8 @@ var PopupMenuManager = class PopupMenuManager {
             this._activeMenu = null;
 
             if (this._grabbedFromKeynav) {
-                if (this._preGrabInputMode == Cinnamon.StageInputMode.FOCUSED)
-                    global.stage_input_mode = Cinnamon.StageInputMode.FOCUSED;
+                if (this._preGrabInputMode == Lemon.StageInputMode.FOCUSED)
+                    global.stage_input_mode = Lemon.StageInputMode.FOCUSED;
                 if (hadFocus && menu.sourceActor)
                     menu.sourceActor.grab_key_focus();
                 else if (focus)

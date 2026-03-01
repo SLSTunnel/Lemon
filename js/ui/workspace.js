@@ -5,7 +5,7 @@ const Gio = imports.gi.Gio;
 const Mainloop = imports.mainloop;
 const Meta = imports.gi.Meta;
 const Pango = imports.gi.Pango;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const St = imports.gi.St;
 const Signals = imports.signals;
 
@@ -213,7 +213,7 @@ WindowOverlay.prototype = {
         this._hidden = false;
         this._isSelected = null;
 
-        let tracker = Cinnamon.WindowTracker.get_default();
+        let tracker = Lemon.WindowTracker.get_default();
         let app = tracker.get_window_app(metaWindow);
         let icon = null;
         if (app) {
@@ -467,10 +467,10 @@ WindowOverlay.prototype = {
 
     _onStyleChanged: function() {
         let titleNode = this.caption.get_theme_node();
-        this.caption._spacing = titleNode.get_length('-cinnamon-caption-spacing');
+        this.caption._spacing = titleNode.get_length('-lemon-caption-spacing');
 
         let closeNode = this.closeButton.get_theme_node();
-        this.closeButton._overlap = closeNode.get_length('-cinnamon-close-overlap');
+        this.closeButton._overlap = closeNode.get_length('-lemon-close-overlap');
 
         let borderNode = this.border.get_theme_node();
         this.borderWidth = borderNode.get_border_width(St.Side.TOP);
@@ -1078,7 +1078,7 @@ WorkspaceMonitor.prototype = {
 
     // Tests if @win should be shown in the Overview
     _isOverviewWindow : function (win) {
-        let tracker = Cinnamon.WindowTracker.get_default();
+        let tracker = Lemon.WindowTracker.get_default();
         return Main.isInteresting(win.get_meta_window());
     },
 
@@ -1382,7 +1382,7 @@ Workspace.prototype = {
     },
 
     _onKeyPress: function(actor, event) {
-        let modifiers = Cinnamon.get_event_state(event);
+        let modifiers = Lemon.get_event_state(event);
         let symbol = event.get_key_symbol();
         let keycode = event.get_key_code();
         let ctrlAltMask = Clutter.ModifierType.CONTROL_MASK | Clutter.ModifierType.MOD1_MASK;

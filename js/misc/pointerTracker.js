@@ -37,7 +37,7 @@ PointerTracker.prototype = {
 
 var PointerSwitcher = class {
     constructor(wm) {
-        this.settings = new Gio.Settings({ schema_id: "org.cinnamon.desktop.keybindings" });
+        this.settings = new Gio.Settings({ schema_id: "org.lemon.desktop.keybindings" });
         this.settings.connect("changed", (settings, key) => {
             if (["pointer-next-monitor", "pointer-previous-monitor"].includes(key)) {
                 this.update_settings();

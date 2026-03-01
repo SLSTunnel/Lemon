@@ -1,2 +1,2 @@
 #!/bin/sh
-exec /usr/share/cinnamon/cinnamon-settings/xlet-settings.py "$@"
+exec /usr/share/lemon/lemon-settings/xlet-settings.py "$@"

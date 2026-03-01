@@ -1,6 +1,6 @@
 // -*- mode: js; js-indent-level: 4; indent-tabs-mode: nil -*-
 
-const { Gio, GObject, Cinnamon, Meta } = imports.gi;
+const { Gio, GObject, Lemon, Meta } = imports.gi;
 const Util = imports.misc.util;
 const SignalManager = imports.misc.signalManager;
 const ScreenSaver = imports.misc.screenSaver;
@@ -16,8 +16,8 @@ const {
     DeviceTypeString
 } = imports.ui.gestures.ToucheggTypes;
 
-const SCHEMA = "org.cinnamon.gestures";
-const TOUCHPAD_SCHEMA = "org.cinnamon.desktop.peripherals.touchpad"
+const SCHEMA = "org.lemon.gestures";
+const TOUCHPAD_SCHEMA = "org.lemon.desktop.peripherals.touchpad"
 
 const NON_GESTURE_KEYS = [
     "enabled",
@@ -148,7 +148,7 @@ var GesturesManager = class {
             actions.init_mixer();
             actions.init_mpris_controller();
 
-            this.client = new Cinnamon.ToucheggClient();
+            this.client = new Lemon.ToucheggClient();
 
             this.signalManager.connect(this.client, "gesture-begin", this.gesture_begin, this);
             this.signalManager.connect(this.client, "gesture-update", this.gesture_update, this);

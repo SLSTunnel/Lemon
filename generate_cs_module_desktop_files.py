@@ -9,16 +9,16 @@ from mintcommon import additionalfiles
 
 import traceback
 
-DOMAIN = "cinnamon"
+DOMAIN = "lemon"
 PATH = "/usr/share/locale"
 
 os.environ['LANGUAGE'] = "en_US.UTF-8"
 gettext.install(DOMAIN, PATH)
 
 try:
-    sys.path.append('files/usr/share/cinnamon/cinnamon-settings')
-    sys.path.append('files/usr/share/cinnamon/cinnamon-settings/modules')
-    mod_files = glob.glob('files/usr/share/cinnamon/cinnamon-settings/modules/*.py')
+    sys.path.append('files/usr/share/lemon/lemon-settings')
+    sys.path.append('files/usr/share/lemon/lemon-settings/modules')
+    mod_files = glob.glob('files/usr/share/lemon/lemon-settings/modules/*.py')
     mod_files.sort()
     if len(mod_files) == 0:
         print("No settings modules found!!")
@@ -57,13 +57,13 @@ for module in modules:
 
         prefix = """[Desktop Entry]
 Icon=%(icon)s
-Exec=cinnamon-settings %(module)s
+Exec=lemon-settings %(module)s
 Type=Application
-OnlyShowIn=X-Cinnamon;
+OnlyShowIn=X-Lemon;
 Categories=Settings;
 """ % {'module': mod.name, 'category': category, 'icon': mod.sidePage.icon}
 
-        additionalfiles.generate(DOMAIN, PATH, "files/usr/share/applications/cinnamon-settings-%s.desktop" % name, prefix, mod.sidePage.name, mod.comment, "", None, mod.sidePage.keywords)
+        additionalfiles.generate(DOMAIN, PATH, "files/usr/share/applications/lemon-settings-%s.desktop" % name, prefix, mod.sidePage.name, mod.comment, "", None, mod.sidePage.keywords)
 
     except Exception:
         print("Failed to load module %s" % module)

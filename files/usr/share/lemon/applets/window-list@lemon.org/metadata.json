@@ -1,0 +1,8 @@
+{
+ "uuid": "window-list@lemon.org",
+ "name": "Window list",
+ "description": "Main Lemon window list",
+ "icon": "cs-windows",
+ "role": "windowattentionhandler",
+ "max-instances": -1
+}

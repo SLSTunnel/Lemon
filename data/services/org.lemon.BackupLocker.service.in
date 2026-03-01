@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=org.lemon.BackupLocker
+Exec=@libexecdir@/lemon-backup-locker

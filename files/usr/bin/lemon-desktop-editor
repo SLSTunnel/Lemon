@@ -1,0 +1,10 @@
+#!/usr/bin/python3
+""" Launch the lemon desktop editor utility
+
+See lemon/lemon-desktop-editor/lemon-desktop-editor.py for usage info
+"""
+
+import os
+import sys
+
+os.execvp("/usr/share/lemon/lemon-desktop-editor/lemon-desktop-editor.py", (" ",) + tuple(sys.argv[1:]))

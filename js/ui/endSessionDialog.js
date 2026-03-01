@@ -11,7 +11,7 @@ const ModalDialog = imports.ui.modalDialog;
 
 const SessionDialogInterface =
     "<node> \
-      <interface name='org.cinnamon.SessionManager.EndSessionDialog'> \
+      <interface name='org.lemon.SessionManager.EndSessionDialog'> \
         <method name='Suspend'/> \
         <method name='Hibernate'/> \
         <method name='Restart'/> \
@@ -58,7 +58,7 @@ class EndSessionDialog extends ModalDialog.ModalDialog {
 
         this._mode = mode;
         this._inhibited = false;
-        this._settings = new Gio.Settings({ schema_id: 'org.cinnamon.SessionManager' });
+        this._settings = new Gio.Settings({ schema_id: 'org.lemon.SessionManager' });
         this._currentTime = this._settings.get_int('quit-time-delay');
         this._progressTimerId = 0;
         this._defaultAction = null;
@@ -75,7 +75,7 @@ class EndSessionDialog extends ModalDialog.ModalDialog {
 
         this._dialogProxy = new Gio.DBusProxy({
             g_connection: Gio.DBus.session,
-            g_interface_name: "org.cinnamon.SessionManager.EndSessionDialog",
+            g_interface_name: "org.lemon.SessionManager.EndSessionDialog",
             g_interface_info: SessionDialogInfo,
             g_name: 'org.gnome.SessionManager',
             g_object_path: '/org/gnome/SessionManager',

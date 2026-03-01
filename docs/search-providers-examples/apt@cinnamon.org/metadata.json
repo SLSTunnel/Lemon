@@ -1,5 +1,0 @@
-{
-    "description": "Provides packages search results", 
-    "uuid": "apt@cinnamon.org", 
-    "name": "APT search provider"
-}

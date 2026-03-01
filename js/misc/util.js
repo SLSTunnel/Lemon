@@ -123,7 +123,7 @@ var subprocess_callbacks = {};
 function spawn_async(args, callback) {
     subprocess_id++;
     subprocess_callbacks[subprocess_id] = callback;
-    spawn(["cinnamon-subprocess-wrapper", subprocess_id.toString(), ...args]);
+    spawn(["lemon-subprocess-wrapper", subprocess_id.toString(), ...args]);
 }
 
 /**

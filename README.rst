@@ -120,16 +120,16 @@ Build logs are written to ``/tmp/lemon-iso-build.log``.
 
 Contributing
 ============
-Lemon is on GitHub at https://github.com/SLSTunnel/cinnamon.
+Lemon is on GitHub at https://github.com/SLSTunnel/lemon.
 
 Note that some issues may not be with Lemon itself. For a list of related components,
-please see https://projects.linuxmint.com/cinnamon/.
+please see https://projects.linuxmint.com/lemon/.
 
 
 Handling Windows, Android, and iOS files
 =========================================
 Lemon includes support for opening the following file types on Linux via
-the ``cinnamon-file-handler`` utility:
+the ``lemon-file-handler`` utility:
 
 `.exe` – Windows executables
   Linux cannot natively run Windows executables.  When ``wine`` or ``proton``

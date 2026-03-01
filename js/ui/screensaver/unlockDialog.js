@@ -10,7 +10,7 @@ const St = imports.gi.St;
 const Pango = imports.gi.Pango;
 
 const AuthClient = imports.misc.authClient;
-const CinnamonEntry = imports.ui.cinnamonEntry;
+const LemonEntry = imports.ui.lemonEntry;
 const KeyboardManager = imports.ui.keyboardManager;
 const UserWidget = imports.ui.userWidget;
 const Util = imports.misc.util;
@@ -76,7 +76,7 @@ class UnlockDialog extends St.BoxLayout {
         });
         passwordBox.add_child(this._passwordEntry);
 
-        this._capsLockWarning = new CinnamonEntry.CapsLockWarning();
+        this._capsLockWarning = new LemonEntry.CapsLockWarning();
         this._capsLockWarning.x_align = Clutter.ActorAlign.CENTER;
         passwordBox.add_child(this._capsLockWarning);
 
@@ -143,7 +143,7 @@ class UnlockDialog extends St.BoxLayout {
         this._cancelButton.connect('clicked', this._onCancel.bind(this));
         this._buttonLayout.add_child(this._cancelButton);
 
-        this._screensaverSettings = new Gio.Settings({ schema_id: 'org.cinnamon.desktop.screensaver' });
+        this._screensaverSettings = new Gio.Settings({ schema_id: 'org.lemon.desktop.screensaver' });
         if (this._screensaverSettings.get_boolean('user-switch-enabled') &&
             !Main.lockdownSettings.get_boolean('disable-user-switching')) {
             this._switchUserButton = new St.Button({

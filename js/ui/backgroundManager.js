@@ -12,7 +12,7 @@ var BackgroundManager = class {
             return
 
         this._gnomeSettings = new Gio.Settings({ schema_id: "org.gnome.desktop.background" });
-        this._cinnamonSettings = new Gio.Settings({ schema_id: "org.cinnamon.desktop.background" });
+        this._lemonSettings = new Gio.Settings({ schema_id: "org.lemon.desktop.background" });
 
         this.colorShadingType = this._gnomeSettings.get_string("color-shading-type");
         this._gnomeSettings.connect("changed::color-shading-type", this._onColorShadingTypeChanged.bind(this));
@@ -55,10 +55,10 @@ var BackgroundManager = class {
         let oldValue = this.colorShadingType
         let newValue = this._gnomeSettings.get_string(key);
         if (oldValue != newValue) {
-            let cinnamonValue = this._cinnamonSettings.get_string(key);
-            if (cinnamonValue != newValue) {
+            let lemonValue = this._lemonSettings.get_string(key);
+            if (lemonValue != newValue) {
                 if (LOGGING) global.log("BackgroundManager: %s changed (%s --> %s)".format(key, oldValue, newValue));
-                this._cinnamonSettings.set_string(key, newValue);
+                this._lemonSettings.set_string(key, newValue);
             }
             this.colorShadingType = newValue;
         }
@@ -68,10 +68,10 @@ var BackgroundManager = class {
         let oldValue = this.pictureOptions
         let newValue = this._gnomeSettings.get_string(key);
         if (oldValue != newValue) {
-            let cinnamonValue = this._cinnamonSettings.get_string(key);
-            if (cinnamonValue != newValue) {
+            let lemonValue = this._lemonSettings.get_string(key);
+            if (lemonValue != newValue) {
                 if (LOGGING) global.log("BackgroundManager: %s changed (%s --> %s)".format(key, oldValue, newValue));
-                this._cinnamonSettings.set_string(key, newValue);
+                this._lemonSettings.set_string(key, newValue);
             }
             this.pictureOptions = newValue;
         }
@@ -81,10 +81,10 @@ var BackgroundManager = class {
         let oldValue = this.pictureUri
         let newValue = this._gnomeSettings.get_string(key);
         if (oldValue != newValue) {
-            let cinnamonValue = this._cinnamonSettings.get_string(key);
-            if (cinnamonValue != newValue) {
+            let lemonValue = this._lemonSettings.get_string(key);
+            if (lemonValue != newValue) {
                 if (LOGGING) global.log("BackgroundManager: %s changed (%s --> %s)".format(key, oldValue, newValue));
-                this._cinnamonSettings.set_string(key, newValue);
+                this._lemonSettings.set_string(key, newValue);
             }
             this.pictureUri = newValue;
         }
@@ -94,10 +94,10 @@ var BackgroundManager = class {
         let oldValue = this.primaryColor
         let newValue = this._gnomeSettings.get_string(key);
         if (oldValue != newValue) {
-            let cinnamonValue = this._cinnamonSettings.get_string(key);
-            if (cinnamonValue != newValue) {
+            let lemonValue = this._lemonSettings.get_string(key);
+            if (lemonValue != newValue) {
                 if (LOGGING) global.log("BackgroundManager: %s changed (%s --> %s)".format(key, oldValue, newValue));
-                this._cinnamonSettings.set_string(key, newValue);
+                this._lemonSettings.set_string(key, newValue);
             }
             this.primaryColor = newValue;
         }
@@ -107,10 +107,10 @@ var BackgroundManager = class {
         let oldValue = this.secondaryColor
         let newValue = this._gnomeSettings.get_string(key);
         if (oldValue != newValue) {
-            let cinnamonValue = this._cinnamonSettings.get_string(key);
-            if (cinnamonValue != newValue) {
+            let lemonValue = this._lemonSettings.get_string(key);
+            if (lemonValue != newValue) {
                 if (LOGGING) global.log("BackgroundManager: %s changed (%s --> %s)".format(key, oldValue, newValue));
-                this._cinnamonSettings.set_string(key, newValue);
+                this._lemonSettings.set_string(key, newValue);
             }
             this.secondaryColor = newValue;
         }
@@ -120,10 +120,10 @@ var BackgroundManager = class {
         let oldValue = this.pictureOpacity
         let newValue = this._gnomeSettings.get_int(key);
         if (oldValue != newValue) {
-            let cinnamonValue = this._cinnamonSettings.get_int(key);
-            if (cinnamonValue != newValue) {
+            let lemonValue = this._lemonSettings.get_int(key);
+            if (lemonValue != newValue) {
                 if (LOGGING) global.log("BackgroundManager: %s changed (%s --> %s)".format(key, oldValue, newValue));
-                this._cinnamonSettings.set_int(key, newValue);
+                this._lemonSettings.set_int(key, newValue);
             }
             this.pictureOpacity = newValue;
         }

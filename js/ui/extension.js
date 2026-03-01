@@ -26,7 +26,7 @@ var State = {
 };
 
 var x11Only = [
-        "systray@cinnamon.org"
+        "systray@lemon.org"
     ]
 
 // macro for creating extension types
@@ -71,7 +71,7 @@ function _createExtensionType(name, folder, manager, overrides){
  *
  * @name: Upper case first character name for printing messages
  *        Also converted to lowercase to find the correct javascript file
- * @folder: The folder name within the system and user cinnamon folders
+ * @folder: The folder name within the system and user lemon folders
  * @requiredFunctions: Functions that must exist in the main javascript file
  * @requiredProperties: Properties that must be set in the metadata.json file
  * @niceToHaveProperties: Properties that are encouraged to be set in the metadata.json file
@@ -368,7 +368,7 @@ globalThis.require = xletRequire;
 var Type = {
     EXTENSION: _createExtensionType("Extension", "extensions", ExtensionSystem, {
         requiredFunctions: ["init", "disable", "enable"],
-        requiredProperties: ["uuid", "name", "description", "cinnamon-version"],
+        requiredProperties: ["uuid", "name", "description", "lemon-version"],
         niceToHaveProperties: ["url"],
     }),
     APPLET: _createExtensionType("Applet", "applets", AppletManager, {
@@ -540,7 +540,7 @@ Extension.prototype = {
             }
 
             this.finalize();
-            Main.cinnamonDBusService.EmitXletAddedComplete(true, uuid);
+            Main.lemonDBusService.EmitXletAddedComplete(true, uuid);
 
         } catch (e) {
             this._handleLoadError(type, uuid, e);
@@ -548,7 +548,7 @@ Extension.prototype = {
     },
 
     _handleLoadError: function(type, uuid, error) {
-        Main.cinnamonDBusService.EmitXletAddedComplete(false, uuid);
+        Main.lemonDBusService.EmitXletAddedComplete(false, uuid);
 
         if (error.cause == null || error.cause !== State.X11_ONLY) {
             Main.xlet_startup_error = true;
@@ -585,8 +585,8 @@ Extension.prototype = {
             throw logError(`uuid "${this.meta.uuid}" from metadata.json does not match directory name.`, this.uuid);
         }
 
-        // If cinnamon versions are set check them
-        if ('cinnamon-version' in this.meta && !versionCheck(this.meta['cinnamon-version'], Config.PACKAGE_VERSION)) {
+        // If lemon versions are set check them
+        if ('lemon-version' in this.meta && !versionCheck(this.meta['lemon-version'], Config.PACKAGE_VERSION)) {
             throw logError('Extension is not compatible with current Lemon version', this.uuid, null, State.OUT_OF_DATE);
         }
 
@@ -884,7 +884,7 @@ function reloadExtension(uuid, type) {
 
 function findExtensionDirectory(uuid, userDir, folder) {
     let dir, dirPath;
-    if (!GLib.getenv('CINNAMON_TROUBLESHOOT')) {
+    if (!GLib.getenv('LEMON_TROUBLESHOOT')) {
         dirPath = `${userDir}/${uuid}`;
         dir = Gio.file_new_for_path(dirPath);
         if (dir.query_file_type(Gio.FileQueryInfoFlags.NONE, null) === Gio.FileType.DIRECTORY) {
@@ -894,7 +894,7 @@ function findExtensionDirectory(uuid, userDir, folder) {
 
     let systemDataDirs = GLib.get_system_data_dirs();
     for (let i = 0; i < systemDataDirs.length; i++) {
-        dirPath = `${systemDataDirs[i]}/cinnamon/${folder}/${uuid}`;
+        dirPath = `${systemDataDirs[i]}/lemon/${folder}/${uuid}`;
         dir = Gio.file_new_for_path(dirPath);
         if (dir.query_file_type(Gio.FileQueryInfoFlags.NONE, null) === Gio.FileType.DIRECTORY) {
             return dir;

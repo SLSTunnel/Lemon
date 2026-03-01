@@ -1,6 +1,0 @@
-#!/bin/sh
-
-export GI_TYPELIB_PATH="@PKGLIBDIR@:@MUFFINLIBDIR@"
-export LD_LIBRARY_PATH="@PKGLIBDIR@:@MUFFINLIBDIR@"
-
-exec @LIBEXECDIR@/cinnamon-calendar-server.py $@

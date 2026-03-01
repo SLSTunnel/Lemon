@@ -1,0 +1,7 @@
+{
+ "uuid": "calendar@lemon.org",
+ "name": "Calendar",
+ "description": "The Lemon calendar applet",
+ "icon": "gnome-calendar",
+ "max-instances": -1
+}

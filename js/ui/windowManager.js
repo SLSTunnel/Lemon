@@ -1,6 +1,6 @@
 // -*- mode: js; js-indent-level: 4; indent-tabs-mode: nil -*-
 
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const Clutter = imports.gi.Clutter;
 const Lang = imports.lang;
 const Meta = imports.gi.Meta;
@@ -21,7 +21,7 @@ const {CoverflowSwitcher} = imports.ui.appSwitcher.coverflowSwitcher;
 const {TimelineSwitcher} = imports.ui.appSwitcher.timelineSwitcher;
 const {ClassicSwitcher} = imports.ui.appSwitcher.classicSwitcher;
 
-// maps org.cinnamon window-effect-speed
+// maps org.lemon window-effect-speed
 const WINDOW_ANIMATION_TIME_MULTIPLIERS = [
     1.4, // 0 SLOW
     1.0, // 1 DEFAULT
@@ -87,7 +87,7 @@ class DisplayChangeDialog extends ModalDialog.ModalDialog {
                                           action: this._onSuccess.bind(this) });
 
         this._timeoutId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 1, this._tick.bind(this));
-        GLib.Source.set_name_by_id(this._timeoutId, '[cinnamon] this._tick');
+        GLib.Source.set_name_by_id(this._timeoutId, '[lemon] this._tick');
     }
 
     close(timestamp) {
@@ -304,7 +304,7 @@ var WindowManager = class WindowManager {
         MINIMIZE_ANIMATION_TIME = 120;
 
     constructor() {
-        this._cinnamonwm = global.window_manager;
+        this._lemonwm = global.window_manager;
 
         this._minimizing = new Set();
         this._unminimizing = new Set();
@@ -315,7 +315,7 @@ var WindowManager = class WindowManager {
         this._movingWindow = null;
         this._seenWindows = new Set();
 
-        this.wm_settings = new Gio.Settings({schema_id: 'org.cinnamon.muffin'});
+        this.wm_settings = new Gio.Settings({schema_id: 'org.lemon.muffin'});
 
         global.settings.connect('changed::desktop-effects', this.onSettingsChanged.bind(this));
         global.settings.connect('changed::desktop-effects-workspace', this.onSettingsChanged.bind(this));
@@ -337,35 +337,35 @@ var WindowManager = class WindowManager {
         this._switchData = null;
         this._workspaceOsds = {};
 
-        this._cinnamonwm.connect('kill-window-effects', (cinnamonwm, actor) => {
-            this._unminimizeWindowDone(cinnamonwm, actor);
-            this._minimizeWindowDone(cinnamonwm, actor);
-            this._mapWindowDone(cinnamonwm, actor);
-            this._destroyWindowDone(cinnamonwm, actor);
-            this._sizeChangeWindowDone(cinnamonwm, actor);
+        this._lemonwm.connect('kill-window-effects', (lemonwm, actor) => {
+            this._unminimizeWindowDone(lemonwm, actor);
+            this._minimizeWindowDone(lemonwm, actor);
+            this._mapWindowDone(lemonwm, actor);
+            this._destroyWindowDone(lemonwm, actor);
+            this._sizeChangeWindowDone(lemonwm, actor);
         });
 
-        this._cinnamonwm.connect('show-tile-preview', this._showTilePreview.bind(this));
-        this._cinnamonwm.connect('hide-tile-preview', this._hideTilePreview.bind(this));
-        this._cinnamonwm.connect('show-window-menu', this._showWindowMenu.bind(this));
-        this._cinnamonwm.connect('minimize', this._minimizeWindow.bind(this));
-        this._cinnamonwm.connect('unminimize', this._unminimizeWindow.bind(this));
-        this._cinnamonwm.connect('size-change', this._sizeChangeWindow.bind(this));
-        this._cinnamonwm.connect('size-changed', this._sizeChangedWindow.bind(this));
-        this._cinnamonwm.connect('map', this._mapWindow.bind(this));
-        this._cinnamonwm.connect('destroy', this._destroyWindow.bind(this));
-        this._cinnamonwm.connect('filter-keybinding', this._filterKeybinding.bind(this));
+        this._lemonwm.connect('show-tile-preview', this._showTilePreview.bind(this));
+        this._lemonwm.connect('hide-tile-preview', this._hideTilePreview.bind(this));
+        this._lemonwm.connect('show-window-menu', this._showWindowMenu.bind(this));
+        this._lemonwm.connect('minimize', this._minimizeWindow.bind(this));
+        this._lemonwm.connect('unminimize', this._unminimizeWindow.bind(this));
+        this._lemonwm.connect('size-change', this._sizeChangeWindow.bind(this));
+        this._lemonwm.connect('size-changed', this._sizeChangedWindow.bind(this));
+        this._lemonwm.connect('map', this._mapWindow.bind(this));
+        this._lemonwm.connect('destroy', this._destroyWindow.bind(this));
+        this._lemonwm.connect('filter-keybinding', this._filterKeybinding.bind(this));
         global.window_manager.connect('switch-workspace', (c, f, t, d) => this._switchWorkspace(c, f, t, d));
 
         let kbm = Main.keybindingManager;
-        let WORKSPACE_MODES = Cinnamon.ActionMode.NORMAL |
-                              Cinnamon.ActionMode.OVERVIEW |
-                              Cinnamon.ActionMode.EXPO;
+        let WORKSPACE_MODES = Lemon.ActionMode.NORMAL |
+                              Lemon.ActionMode.OVERVIEW |
+                              Lemon.ActionMode.EXPO;
 
         kbm.setBuiltinHandler('move-to-workspace-left', Meta.KeyBindingAction.MOVE_TO_WORKSPACE_LEFT,
-            (d, w, b) => this._moveWindowToWorkspaceLeft(d, w, b), Cinnamon.ActionMode.NORMAL);
+            (d, w, b) => this._moveWindowToWorkspaceLeft(d, w, b), Lemon.ActionMode.NORMAL);
         kbm.setBuiltinHandler('move-to-workspace-right', Meta.KeyBindingAction.MOVE_TO_WORKSPACE_RIGHT,
-            (d, w, b) => this._moveWindowToWorkspaceRight(d, w, b), Cinnamon.ActionMode.NORMAL);
+            (d, w, b) => this._moveWindowToWorkspaceRight(d, w, b), Lemon.ActionMode.NORMAL);
 
         kbm.setBuiltinHandler('switch-to-workspace-left', Meta.KeyBindingAction.WORKSPACE_LEFT,
             (d, w, b) => this._showWorkspaceSwitcher(d, w, b), WORKSPACE_MODES);
@@ -376,21 +376,21 @@ var WindowManager = class WindowManager {
         kbm.setBuiltinHandler('switch-to-workspace-down', Meta.KeyBindingAction.WORKSPACE_DOWN,
             (d, w, b) => this._showWorkspaceSwitcher(d, w, b), WORKSPACE_MODES);
         kbm.setBuiltinHandler('switch-windows', Meta.KeyBindingAction.SWITCH_WINDOWS,
-            (d, w, b) => this._startAppSwitcher(d, w, b), Cinnamon.ActionMode.NORMAL);
+            (d, w, b) => this._startAppSwitcher(d, w, b), Lemon.ActionMode.NORMAL);
         kbm.setBuiltinHandler('switch-group', Meta.KeyBindingAction.SWITCH_GROUP,
-            (d, w, b) => this._startAppSwitcher(d, w, b), Cinnamon.ActionMode.NORMAL);
+            (d, w, b) => this._startAppSwitcher(d, w, b), Lemon.ActionMode.NORMAL);
         kbm.setBuiltinHandler('switch-windows-backward', Meta.KeyBindingAction.SWITCH_WINDOWS_BACKWARD,
-            (d, w, b) => this._startAppSwitcher(d, w, b), Cinnamon.ActionMode.NORMAL);
+            (d, w, b) => this._startAppSwitcher(d, w, b), Lemon.ActionMode.NORMAL);
         kbm.setBuiltinHandler('switch-group-backward', Meta.KeyBindingAction.SWITCH_GROUP_BACKWARD,
-            (d, w, b) => this._startAppSwitcher(d, w, b), Cinnamon.ActionMode.NORMAL);
+            (d, w, b) => this._startAppSwitcher(d, w, b), Lemon.ActionMode.NORMAL);
         kbm.setBuiltinHandler('switch-panels', Meta.KeyBindingAction.SWITCH_PANELS,
-            (d, w, b) => this._startAppSwitcher(d, w, b), Cinnamon.ActionMode.NORMAL);
+            (d, w, b) => this._startAppSwitcher(d, w, b), Lemon.ActionMode.NORMAL);
         kbm.setBuiltinHandler('switch-panels-backward', Meta.KeyBindingAction.SWITCH_PANELS_BACKWARD,
-            (d, w, b) => this._startAppSwitcher(d, w, b), Cinnamon.ActionMode.NORMAL);
+            (d, w, b) => this._startAppSwitcher(d, w, b), Lemon.ActionMode.NORMAL);
 
         global.display.connect('show-resize-popup', this._showResizePopup.bind(this));
-        this._cinnamonwm.connect('create-close-dialog', this._createCloseDialog.bind(this));
-        this._cinnamonwm.connect('confirm-display-change', this._confirmDisplayChange.bind(this));
+        this._lemonwm.connect('create-close-dialog', this._createCloseDialog.bind(this));
+        this._lemonwm.connect('confirm-display-change', this._confirmDisplayChange.bind(this));
 
         /* TODO: Wacom
         global.display.connect('show-pad-osd', this._showPadOsd.bind(this));
@@ -508,11 +508,11 @@ var WindowManager = class WindowManager {
         }
     }
 
-    _minimizeWindow(cinnamonwm, actor) {
+    _minimizeWindow(lemonwm, actor) {
         Main.soundManager.play('minimize');
 
         if (!this._shouldAnimate(actor) || this.desktop_effects_minimize_type == "none") {
-            cinnamonwm.completed_minimize(actor);
+            lemonwm.completed_minimize(actor);
             return;
         }
         this._minimizing.add(actor);
@@ -541,7 +541,7 @@ var WindowManager = class WindowManager {
                         y: yDest,
                         duration: this.MINIMIZE_ANIMATION_TIME * this.window_effect_multiplier,
                         mode: Clutter.AnimationMode.EASE_IN_QUAD,
-                        onStopped: () => this._minimizeWindowDone(cinnamonwm, actor),
+                        onStopped: () => this._minimizeWindowDone(lemonwm, actor),
                     });
 
                     return;
@@ -558,7 +558,7 @@ var WindowManager = class WindowManager {
                     scale_y: 0.88,
                     duration: this.MINIMIZE_ANIMATION_TIME * this.window_effect_multiplier,
                     mode: Clutter.AnimationMode.EASE_OUT_QUAD,
-                    onStopped: () => this._minimizeWindowDone(cinnamonwm, actor),
+                    onStopped: () => this._minimizeWindowDone(lemonwm, actor),
                 });
 
                 return;
@@ -580,33 +580,33 @@ var WindowManager = class WindowManager {
                     y: yDest,
                     duration: time * this.window_effect_multiplier,
                     mode: Clutter.AnimationMode.EASE_IN_SINE,
-                    onStopped: () => this._minimizeWindowDone(cinnamonwm, actor),
+                    onStopped: () => this._minimizeWindowDone(lemonwm, actor),
                 });
 
                 return;
             }
             default:
             {
-                this._minimizeWindowDone(cinnamonwm, actor);
+                this._minimizeWindowDone(lemonwm, actor);
             }
         }
     }
 
-    _minimizeWindowDone(cinnamonwm, actor) {
+    _minimizeWindowDone(lemonwm, actor) {
         if (this._minimizing.delete(actor)) {
             actor.remove_all_transitions()
             actor.set_pivot_point(0, 0);
             actor.set_scale(1.0, 1.0);
             actor.set_opacity(255);
-            cinnamonwm.completed_minimize(actor);
+            lemonwm.completed_minimize(actor);
         }
     }
 
-    _unminimizeWindow(cinnamonwm, actor) {
+    _unminimizeWindow(lemonwm, actor) {
         Main.soundManager.play('minimize');
 
         if (!this._shouldAnimate(actor) || this.desktop_effects_map_type == "none") {
-            cinnamonwm.completed_unminimize(actor);
+            lemonwm.completed_unminimize(actor);
             return;
         }
 
@@ -630,7 +630,7 @@ var WindowManager = class WindowManager {
                     scale_y: 1,
                     duration: this.MAP_ANIMATION_TIME * this.window_effect_multiplier,
                     mode: Clutter.AnimationMode.EASE_OUT_QUAD,
-                    onStopped: () => this._unminimizeWindowDone(cinnamonwm, actor),
+                    onStopped: () => this._unminimizeWindowDone(lemonwm, actor),
                 });
 
                 return;
@@ -665,7 +665,7 @@ var WindowManager = class WindowManager {
                     y: yDest,
                     duration: time * this.window_effect_multiplier,
                     mode: Clutter.AnimationMode.EASE_IN_SINE,
-                    onStopped: () => this._unminimizeWindowDone(cinnamonwm, actor),
+                    onStopped: () => this._unminimizeWindowDone(lemonwm, actor),
                 });
 
                 return;
@@ -689,7 +689,7 @@ var WindowManager = class WindowManager {
                         y: yDest,
                         duration: this.MAP_ANIMATION_TIME * this.window_effect_multiplier,
                         mode: Clutter.AnimationMode.EASE_OUT_QUAD,
-                        onStopped: () => this._unminimizeWindowDone(cinnamonwm, actor),
+                        onStopped: () => this._unminimizeWindowDone(lemonwm, actor),
                     });
                 } else { // fall-back effect. Same as map
                     actor.set_pivot_point(0.5, 0.5);
@@ -704,7 +704,7 @@ var WindowManager = class WindowManager {
                         scale_y: 1.0,
                         duration: this.MAP_ANIMATION_TIME * this.window_effect_multiplier,
                         mode: Clutter.AnimationMode.EASE_OUT_QUAD,
-                        onStopped: () => this._unminimizeWindowDone(cinnamonwm, actor),
+                        onStopped: () => this._unminimizeWindowDone(lemonwm, actor),
                     });
                 }
 
@@ -712,23 +712,23 @@ var WindowManager = class WindowManager {
             }
             default:
             {
-                this._unminimizeWindowDone(cinnamonwm, actor);
+                this._unminimizeWindowDone(lemonwm, actor);
             }
         }
     }
 
-    _unminimizeWindowDone(cinnamonwm, actor) {
+    _unminimizeWindowDone(lemonwm, actor) {
         if (this._unminimizing.delete(actor)) {
             actor.remove_all_transitions()
             actor.set_scale(1.0, 1.0);
             actor.set_opacity(255);
             actor.set_pivot_point(0, 0);
 
-            cinnamonwm.completed_unminimize(actor);
+            lemonwm.completed_unminimize(actor);
         }
     }
 
-    _sizeChangeWindow(cinnamonwm, actor, whichChange, oldFrameRect, _oldBufferRect) {
+    _sizeChangeWindow(lemonwm, actor, whichChange, oldFrameRect, _oldBufferRect) {
         switch (whichChange) {
             case Meta.SizeChange.MAXIMIZE:
                 Main.soundManager.play('maximize');
@@ -742,27 +742,27 @@ var WindowManager = class WindowManager {
         }
 
         if (!this._shouldAnimate(actor, [Meta.WindowType.NORMAL]) || !this.desktop_effects_size_change) {
-            cinnamonwm.completed_size_change(actor);
+            lemonwm.completed_size_change(actor);
             return;
         }
 
         if (oldFrameRect.width > 0 && oldFrameRect.height > 0)
-            this._prepareAnimationInfo(cinnamonwm, actor, oldFrameRect, whichChange);
+            this._prepareAnimationInfo(lemonwm, actor, oldFrameRect, whichChange);
         else
-            cinnamonwm.completed_size_change(actor);
+            lemonwm.completed_size_change(actor);
     }
 
-    _prepareAnimationInfo(cinnamonwm, actor, oldFrameRect, _change) {
+    _prepareAnimationInfo(lemonwm, actor, oldFrameRect, _change) {
         // Position a clone of the window on top of the old position,
         // while actor updates are frozen.
-        let actorContent = Cinnamon.util_get_content_for_window_actor(actor, oldFrameRect);
+        let actorContent = Lemon.util_get_content_for_window_actor(actor, oldFrameRect);
         let actorClone = new St.Widget({ content: actorContent });
         actorClone.set_offscreen_redirect(Clutter.OffscreenRedirect.ALWAYS);
         actorClone.set_position(oldFrameRect.x, oldFrameRect.y);
         actorClone.set_size(oldFrameRect.width, oldFrameRect.height);
 
         if (this._clearSizeAnimationInfo(actor))
-            this._cinnamonwm.completed_size_change(actor);
+            this._lemonwm.completed_size_change(actor);
 
         let destroyId = actor.connect('destroy', () => {
             this._clearSizeAnimationInfo(actor);
@@ -774,7 +774,7 @@ var WindowManager = class WindowManager {
                                   destroyId };
     }
 
-    _sizeChangedWindow(cinnamonwm, actor) {
+    _sizeChangedWindow(lemonwm, actor) {
         if (!actor.__animationInfo)
             return;
         if (this._resizing.has(actor))
@@ -818,13 +818,13 @@ var WindowManager = class WindowManager {
                 translation_y: 0,
                 duration: this.SIZE_CHANGE_ANIMATION_TIME * this.window_effect_multiplier,
                 mode: Clutter.AnimationMode.EASE_OUT_QUAD,
-                onStopped: () => this._sizeChangeWindowDone(cinnamonwm, actor),
+                onStopped: () => this._sizeChangeWindowDone(lemonwm, actor),
         });
 
         // Now unfreeze actor updates, to get it to the new size.
         // It's important that we don't wait until the animation is completed to
         // do this, otherwise our scale will be applied to the old texture size.
-        cinnamonwm.completed_size_change(actor);
+        lemonwm.completed_size_change(actor);
     }
 
     _clearSizeAnimationInfo(actor) {
@@ -837,7 +837,7 @@ var WindowManager = class WindowManager {
         return false;
     }
 
-    _sizeChangeWindowDone(cinnamonwm, actor) {
+    _sizeChangeWindowDone(lemonwm, actor) {
         if (this._resizing.delete(actor)) {
             actor.remove_all_transitions();
             actor.scale_x = 1.0;
@@ -848,7 +848,7 @@ var WindowManager = class WindowManager {
         }
 
         if (this._resizePending.delete(actor))
-            this._cinnamonwm.completed_size_change(actor);
+            this._lemonwm.completed_size_change(actor);
     }
 
     _filterKeybinding(shellwm, binding) {
@@ -910,7 +910,7 @@ var WindowManager = class WindowManager {
         dimmer.setDimmed(false, animate);
     }
 
-    _mapWindow(cinnamonwm, actor) {
+    _mapWindow(lemonwm, actor) {
         actor._windowType = actor.meta_window.get_window_type();
         actor._notifyWindowTypeSignalId =
             actor.meta_window.connect('notify::window-type', () => {
@@ -941,7 +941,7 @@ var WindowManager = class WindowManager {
         }
 
         if (!this._shouldAnimate(actor) || this.desktop_effects_map_type == "none") {
-            cinnamonwm.completed_map(actor);
+            lemonwm.completed_map(actor);
             return;
         }
 
@@ -965,7 +965,7 @@ var WindowManager = class WindowManager {
                     x: actor.x + 1,
                     duration: this.MAP_ANIMATION_TIME * this.window_effect_multiplier,
                     mode: Clutter.AnimationMode.EASE_OUT_QUAD,
-                    onStopped: () => this._mapWindowDone(cinnamonwm, actor),
+                    onStopped: () => this._mapWindowDone(lemonwm, actor),
                 });
 
                 return;
@@ -987,7 +987,7 @@ var WindowManager = class WindowManager {
                     y: yDest,
                     duration: this.MAP_ANIMATION_TIME * this.window_effect_multiplier,
                     mode: Clutter.AnimationMode.EASE_OUT_QUAD,
-                    onStopped: () => this._mapWindowDone(cinnamonwm, actor),
+                    onStopped: () => this._mapWindowDone(lemonwm, actor),
                 });
 
                 return;
@@ -1010,30 +1010,30 @@ var WindowManager = class WindowManager {
                     y: yDest,
                     duration: time * this.window_effect_multiplier,
                     mode: Clutter.AnimationMode.EASE_IN_SINE,
-                    onStopped: () => this._mapWindowDone(cinnamonwm, actor),
+                    onStopped: () => this._mapWindowDone(lemonwm, actor),
                 });
 
                 return;
             }
             default:
             {
-                this._mapWindowDone(cinnamonwm, actor);
+                this._mapWindowDone(lemonwm, actor);
             }
         }
     }
 
-    _mapWindowDone(cinnamonwm, actor) {
+    _mapWindowDone(lemonwm, actor) {
         if (this._mapping.delete(actor)) {
             actor.remove_all_transitions()
             actor.opacity = 255;
             actor.set_pivot_point(0, 0);
             actor.scale_y = 1;
             actor.scale_x = 1;
-            cinnamonwm.completed_map(actor);
+            lemonwm.completed_map(actor);
         }
     }
 
-    _destroyWindow(cinnamonwm, actor) {
+    _destroyWindow(lemonwm, actor) {
         let window = actor.meta_window;
         if (actor._notifyWindowTypeSignalId > 0) {
             window.disconnect(actor._notifyWindowTypeSignalId);
@@ -1052,7 +1052,7 @@ var WindowManager = class WindowManager {
             this._checkDimming(window.get_transient_for(), window);
 
         if (window.minimized) {
-            cinnamonwm.completed_destroy(actor);
+            lemonwm.completed_destroy(actor);
             return;
         }
 
@@ -1061,7 +1061,7 @@ var WindowManager = class WindowManager {
                      Meta.WindowType.MODAL_DIALOG];
 
         if (!this._shouldAnimate(actor, types) || this.desktop_effects_close_type === "none") {
-            cinnamonwm.completed_destroy(actor);
+            lemonwm.completed_destroy(actor);
             return;
         }
 
@@ -1083,7 +1083,7 @@ var WindowManager = class WindowManager {
                     y: yDest,
                     duration: time * this.window_effect_multiplier,
                     mode: Clutter.AnimationMode.EASE_IN_SINE,
-                    onStopped: () => this._destroyWindowDone(cinnamonwm, actor),
+                    onStopped: () => this._destroyWindowDone(lemonwm, actor),
                 });
 
                 return;
@@ -1101,7 +1101,7 @@ var WindowManager = class WindowManager {
                             let parent = window.get_transient_for();
                             actor._parentDestroyId = parent.connect('unmanaged', () => {
                                 actor.remove_all_transitions();
-                                this._destroyWindowDone(cinnamonwm, actor);
+                                this._destroyWindowDone(lemonwm, actor);
                             });
                         }
 
@@ -1111,39 +1111,39 @@ var WindowManager = class WindowManager {
                             scale_y: 0.88,
                             duration: this.DESTROY_ANIMATION_TIME * this.window_effect_multiplier,
                             mode: Clutter.AnimationMode.EASE_OUT_QUAD,
-                            onStopped: () => this._destroyWindowDone(cinnamonwm, actor),
+                            onStopped: () => this._destroyWindowDone(lemonwm, actor),
                         });
 
                         return;
                     }
                     default:
                     {
-                        this._destroyWindowDone(cinnamonwm, actor);
+                        this._destroyWindowDone(lemonwm, actor);
                     }
                 }
             }
             default:
             {
-                this._destroyWindowDone(cinnamonwm, actor);
+                this._destroyWindowDone(lemonwm, actor);
             }
         }
     }
 
-    _destroyWindowDone(cinnamonwm, actor) {
+    _destroyWindowDone(lemonwm, actor) {
         if (this._destroying.delete(actor)) {
             const parent = actor.get_meta_window()?.get_transient_for();
             if (parent && actor._parentDestroyId) {
                 parent.disconnect(actor._parentDestroyId);
                 actor._parentDestroyId = 0;
             }
-            cinnamonwm.completed_destroy(actor);
+            lemonwm.completed_destroy(actor);
         }
     }
 
-    _switchWorkspace(cinnamonwm, from, to, direction) {
+    _switchWorkspace(lemonwm, from, to, direction) {
         if (!Main.animations_enabled || Main.modalCount) {
             this.showWorkspaceOSD();
-            cinnamonwm.completed_switch_workspace();
+            lemonwm.completed_switch_workspace();
             return;
         }
 
@@ -1207,10 +1207,10 @@ var WindowManager = class WindowManager {
 
             if (to_windows.size === 0 && from_windows.size === 0) {
                 if (kill_id > 0) {
-                    this._cinnamonwm.disconnect(kill_id);
+                    this._lemonwm.disconnect(kill_id);
                     kill_id = 0;
 
-                    cinnamonwm.completed_switch_workspace();
+                    lemonwm.completed_switch_workspace();
                 }
             }
         };
@@ -1276,11 +1276,11 @@ var WindowManager = class WindowManager {
         }
 
         if (to_windows.size === 0 && from_windows.size === 0) {
-            this._cinnamonwm.completed_switch_workspace();
+            this._lemonwm.completed_switch_workspace();
             return;
         }
 
-        kill_id = this._cinnamonwm.connect('kill-switch-workspace', cinnamonwm => {
+        kill_id = this._lemonwm.connect('kill-switch-workspace', lemonwm => {
             let iter = to_windows.forEach((actor) => {
                 cleanup_window_effect(actor);
             });
@@ -1292,21 +1292,21 @@ var WindowManager = class WindowManager {
             from_windows.clear();
 
             if (kill_id > 0) {
-                this._cinnamonwm.disconnect(kill_id);
+                this._lemonwm.disconnect(kill_id);
                 kill_id = 0;
             }
 
-            cinnamonwm.completed_switch_workspace();
+            lemonwm.completed_switch_workspace();
         });
     }
 
-    _showTilePreview(cinnamonwm, window, tileRect, monitorIndex) {
+    _showTilePreview(lemonwm, window, tileRect, monitorIndex) {
         if (!this._tilePreview)
             this._tilePreview = new TilePreview();
         this._tilePreview.show(window, tileRect, monitorIndex, Main.animations_enabled, this.TILE_PREVIEW_ANIMATION_TIME * this.window_effect_multiplier);
     }
 
-    _hideTilePreview(cinnamonwm) {
+    _hideTilePreview(lemonwm) {
         if (!this._tilePreview)
             return;
         this._tilePreview.hide();
@@ -1338,7 +1338,7 @@ var WindowManager = class WindowManager {
         this._workspaceOsds[index].display(currentWorkspaceIndex, text);
     }
 
-    _showWindowMenu(cinnamonwm, window, menu, rect) {
+    _showWindowMenu(lemonwm, window, menu, rect) {
         this._windowMenuManager.showWindowMenuForWindow(window, menu, rect);
     }
 
@@ -1482,12 +1482,12 @@ var WindowManager = class WindowManager {
         }
     }
 
-    _createCloseDialog(cinnamonwm, window) {
+    _createCloseDialog(lemonwm, window) {
         return new CloseDialog.CloseDialog(window);
     }
 
     _confirmDisplayChange() {
-        let dialog = new DisplayChangeDialog(this._cinnamonwm);
+        let dialog = new DisplayChangeDialog(this._lemonwm);
         dialog.open();
     }
 };

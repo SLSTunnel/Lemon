@@ -1,6 +1,0 @@
-[Lemon Session]
-Name=Lemon
-RequiredComponents=cinnamon-wayland;nemo-autostart;@REQUIRED@
-DesktopName=X-Cinnamon
-
-

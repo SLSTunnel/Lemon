@@ -15,7 +15,7 @@
 */
 
 const St = imports.gi.St;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const Lang = imports.lang;
 const Signals = imports.signals;
 const Gio = imports.gi.Gio;
@@ -61,7 +61,7 @@ function DocManager() {
 
 DocManager.prototype = {
     _init: function() {
-        this._docSystem = Cinnamon.DocSystem.get_default();
+        this._docSystem = Lemon.DocSystem.get_default();
         this._infosByTimestamp = [];
         this._load();
         this._docSystem.connect('changed', Lang.bind(this, this._reload));

@@ -1,12 +1,12 @@
-data/theme/cinnamon.css
+data/theme/lemon.css
 debian/*.debhelper
 debian/*.log
 debian/*.substvars
 debian/.debhelper/
-debian/cinnamon-common/
-debian/cinnamon-dbg/
-debian/cinnamon-doc/
-debian/cinnamon/
+debian/lemon-common/
+debian/lemon-dbg/
+debian/lemon-doc/
+debian/lemon/
 debian/debhelper-build-stamp
 debian/files
 debian/tmp/

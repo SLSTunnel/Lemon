@@ -1442,7 +1442,7 @@ st_widget_get_style (StWidget *actor)
  * @important: whether the actor is to be considered important.
  *
  * When an actor is set to important, and the active theme does not
- * account for it, a fallback lookup is made to the default cinnamon theme
+ * account for it, a fallback lookup is made to the default lemon theme
  * which (presumably) will always have support for all stock elements
  * of the desktop.
  *

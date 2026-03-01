@@ -40,7 +40,7 @@ typedef enum {
     CS_AUTH_ERROR_AUTH_DENIED
 } CsAuthError;
 
-#define PAM_SERVICE_NAME "cinnamon"
+#define PAM_SERVICE_NAME "lemon"
 
 typedef gboolean  (* CsAuthMessageFunc) (CsAuthMessageStyle style,
                                          const char        *msg,

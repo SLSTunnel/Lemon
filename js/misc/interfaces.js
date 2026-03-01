@@ -2,9 +2,9 @@
 
 const Gio = imports.gi.Gio;
 
-const SETTINGS_DAEMON_XRANDR_NAME = "org.cinnamon.SettingsDaemon.XRANDR_2";
-const SETTINGS_DAEMON_POWER_NAME = "org.cinnamon.SettingsDaemon.Power";
-const SETTINGS_DAEMON_POWER_PATH = "/org/cinnamon/SettingsDaemon/Power";
+const SETTINGS_DAEMON_XRANDR_NAME = "org.lemon.SettingsDaemon.XRANDR_2";
+const SETTINGS_DAEMON_POWER_NAME = "org.lemon.SettingsDaemon.Power";
+const SETTINGS_DAEMON_POWER_PATH = "/org/lemon/SettingsDaemon/Power";
 
 const DBusIface = '\
 <node> \
@@ -88,15 +88,15 @@ function getDBusPropertiesAsync(name, path, callback) {
 }
 
 /****************************************
- * org.cinnamon.SettingsDaemon services *
+ * org.lemon.SettingsDaemon services *
  ****************************************/
 
 let xml = { };
 
-xml['org.cinnamon.SettingsDaemon.Power'] =
+xml['org.lemon.SettingsDaemon.Power'] =
 [
     "<node> \
-        <interface name='org.cinnamon.SettingsDaemon.Power'> \
+        <interface name='org.lemon.SettingsDaemon.Power'> \
             <property name='Icon' type='s' access='read'/> \
             <property name='Tooltip' type='s' access='read'/> \
             <method name='GetPrimaryDevice'> \
@@ -111,10 +111,10 @@ xml['org.cinnamon.SettingsDaemon.Power'] =
     SETTINGS_DAEMON_POWER_PATH
 ];
 
-xml['org.cinnamon.SettingsDaemon.Power.Screen'] =
+xml['org.lemon.SettingsDaemon.Power.Screen'] =
 [
     "<node> \
-        <interface name='org.cinnamon.SettingsDaemon.Power.Screen'> \
+        <interface name='org.lemon.SettingsDaemon.Power.Screen'> \
             <method name='StepUp'> \
                 <arg type='u' name='new_percentage' direction='out'/> \
             </method> \
@@ -135,10 +135,10 @@ xml['org.cinnamon.SettingsDaemon.Power.Screen'] =
     SETTINGS_DAEMON_POWER_PATH
 ];
 
-xml['org.cinnamon.SettingsDaemon.Power.Keyboard'] =
+xml['org.lemon.SettingsDaemon.Power.Keyboard'] =
 [
     "<node> \
-        <interface name='org.cinnamon.SettingsDaemon.Power.Keyboard'> \
+        <interface name='org.lemon.SettingsDaemon.Power.Keyboard'> \
             <method name='StepUp'> \
                 <arg type='u' name='new_percentage' direction='out'/> \
             </method> \
@@ -166,10 +166,10 @@ xml['org.cinnamon.SettingsDaemon.Power.Keyboard'] =
     SETTINGS_DAEMON_POWER_PATH
 ];
 
-xml['org.cinnamon.SettingsDaemon.XRANDR_2'] =
+xml['org.lemon.SettingsDaemon.XRANDR_2'] =
 [
     "<node> \
-        <interface name='org.cinnamon.SettingsDaemon.XRANDR_2'> \
+        <interface name='org.lemon.SettingsDaemon.XRANDR_2'> \
             <annotation name='org.freedesktop.DBus.GLib.CSymbol' value='csd_xrandr_manager_2'/> \
             <method name='ApplyConfiguration'> \
                 <arg name='parent_window_id' type='x' direction='in'/> \
@@ -188,7 +188,7 @@ xml['org.cinnamon.SettingsDaemon.XRANDR_2'] =
         </interface> \
     </node>",
     SETTINGS_DAEMON_XRANDR_NAME,
-    '/org/cinnamon/SettingsDaemon/XRANDR'
+    '/org/lemon/SettingsDaemon/XRANDR'
 ];
 
 /****************************************

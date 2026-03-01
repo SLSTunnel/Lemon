@@ -5,100 +5,100 @@ const GLib = imports.gi.GLib;
 const Lang = imports.lang;
 const Util = imports.misc.util;
 const Meta = imports.gi.Meta;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const AppletManager = imports.ui.appletManager;
 const DeskletManager = imports.ui.deskletManager;
 
 const MK = imports.gi.CDesktopEnums.MediaKeyType;
-const CinnamonDesktop = imports.gi.CinnamonDesktop;
+const LemonDesktop = imports.gi.LemonDesktop;
 
-const CUSTOM_KEYS_PARENT_SCHEMA = "org.cinnamon.desktop.keybindings";
-const CUSTOM_KEYS_BASENAME = "/org/cinnamon/desktop/keybindings/custom-keybindings";
-const CUSTOM_KEYS_SCHEMA = "org.cinnamon.desktop.keybindings.custom-keybinding";
+const CUSTOM_KEYS_PARENT_SCHEMA = "org.lemon.desktop.keybindings";
+const CUSTOM_KEYS_BASENAME = "/org/lemon/desktop/keybindings/custom-keybindings";
+const CUSTOM_KEYS_SCHEMA = "org.lemon.desktop.keybindings.custom-keybinding";
 
-const MEDIA_KEYS_SCHEMA = "org.cinnamon.desktop.keybindings.media-keys";
+const MEDIA_KEYS_SCHEMA = "org.lemon.desktop.keybindings.media-keys";
 
 const MEDIA_KEYS = [
     // Volume/audio
-    { key: MK.MUTE,                       mode: Cinnamon.ActionMode.ALL },
-    { key: MK.MUTE_QUIET,                 mode: Cinnamon.ActionMode.ALL },
-    { key: MK.VOLUME_UP,                  mode: Cinnamon.ActionMode.ALL, repeatable: true },
-    { key: MK.VOLUME_UP_QUIET,            mode: Cinnamon.ActionMode.ALL, repeatable: true },
-    { key: MK.VOLUME_DOWN,                mode: Cinnamon.ActionMode.ALL, repeatable: true },
-    { key: MK.VOLUME_DOWN_QUIET,          mode: Cinnamon.ActionMode.ALL, repeatable: true },
-    { key: MK.MIC_MUTE,                   mode: Cinnamon.ActionMode.ALL },
+    { key: MK.MUTE,                       mode: Lemon.ActionMode.ALL },
+    { key: MK.MUTE_QUIET,                 mode: Lemon.ActionMode.ALL },
+    { key: MK.VOLUME_UP,                  mode: Lemon.ActionMode.ALL, repeatable: true },
+    { key: MK.VOLUME_UP_QUIET,            mode: Lemon.ActionMode.ALL, repeatable: true },
+    { key: MK.VOLUME_DOWN,                mode: Lemon.ActionMode.ALL, repeatable: true },
+    { key: MK.VOLUME_DOWN_QUIET,          mode: Lemon.ActionMode.ALL, repeatable: true },
+    { key: MK.MIC_MUTE,                   mode: Lemon.ActionMode.ALL },
 
     // Disc/media
-    { key: MK.EJECT,                      mode: Cinnamon.ActionMode.ALL },
-    { key: MK.MEDIA,                      mode: Cinnamon.ActionMode.ALL },
+    { key: MK.EJECT,                      mode: Lemon.ActionMode.ALL },
+    { key: MK.MEDIA,                      mode: Lemon.ActionMode.ALL },
 
     // Playback
-    { key: MK.PLAY,                       mode: Cinnamon.ActionMode.ALL },
-    { key: MK.PAUSE,                      mode: Cinnamon.ActionMode.ALL },
-    { key: MK.STOP,                       mode: Cinnamon.ActionMode.ALL },
-    { key: MK.PREVIOUS,                   mode: Cinnamon.ActionMode.ALL },
-    { key: MK.NEXT,                       mode: Cinnamon.ActionMode.ALL },
-    { key: MK.REWIND,                     mode: Cinnamon.ActionMode.ALL, repeatable: true },
-    { key: MK.FORWARD,                    mode: Cinnamon.ActionMode.ALL, repeatable: true },
-    { key: MK.REPEAT,                     mode: Cinnamon.ActionMode.ALL },
-    { key: MK.RANDOM,                     mode: Cinnamon.ActionMode.ALL },
+    { key: MK.PLAY,                       mode: Lemon.ActionMode.ALL },
+    { key: MK.PAUSE,                      mode: Lemon.ActionMode.ALL },
+    { key: MK.STOP,                       mode: Lemon.ActionMode.ALL },
+    { key: MK.PREVIOUS,                   mode: Lemon.ActionMode.ALL },
+    { key: MK.NEXT,                       mode: Lemon.ActionMode.ALL },
+    { key: MK.REWIND,                     mode: Lemon.ActionMode.ALL, repeatable: true },
+    { key: MK.FORWARD,                    mode: Lemon.ActionMode.ALL, repeatable: true },
+    { key: MK.REPEAT,                     mode: Lemon.ActionMode.ALL },
+    { key: MK.RANDOM,                     mode: Lemon.ActionMode.ALL },
 
     // Screenshots
-    { key: MK.SCREENSHOT,                 mode: Cinnamon.ActionMode.ALL },
-    { key: MK.SCREENSHOT_CLIP,            mode: Cinnamon.ActionMode.NORMAL },
-    { key: MK.WINDOW_SCREENSHOT,          mode: Cinnamon.ActionMode.NORMAL },
-    { key: MK.WINDOW_SCREENSHOT_CLIP,     mode: Cinnamon.ActionMode.NORMAL },
-    { key: MK.AREA_SCREENSHOT,            mode: Cinnamon.ActionMode.NORMAL },
-    { key: MK.AREA_SCREENSHOT_CLIP,       mode: Cinnamon.ActionMode.NORMAL },
+    { key: MK.SCREENSHOT,                 mode: Lemon.ActionMode.ALL },
+    { key: MK.SCREENSHOT_CLIP,            mode: Lemon.ActionMode.NORMAL },
+    { key: MK.WINDOW_SCREENSHOT,          mode: Lemon.ActionMode.NORMAL },
+    { key: MK.WINDOW_SCREENSHOT_CLIP,     mode: Lemon.ActionMode.NORMAL },
+    { key: MK.AREA_SCREENSHOT,            mode: Lemon.ActionMode.NORMAL },
+    { key: MK.AREA_SCREENSHOT_CLIP,       mode: Lemon.ActionMode.NORMAL },
 
     // Touchpad
-    { key: MK.TOUCHPAD,                   mode: Cinnamon.ActionMode.NORMAL },
-    { key: MK.TOUCHPAD_ON,                mode: Cinnamon.ActionMode.NORMAL },
-    { key: MK.TOUCHPAD_OFF,               mode: Cinnamon.ActionMode.NORMAL },
+    { key: MK.TOUCHPAD,                   mode: Lemon.ActionMode.NORMAL },
+    { key: MK.TOUCHPAD_ON,                mode: Lemon.ActionMode.NORMAL },
+    { key: MK.TOUCHPAD_OFF,               mode: Lemon.ActionMode.NORMAL },
 
     // Session
-    { key: MK.LOGOUT,                     mode: Cinnamon.ActionMode.NORMAL },
-    { key: MK.SHUTDOWN,                   mode: Cinnamon.ActionMode.NORMAL },
-    { key: MK.SUSPEND,                    mode: Cinnamon.ActionMode.NORMAL },
-    { key: MK.HIBERNATE,                  mode: Cinnamon.ActionMode.NORMAL },
-    { key: MK.SCREENSAVER,                mode: Cinnamon.ActionMode.NORMAL },
+    { key: MK.LOGOUT,                     mode: Lemon.ActionMode.NORMAL },
+    { key: MK.SHUTDOWN,                   mode: Lemon.ActionMode.NORMAL },
+    { key: MK.SUSPEND,                    mode: Lemon.ActionMode.NORMAL },
+    { key: MK.HIBERNATE,                  mode: Lemon.ActionMode.NORMAL },
+    { key: MK.SCREENSAVER,                mode: Lemon.ActionMode.NORMAL },
 
     // App launchers
-    { key: MK.HOME,                       mode: Cinnamon.ActionMode.NORMAL },
-    { key: MK.CALCULATOR,                 mode: Cinnamon.ActionMode.NORMAL },
-    { key: MK.SEARCH,                     mode: Cinnamon.ActionMode.NORMAL },
-    { key: MK.EMAIL,                      mode: Cinnamon.ActionMode.NORMAL },
-    { key: MK.HELP,                       mode: Cinnamon.ActionMode.NORMAL },
-    { key: MK.TERMINAL,                   mode: Cinnamon.ActionMode.NORMAL },
-    { key: MK.WWW,                        mode: Cinnamon.ActionMode.NORMAL },
+    { key: MK.HOME,                       mode: Lemon.ActionMode.NORMAL },
+    { key: MK.CALCULATOR,                 mode: Lemon.ActionMode.NORMAL },
+    { key: MK.SEARCH,                     mode: Lemon.ActionMode.NORMAL },
+    { key: MK.EMAIL,                      mode: Lemon.ActionMode.NORMAL },
+    { key: MK.HELP,                       mode: Lemon.ActionMode.NORMAL },
+    { key: MK.TERMINAL,                   mode: Lemon.ActionMode.NORMAL },
+    { key: MK.WWW,                        mode: Lemon.ActionMode.NORMAL },
 
     // Display
-    { key: MK.ROTATE_VIDEO_LOCK,          mode: Cinnamon.ActionMode.ALL },
+    { key: MK.ROTATE_VIDEO_LOCK,          mode: Lemon.ActionMode.ALL },
 
     // Accessibility
-    { key: MK.SCREENREADER,               mode: Cinnamon.ActionMode.NORMAL },
-    { key: MK.ON_SCREEN_KEYBOARD,         mode: Cinnamon.ActionMode.NORMAL |
-                                                Cinnamon.ActionMode.POPUP |
-                                                Cinnamon.ActionMode.UNLOCK_SCREEN |
-                                                Cinnamon.ActionMode.SYSTEM_MODAL },
-    { key: MK.INCREASE_TEXT,              mode: Cinnamon.ActionMode.NORMAL },
-    { key: MK.DECREASE_TEXT,              mode: Cinnamon.ActionMode.NORMAL },
-    { key: MK.TOGGLE_CONTRAST,            mode: Cinnamon.ActionMode.NORMAL },
+    { key: MK.SCREENREADER,               mode: Lemon.ActionMode.NORMAL },
+    { key: MK.ON_SCREEN_KEYBOARD,         mode: Lemon.ActionMode.NORMAL |
+                                                Lemon.ActionMode.POPUP |
+                                                Lemon.ActionMode.UNLOCK_SCREEN |
+                                                Lemon.ActionMode.SYSTEM_MODAL },
+    { key: MK.INCREASE_TEXT,              mode: Lemon.ActionMode.NORMAL },
+    { key: MK.DECREASE_TEXT,              mode: Lemon.ActionMode.NORMAL },
+    { key: MK.TOGGLE_CONTRAST,            mode: Lemon.ActionMode.NORMAL },
 
     // Brightness
-    { key: MK.SCREEN_BRIGHTNESS_UP,       mode: Cinnamon.ActionMode.ALL, repeatable: true },
-    { key: MK.SCREEN_BRIGHTNESS_DOWN,     mode: Cinnamon.ActionMode.ALL, repeatable: true },
-    { key: MK.KEYBOARD_BRIGHTNESS_UP,     mode: Cinnamon.ActionMode.ALL, repeatable: true },
-    { key: MK.KEYBOARD_BRIGHTNESS_DOWN,   mode: Cinnamon.ActionMode.ALL, repeatable: true },
-    { key: MK.KEYBOARD_BRIGHTNESS_TOGGLE, mode: Cinnamon.ActionMode.ALL },
+    { key: MK.SCREEN_BRIGHTNESS_UP,       mode: Lemon.ActionMode.ALL, repeatable: true },
+    { key: MK.SCREEN_BRIGHTNESS_DOWN,     mode: Lemon.ActionMode.ALL, repeatable: true },
+    { key: MK.KEYBOARD_BRIGHTNESS_UP,     mode: Lemon.ActionMode.ALL, repeatable: true },
+    { key: MK.KEYBOARD_BRIGHTNESS_DOWN,   mode: Lemon.ActionMode.ALL, repeatable: true },
+    { key: MK.KEYBOARD_BRIGHTNESS_TOGGLE, mode: Lemon.ActionMode.ALL },
 
     // Battery
-    { key: MK.BATTERY,                    mode: Cinnamon.ActionMode.NORMAL },
+    { key: MK.BATTERY,                    mode: Lemon.ActionMode.NORMAL },
 ];
 
 const iface = "\
     <node> \
-      <interface name='org.cinnamon.SettingsDaemon.KeybindingHandler'> \
+      <interface name='org.lemon.SettingsDaemon.KeybindingHandler'> \
         <annotation name='org.freedesktop.DBus.GLib.CSymbol' value='csd_media_keys_manager'/> \
         <method name='HandleKeybinding'> \
           <arg name='type' direction='in' type='u'/> \
@@ -115,8 +115,8 @@ function KeybindingManager() {
 KeybindingManager.prototype = {
     _init: function() {
         this._proxy = new proxy(Gio.DBus.session,
-                                'org.cinnamon.SettingsDaemon.KeybindingHandler',
-                                '/org/cinnamon/SettingsDaemon/KeybindingHandler');
+                                'org.lemon.SettingsDaemon.KeybindingHandler',
+                                '/org/lemon/SettingsDaemon/KeybindingHandler');
 
         /* Keep track of bindings so we can a) check if they've change (and avoid the work
          * if the haven't), b) handle the callbacks when the keystrokes are captured by
@@ -133,7 +133,7 @@ KeybindingManager.prototype = {
         this.media_key_settings = new Gio.Settings({ schema_id: MEDIA_KEYS_SCHEMA });
         this.media_key_settings.connect("changed", Lang.bind(this, this.setup_media_keys));
 
-        this.screensaver_settings = new Gio.Settings({ schema_id: "org.cinnamon.desktop.screensaver" });
+        this.screensaver_settings = new Gio.Settings({ schema_id: "org.lemon.desktop.screensaver" });
 
         this.setup_media_keys();
     },
@@ -159,7 +159,7 @@ KeybindingManager.prototype = {
 
     /*  Menu applet example
      *
-     *  uuid: menu@cinnamon.org
+     *  uuid: menu@lemon.org
      *  binding name: overlay-key
      *    instances:
      *      49: super-l, super-r
@@ -168,14 +168,14 @@ KeybindingManager.prototype = {
      *  is in applet_bindings as:
      *
      *  {
-     *      "menu@cinnamon.org::overlay-key:super-l" : {
+     *      "menu@lemon.org::overlay-key:super-l" : {
      *          "49": callback49,
      *          "52": callback52
      *      },
-     *      "menu@cinnamon.org::overlay-key:super-r" : {
+     *      "menu@lemon.org::overlay-key:super-r" : {
      *          "49": callback49
      *      },
-     *      "menu@cinnamon.org::overlay-key:ctrl-shift-f7" : {
+     *      "menu@lemon.org::overlay-key:ctrl-shift-f7" : {
      *          "52": callback52
      *      }
      *  }
@@ -332,8 +332,8 @@ KeybindingManager.prototype = {
 
     addHotKeyArray: function(name, bindings, callback,
                              flags=Meta.KeyBindingFlags.IGNORE_AUTOREPEAT,
-                             allowedModes=Cinnamon.ActionMode.NORMAL |
-                                          Cinnamon.ActionMode.POPUP) {
+                             allowedModes=Lemon.ActionMode.NORMAL |
+                                          Lemon.ActionMode.POPUP) {
         let [existing_action_id, entry] = this._lookupEntry(name);
 
         if (entry !== undefined) {
@@ -422,7 +422,7 @@ KeybindingManager.prototype = {
                 : Meta.KeyBindingFlags.IGNORE_AUTOREPEAT;
 
             let bindings = this.media_key_settings.get_strv(
-                CinnamonDesktop.desktop_get_media_key_string(mk.key)
+                LemonDesktop.desktop_get_media_key_string(mk.key)
             );
 
             this.addHotKeyArray(
@@ -444,7 +444,7 @@ KeybindingManager.prototype = {
         // Check if this is the screensaver key and internal screensaver is enabled
         if (action === MK.SCREENSAVER && global.settings.get_boolean('internal-screensaver-enabled')) {
             // If a custom screensaver is configured, skip internal handling and
-            // let csd-media-keys run cinnamon-screensaver-command instead.
+            // let csd-media-keys run lemon-screensaver-command instead.
             if (!this.screensaver_settings.get_string('custom-screensaver-command').trim()) {
                 GLib.idle_add(GLib.PRIORITY_DEFAULT, () => {
                     Main.lockScreen(false);
@@ -467,7 +467,7 @@ KeybindingManager.prototype = {
         entry.callback(display, window, binding);
     },
 
-    setBuiltinHandler: function(name, actionId, callback, allowedModes=Cinnamon.ActionMode.NORMAL) {
+    setBuiltinHandler: function(name, actionId, callback, allowedModes=Lemon.ActionMode.NORMAL) {
         Meta.keybindings_set_custom_handler(name,
             (display, window, binding) => this._onBuiltinKeyPressed(display, window, binding, actionId)
         );

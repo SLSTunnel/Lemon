@@ -6,7 +6,7 @@ const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
 const NM = imports.gi.NM;
 const Pango = imports.gi.Pango;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const St = imports.gi.St;
 const Signals = imports.signals;
 
@@ -14,7 +14,7 @@ const Dialog = imports.ui.dialog;
 const Main = imports.ui.main;
 const MessageTray = imports.ui.messageTray;
 const ModalDialog = imports.ui.modalDialog;
-const CinnamonEntry = imports.ui.cinnamonEntry;
+const LemonEntry = imports.ui.lemonEntry;
 
 const VPN_UI_GROUP = 'VPN Plugin UI';
 
@@ -56,7 +56,7 @@ class NetworkSecretDialog extends ModalDialog.ModalDialog {
                 secret.entry = new St.PasswordEntry(entryParams);
             else
                 secret.entry = new St.Entry(entryParams);
-            CinnamonEntry.addContextMenu(secret.entry);
+            LemonEntry.addContextMenu(secret.entry);
             contentBox.add_child(secret.entry);
 
             if (secret.validate)
@@ -85,7 +85,7 @@ class NetworkSecretDialog extends ModalDialog.ModalDialog {
         }
 
         if (this._content.secrets.some(s => s.password)) {
-            let capsLockWarning = new CinnamonEntry.CapsLockWarning();
+            let capsLockWarning = new LemonEntry.CapsLockWarning();
             contentBox.add_child(capsLockWarning);
         }
 
@@ -138,14 +138,14 @@ class NetworkSecretDialog extends ModalDialog.ModalDialog {
         }
 
         if (valid) {
-            this._agent.respond(this._requestId, Cinnamon.NetworkAgentResponse.CONFIRMED);
+            this._agent.respond(this._requestId, Lemon.NetworkAgentResponse.CONFIRMED);
             this.close(global.get_current_time());
         }
         // do nothing if not valid
     }
 
     cancel() {
-        this._agent.respond(this._requestId, Cinnamon.NetworkAgentResponse.USER_CANCELED);
+        this._agent.respond(this._requestId, Lemon.NetworkAgentResponse.USER_CANCELED);
         this.close(global.get_current_time());
     }
 
@@ -358,7 +358,7 @@ var VPNRequestHandler = class {
         this._title = null;
         this._description = null;
         this._content = [];
-        this._cinnamonDialog = null;
+        this._lemonDialog = null;
 
         let connectionSetting = connection.get_setting_connection();
 
@@ -409,17 +409,17 @@ var VPNRequestHandler = class {
         } catch (e) {
             logError(e, 'error while spawning VPN auth helper');
 
-            this._agent.respond(requestId, Cinnamon.NetworkAgentResponse.INTERNAL_ERROR);
+            this._agent.respond(requestId, Lemon.NetworkAgentResponse.INTERNAL_ERROR);
         }
     }
 
     cancel(respond) {
         if (respond)
-            this._agent.respond(this._requestId, Cinnamon.NetworkAgentResponse.USER_CANCELED);
+            this._agent.respond(this._requestId, Lemon.NetworkAgentResponse.USER_CANCELED);
 
-        if (this._newStylePlugin && this._cinnamonDialog) {
-            this._cinnamonDialog.close(global.get_current_time());
-            this._cinnamonDialog.destroy();
+        if (this._newStylePlugin && this._lemonDialog) {
+            this._lemonDialog.close(global.get_current_time());
+            this._lemonDialog.destroy();
         } else {
             try {
                 this._stdin.write('QUIT\n\n', null);
@@ -451,15 +451,15 @@ var VPNRequestHandler = class {
             return;
         }
 
-        let [exited, exitStatus] = Cinnamon.util_wifexited(status);
+        let [exited, exitStatus] = Lemon.util_wifexited(status);
 
         if (exited) {
             if (exitStatus !== 0)
-                this._agent.respond(this._requestId, Cinnamon.NetworkAgentResponse.USER_CANCELED);
+                this._agent.respond(this._requestId, Lemon.NetworkAgentResponse.USER_CANCELED);
             else
-                this._agent.respond(this._requestId, Cinnamon.NetworkAgentResponse.CONFIRMED);
+                this._agent.respond(this._requestId, Lemon.NetworkAgentResponse.CONFIRMED);
         } else {
-            this._agent.respond(this._requestId, Cinnamon.NetworkAgentResponse.INTERNAL_ERROR);
+            this._agent.respond(this._requestId, Lemon.NetworkAgentResponse.INTERNAL_ERROR);
         }
 
         this.destroy();
@@ -569,7 +569,7 @@ var VPNRequestHandler = class {
             if (data.length > 0) {
                 logError(e, 'error while reading VPN plugin output keyfile');
 
-                this._agent.respond(this._requestId, Cinnamon.NetworkAgentResponse.INTERNAL_ERROR);
+                this._agent.respond(this._requestId, Lemon.NetworkAgentResponse.INTERNAL_ERROR);
                 this.destroy();
                 return;
             }
@@ -577,10 +577,10 @@ var VPNRequestHandler = class {
 
         if (contentOverride && contentOverride.secrets.length) {
             // Only show the dialog if we actually have something to ask
-            this._cinnamonDialog = new NetworkSecretDialog(this._agent, this._requestId, this._connection, 'vpn', [], this._flags, contentOverride);
-            this._cinnamonDialog.open(global.get_current_time());
+            this._lemonDialog = new NetworkSecretDialog(this._agent, this._requestId, this._connection, 'vpn', [], this._flags, contentOverride);
+            this._lemonDialog.open(global.get_current_time());
         } else {
-            this._agent.respond(this._requestId, Cinnamon.NetworkAgentResponse.CONFIRMED);
+            this._agent.respond(this._requestId, Lemon.NetworkAgentResponse.CONFIRMED);
             this.destroy();
         }
     }
@@ -601,7 +601,7 @@ var VPNRequestHandler = class {
         } catch (e) {
             logError(e, 'internal error while writing connection to helper');
 
-            this._agent.respond(this._requestId, Cinnamon.NetworkAgentResponse.INTERNAL_ERROR);
+            this._agent.respond(this._requestId, Lemon.NetworkAgentResponse.INTERNAL_ERROR);
             this.destroy();
         }
     }
@@ -610,8 +610,8 @@ Signals.addSignalMethods(VPNRequestHandler.prototype);
 
 var NetworkAgent = class {
     constructor() {
-        this._native = new Cinnamon.NetworkAgent({
-            identifier: 'org.cinnamon.NetworkAgent',
+        this._native = new Lemon.NetworkAgent({
+            identifier: 'org.lemon.NetworkAgent',
             capabilities: NM.SecretAgentCapabilities.VPN_HINTS,
             auto_register: true,
         });
@@ -678,7 +678,7 @@ var NetworkAgent = class {
             break;
         default:
             log(`Invalid connection type: ${connectionType}`);
-            this._native.respond(requestId, Cinnamon.NetworkAgentResponse.INTERNAL_ERROR);
+            this._native.respond(requestId, Lemon.NetworkAgentResponse.INTERNAL_ERROR);
             return;
         }
 
@@ -700,7 +700,7 @@ var NetworkAgent = class {
         this._notifications[requestId] = notification;
         notification.connect('destroy', () => {
             if (!this._notificationAnswered)
-                this._native.respond(requestId, Cinnamon.NetworkAgentResponse.USER_CANCELED);
+                this._native.respond(requestId, Lemon.NetworkAgentResponse.USER_CANCELED);
             delete this._notifications[requestId];
         });
 
@@ -749,7 +749,7 @@ var NetworkAgent = class {
             log('Invalid VPN service type (cannot find authentication binary)');
 
             /* cancel the auth process */
-            this._native.respond(requestId, Cinnamon.NetworkAgentResponse.INTERNAL_ERROR);
+            this._native.respond(requestId, Lemon.NetworkAgentResponse.INTERNAL_ERROR);
             return;
         }
 

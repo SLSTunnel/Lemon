@@ -10,11 +10,11 @@ backup_locker_sources = [
 ]
 
 executable(
-    'cinnamon-backup-locker',
+    'lemon-backup-locker',
     backup_locker_sources,
     c_args: [
         '-DLOCALEDIR="@0@"'.format(join_paths(prefix, datadir, 'locale')),
-        '-DG_LOG_DOMAIN="cinnamon-backup-locker"',
+        '-DG_LOG_DOMAIN="lemon-backup-locker"',
         '-fno-lto',
     ],
     link_args: ['-fno-lto'],
@@ -25,7 +25,7 @@ executable(
 )
 
 install_data(
-    'cinnamon-unlock-desktop',
+    'lemon-unlock-desktop',
     install_dir: bindir,
     install_mode: 'rwxr-xr-x',
 )

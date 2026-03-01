@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Lemon Killer Daemon
+Comment=Restarts Lemon and Nemo when a key combination is pressed
+Icon=reload
+Exec=lemon-killer-daemon
+Terminal=false
+Type=Application
+NoDisplay=true

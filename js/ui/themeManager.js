@@ -8,7 +8,7 @@ const Lang = imports.lang;
 const Main = imports.ui.main;
 const Signals = imports.signals;
 
-const SETTINGS_SCHEMA = 'org.cinnamon.theme';
+const SETTINGS_SCHEMA = 'org.lemon.theme';
 const SETTINGS_KEY = 'name';
 
 function ThemeManager() {
@@ -25,19 +25,19 @@ ThemeManager.prototype = {
     _findTheme: function(themeName) {
         /* This follows the same order of precedence that Gtk uses for icon and widget themes. */
 
-        let dirs = [GLib.build_filenamev([GLib.get_user_data_dir(), 'themes', themeName, 'cinnamon']),
-                    GLib.build_filenamev([GLib.get_home_dir(), '.themes', themeName, 'cinnamon'])];
+        let dirs = [GLib.build_filenamev([GLib.get_user_data_dir(), 'themes', themeName, 'lemon']),
+                    GLib.build_filenamev([GLib.get_home_dir(), '.themes', themeName, 'lemon'])];
 
         let sys_dirs = GLib.get_system_data_dirs()
 
         for (let i = 0; i < sys_dirs.length; i++) {
-            dirs.push(GLib.build_filenamev([sys_dirs[i], 'themes', themeName, 'cinnamon']));
+            dirs.push(GLib.build_filenamev([sys_dirs[i], 'themes', themeName, 'lemon']));
         }
 
         let themeDirectory = null;
 
         for (let i = 0; i < dirs.length; i++) {
-            let file = Gio.file_new_for_path(GLib.build_filenamev([dirs[i], 'cinnamon.css']));
+            let file = Gio.file_new_for_path(GLib.build_filenamev([dirs[i], 'lemon.css']));
             if (file.query_exists(null)) {
                 themeDirectory = dirs[i];
                 break;
@@ -64,7 +64,7 @@ ThemeManager.prototype = {
 
         if (_themeName) {
             this.themeDirectory = this._findTheme(_themeName);
-            if (this.themeDirectory) _stylesheet = GLib.build_filenamev([this.themeDirectory, 'cinnamon.css']);
+            if (this.themeDirectory) _stylesheet = GLib.build_filenamev([this.themeDirectory, 'lemon.css']);
         }
 
         if (_stylesheet)

@@ -44,7 +44,7 @@ function initEnabledApplets() {
         }
     }
     return Promise.all(promises).then(function() {
-        Main.cinnamonDBusService.EmitXletsLoadedComplete();
+        Main.lemonDBusService.EmitXletsLoadedComplete();
         promises = [];
     });
 }
@@ -350,8 +350,8 @@ function removeAppletFromPanels(appletDefinition, deleteConfig, changed = false)
 
 function _removeAppletConfigFile(uuid, instanceId) {
     let config_paths = [
-        [GLib.get_home_dir(), ".cinnamon", "configs", uuid, instanceId + ".json"].join("/"),
-        [GLib.get_user_config_dir(), "cinnamon", "spices", uuid, instanceId + ".json"].join("/")
+        [GLib.get_home_dir(), ".lemon", "configs", uuid, instanceId + ".json"].join("/"),
+        [GLib.get_user_config_dir(), "lemon", "spices", uuid, instanceId + ".json"].join("/")
     ];
 
     for (let i = 0; i < config_paths.length; i++) {

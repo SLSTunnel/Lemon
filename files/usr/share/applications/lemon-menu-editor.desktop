@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Lemon Menu Editor
+Comment=Edit the entries of the Lemon menu applet
+Exec=lemon-menu-editor
+Icon=alacarte
+OnlyShowIn=X-Lemon;
+Terminal=false
+Type=Application
+NoDisplay=true
+Categories=GNOME;GTK;Settings;DesktopSettings;
+StartupNotify=false

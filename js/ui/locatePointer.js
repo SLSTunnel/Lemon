@@ -4,8 +4,8 @@ const { Clutter, Gio } = imports.gi;
 const Ripples = imports.ui.ripples;
 const Main = imports.ui.main;
 
-const LOCATE_POINTER_ENABLED_SCHEMA = "org.cinnamon.desktop.peripherals.mouse"
-const LOCATE_POINTER_SCHEMA = "org.cinnamon.muffin"
+const LOCATE_POINTER_ENABLED_SCHEMA = "org.lemon.desktop.peripherals.mouse"
+const LOCATE_POINTER_SCHEMA = "org.lemon.muffin"
 
 var LocatePointer = class {
     constructor() {

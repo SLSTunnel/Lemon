@@ -1,10 +1,10 @@
 sniffer_headers = [
     'hotplug-mimetypes.h',
-    'cinnamon-mime-sniffer.h',
+    'lemon-mime-sniffer.h',
 ]
 
 sniffer_sources = [
-    'cinnamon-mime-sniffer.c',
+    'lemon-mime-sniffer.c',
     'hotplug-sniffer.c',
 ]
 
@@ -15,7 +15,7 @@ sniffer_deps = [
 ]
 
 executable(
-    'cinnamon-hotplug-sniffer',
+    'lemon-hotplug-sniffer',
     sniffer_sources,
     include_directories: include_root,
     dependencies: sniffer_deps,

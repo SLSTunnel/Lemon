@@ -6,7 +6,7 @@ const Main = imports.ui.main;
 
 const ScreenSaverIface =
     '<node> \
-        <interface name="org.cinnamon.ScreenSaver"> \
+        <interface name="org.lemon.ScreenSaver"> \
         <method name="GetActive"> \
             <arg type="b" direction="out" /> \
         </method> \
@@ -32,20 +32,20 @@ const ScreenSaverInfo = Gio.DBusInterfaceInfo.new_for_xml(ScreenSaverIface);
 /**
  * ScreenSaverService:
  *
- * Implements the org.cinnamon.ScreenSaver DBus interface.
+ * Implements the org.lemon.ScreenSaver DBus interface.
  * Routes calls to the internal screensaver (this._screenShield).
  *
  * Note: If internal-screensaver-enabled is false, Lemon must be restarted
- * to allow the external cinnamon-screensaver daemon to claim the bus name.
+ * to allow the external lemon-screensaver daemon to claim the bus name.
  */
 var ScreenSaverService = class ScreenSaverService {
     constructor(screenShield) {
         this._screenShield = screenShield;
 
         this._dbusImpl = Gio.DBusExportedObject.wrapJSObject(ScreenSaverIface, this);
-        this._dbusImpl.export(Gio.DBus.session, '/org/cinnamon/ScreenSaver');
+        this._dbusImpl.export(Gio.DBus.session, '/org/lemon/ScreenSaver');
 
-        Gio.DBus.session.own_name('org.cinnamon.ScreenSaver',
+        Gio.DBus.session.own_name('org.lemon.ScreenSaver',
                                    Gio.BusNameOwnerFlags.REPLACE,
                                    null, null);
 
@@ -54,7 +54,7 @@ var ScreenSaverService = class ScreenSaverService {
             this._screenShield.connect('unlocked', this._onUnlocked.bind(this));
         }
 
-        global.log('ScreenSaverService: providing org.cinnamon.ScreenSaver interface');
+        global.log('ScreenSaverService: providing org.lemon.ScreenSaver interface');
     }
 
     _onLocked() {
@@ -94,7 +94,7 @@ var ScreenSaverService = class ScreenSaverService {
 
     QuitAsync(params, invocation) {
         // No-op for internal screensaver (can't quit Lemon's built-in screen shield).
-        // Exists for compatibility with legacy cinnamon-screensaver-command --exit.
+        // Exists for compatibility with legacy lemon-screensaver-command --exit.
         invocation.return_value(null);
     }
 
@@ -130,8 +130,8 @@ function ScreenSaverProxy() {
         g_connection: Gio.DBus.session,
         g_interface_name: ScreenSaverInfo.name,
         g_interface_info: ScreenSaverInfo,
-        g_name: 'org.cinnamon.ScreenSaver',
-        g_object_path: '/org/cinnamon/ScreenSaver',
+        g_name: 'org.lemon.ScreenSaver',
+        g_object_path: '/org/lemon/ScreenSaver',
         g_flags: (Gio.DBusProxyFlags.DO_NOT_AUTO_START |
                  Gio.DBusProxyFlags.DO_NOT_LOAD_PROPERTIES)
     });

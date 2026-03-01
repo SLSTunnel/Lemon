@@ -1,0 +1,7 @@
+#!/bin/sh
+# Internal screensaver cleanup
+killall lemon-backup-locker 2>/dev/null
+gsettings set org.lemon session-locked-state false
+# Legacy lemon-screensaver cleanup
+killall cs-backup-locker 2>/dev/null
+killall lemon-screensaver 2>/dev/null

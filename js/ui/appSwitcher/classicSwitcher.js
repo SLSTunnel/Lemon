@@ -6,7 +6,7 @@ const Clutter = imports.gi.Clutter;
 const St = imports.gi.St;
 const Meta = imports.gi.Meta;
 const Pango = imports.gi.Pango;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const Signals = imports.signals;
 const Mainloop = imports.mainloop;
 
@@ -42,7 +42,7 @@ ClassicSwitcher.prototype = {
     _init: function() {
         AppSwitcher.AppSwitcher.prototype._init.apply(this, arguments);
 
-        this.actor = new Cinnamon.GenericContainer({ name: 'altTabPopup',
+        this.actor = new Lemon.GenericContainer({ name: 'altTabPopup',
                                                   reactive: true,
                                                   visible: false });
         
@@ -412,7 +412,7 @@ AppIcon.prototype = {
     _init: function(window, showThumbnail) {
         this.window = window;
         this.showThumbnail = showThumbnail;
-        let tracker = Cinnamon.WindowTracker.get_default();
+        let tracker = Lemon.WindowTracker.get_default();
         this.app = tracker.get_window_app(window);
         this.actor = new St.BoxLayout({ style_class: 'alt-tab-app',
                                          vertical: true });
@@ -469,7 +469,7 @@ function SwitcherList(squareItems, activeMonitor) {
 
 SwitcherList.prototype = {
     _init : function(squareItems, activeMonitor) {
-        this.actor = new Cinnamon.GenericContainer({ style_class: 'switcher-list' });
+        this.actor = new Lemon.GenericContainer({ style_class: 'switcher-list' });
         this.actor.connect('get-preferred-width', Lang.bind(this, this._getPreferredWidth));
         this.actor.connect('get-preferred-height', Lang.bind(this, this._getPreferredHeight));
         this.actor.connect('allocate', Lang.bind(this, this._allocateTop));
@@ -477,7 +477,7 @@ SwitcherList.prototype = {
         // Here we use a GenericContainer so that we can force all the
         // children except the separator to have the same width.
         // TODO: Separator is gone, we could use an St.ScrollView now.
-        this._list = new Cinnamon.GenericContainer({ style_class: 'switcher-list-item-container' });
+        this._list = new Lemon.GenericContainer({ style_class: 'switcher-list-item-container' });
         this._list.spacing = -1;
         this._list.connect('style-changed', Lang.bind(this, function() {
                                                         this._list.spacing = this._list.get_theme_node().get_length('spacing');

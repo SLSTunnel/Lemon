@@ -1,4 +1,4 @@
-Source: cinnamon
+Source: lemon
 Section: x11
 Priority: optional
 Maintainer: Linux Mint <root@linuxmint.com>
@@ -9,8 +9,8 @@ Build-Depends:
  gir1.2-json-1.0,
  gobject-introspection (>= 1.29.15),
  gtk-doc-tools,
- libcinnamon-desktop-dev (>= 5.3),
- libcinnamon-menu-3-dev (>= 4.8),
+ liblemon-desktop-dev (>= 5.3),
+ liblemon-menu-3-dev (>= 4.8),
  libcjs-dev (>= 4.8),
  libdbus-1-dev,
  libgcr-3-dev,
@@ -37,23 +37,23 @@ Build-Depends:
  pysassc,
  python3:any,
 Standards-Version: 3.9.5
-Homepage: https://projects.linuxmint.com/cinnamon/
+Homepage: https://projects.linuxmint.com/lemon/
 
-Package: cinnamon
+Package: lemon
 Architecture: any
 Pre-Depends: ${misc:Pre-Depends}
 Depends:
  adwaita-icon-theme,
- cinnamon-common,
- cinnamon-control-center,
- cinnamon-desktop-data (>= 5.3),
- cinnamon-l10n,
- cinnamon-session,
- cinnamon-settings-daemon (>= 5.3),
+ lemon-common,
+ lemon-control-center,
+ lemon-desktop-data (>= 5.3),
+ lemon-l10n,
+ lemon-session,
+ lemon-settings-daemon (>= 5.3),
  cjs (>= 4.8),
  cups-pk-helper,
  gir1.2-accountsservice-1.0,
- gir1.2-cinnamondesktop-3.0 (>= 5.3),
+ gir1.2-lemondesktop-3.0 (>= 5.3),
  gir1.2-cmenu-3.0 (>= 4.8),
  gir1.2-cvc-1.0,
  gir1.2-ecal-2.0,
@@ -80,8 +80,8 @@ Depends:
  iso-flag-png,
  inxi,
  libcanberra-pulse,
- libcinnamon-desktop4 (>= 5.3),
- libcinnamon-menu-3-0,
+ liblemon-desktop4 (>= 5.3),
+ liblemon-menu-3-0,
  libcjs0,
  libglib2.0-bin,
  libmuffin0 (>= 5.3),
@@ -121,62 +121,62 @@ Recommends:
  touchegg,
  ibus,
  libpam-gnome-keyring,
-Suggests: cinnamon-doc
-Breaks: cinnamon-screensaver (<< 6.7)
-Replaces: cinnamon-screensaver (<< 6.7)
+Suggests: lemon-doc
+Breaks: lemon-screensaver (<< 6.7)
+Replaces: lemon-screensaver (<< 6.7)
 Provides: notification-daemon, x-window-manager, polkit-1-auth-agent
 Description: Modern Linux desktop
- Cinnamon is a modern Linux desktop which provides advanced innovative
+ Lemon is a modern Linux desktop which provides advanced innovative
  features and a traditional user experience. It's easy to use, powerful
  and flexible.
 
-Package: cinnamon-common
+Package: lemon-common
 Architecture: all
 Depends:
  gettext,
- gir1.2-cinnamondesktop-3.0 (>= 5.3),
+ gir1.2-lemondesktop-3.0 (>= 5.3),
  gir1.2-meta-muffin-0.0 (>= 5.3),
  gir1.2-timezonemap-1.0,
  python3-xapp,
  xdg-utils,
  ${misc:Depends},
  ${python3:Depends},
-Description: Cinnamon desktop (Common data files)
- Cinnamon is a modern Linux desktop which provides advanced innovative
+Description: Lemon desktop (Common data files)
+ Lemon is a modern Linux desktop which provides advanced innovative
  features and a traditional user experience. It's easy to use, powerful
  and flexible.
  .
- This package contains the architecture independent files needed by Cinnamon
+ This package contains the architecture independent files needed by Lemon
 
-Package: cinnamon-dbg
+Package: lemon-dbg
 Section: debug
 Priority: extra
 Architecture: any
 Depends:
- cinnamon (= ${binary:Version}),
- cinnamon-control-center-dbg,
- libcinnamon-desktop-dbg (>= 5.3),
- libcinnamon-menu-3-0-dbg (>= 4.8),
+ lemon (= ${binary:Version}),
+ lemon-control-center-dbg,
+ liblemon-desktop-dbg (>= 5.3),
+ liblemon-menu-3-0-dbg (>= 4.8),
  libcjs-dbg (>= 4.8),
  libcvc-dbg,
  muffin-dbg (>= 5.3),
  nemo-dbg,
  ${misc:Depends},
-Description: Debugging symbols for the Cinnamon desktop
- Cinnamon is a modern Linux desktop which provides advanced innovative
+Description: Debugging symbols for the Lemon desktop
+ Lemon is a modern Linux desktop which provides advanced innovative
  features and a traditional user experience. It's easy to use, powerful
  and flexible.
  .
  This package contains the debugging symbols.
 
-Package: cinnamon-doc
+Package: lemon-doc
 Section: doc
 Architecture: all
 Multi-Arch: foreign
 Depends: devhelp, ${misc:Depends}
-Description: Cinnamon documentation
- Cinnamon is a modern Linux desktop which provides advanced innovative
+Description: Lemon documentation
+ Lemon is a modern Linux desktop which provides advanced innovative
  features and a traditional user experience. It's easy to use, powerful
  and flexible.
  .
- This package contains the code documentation for various Cinnamon components.
+ This package contains the code documentation for various Lemon components.

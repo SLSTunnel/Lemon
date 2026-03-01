@@ -1,0 +1,8 @@
+#!/usr/bin/python3
+
+""" Launch the lemon users and groups editor utility
+"""
+
+import os
+
+os.system("pkexec /usr/share/lemon/lemon-settings-users/lemon-settings-users.py")

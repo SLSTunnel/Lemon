@@ -329,7 +329,7 @@ st_label_get_text (StLabel *label)
     return NULL;
 
   if (ctext == NULL) {
-    g_printerr ("Cinnamon WARNING: Possible orphan label being accessed via st_label_get_text().  Check your timers and handlers!\n"
+    g_printerr ("Lemon WARNING: Possible orphan label being accessed via st_label_get_text().  Check your timers and handlers!\n"
                 "Address: %p\n", (void *) label);
     st_dump_js_stack ();
     priv->orphan = TRUE;
@@ -362,7 +362,7 @@ st_label_set_text (StLabel     *label,
     return;
 
   if (ctext == NULL) {
-    g_printerr ("Cinnamon WARNING: Possible orphan label being accessed via st_label_set_text().  Check your timers and handlers!\n"
+    g_printerr ("Lemon WARNING: Possible orphan label being accessed via st_label_set_text().  Check your timers and handlers!\n"
                 "Address: %p  Text: %s\n", (void *) label, text);
     priv->orphan = TRUE;
     return;

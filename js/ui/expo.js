@@ -5,7 +5,7 @@ const Meta = imports.gi.Meta;
 const Signals = imports.signals;
 const Lang = imports.lang;
 const St = imports.gi.St;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 
 const DND = imports.ui.dnd;
 const Main = imports.ui.main;
@@ -136,7 +136,7 @@ Expo.prototype = {
                     if (symbol === Clutter.KEY_plus || symbol === Clutter.KEY_Insert) {
                         this._workspaceOperationPending = true;
                     }
-                    let modifiers = Cinnamon.get_event_state(event);
+                    let modifiers = Lemon.get_event_state(event);
                     if ((symbol === Clutter.KEY_Delete && (modifiers & ctrlAltMask) !== ctrlAltMask)
                         || symbol === Clutter.KEY_w && modifiers & Clutter.ModifierType.CONTROL_MASK)
                     {
@@ -163,7 +163,7 @@ Expo.prototype = {
                         }
                         return true;
                     }
-                    let modifiers = Cinnamon.get_event_state(event);
+                    let modifiers = Lemon.get_event_state(event);
                     if ((symbol === Clutter.KEY_Delete && (modifiers & ctrlAltMask) !== ctrlAltMask)
                         || symbol === Clutter.KEY_w && modifiers & Clutter.ModifierType.CONTROL_MASK)
                     {
@@ -235,7 +235,7 @@ Expo.prototype = {
         this._addWorkspaceButton.set_position((monitorSetting.width - buttonWidth), buttonY);
         this._addWorkspaceButton.set_size(buttonWidth, buttonHeight);
         if (this._addWorkspaceButton.get_theme_node().get_background_image() == null)
-            this._addWorkspaceButton.set_style('background-image: url("/usr/share/cinnamon/theme/add-workspace.png");');
+            this._addWorkspaceButton.set_style('background-image: url("/usr/share/lemon/theme/add-workspace.png");');
 
         this._windowCloseArea.set_position((monitorSetting.width - this._windowCloseArea.width) / 2 , monitorSetting.height);
         this._windowCloseArea.set_size(this._windowCloseArea.width, this._windowCloseArea.height);
@@ -271,7 +271,7 @@ Expo.prototype = {
             return;
         this.beforeShow();
         // Do this manually instead of using _syncInputMode, to handle failure
-        if (!Main.pushModal(this._group, undefined, undefined, Cinnamon.ActionMode.EXPO))
+        if (!Main.pushModal(this._group, undefined, undefined, Lemon.ActionMode.EXPO))
             return;
         this._modal = true;
         this._animateVisible();
@@ -393,7 +393,7 @@ Expo.prototype = {
 
         if (this._shown) {
             if (!this._modal) {
-                if (Main.pushModal(this._group, undefined, undefined, Cinnamon.ActionMode.EXPO))
+                if (Main.pushModal(this._group, undefined, undefined, Lemon.ActionMode.EXPO))
                     this._modal = true;
                 else
                     this.hide();
@@ -404,8 +404,8 @@ Expo.prototype = {
                     Main.popModal(this._group);
                 this._modal = false;
             }
-            else if (global.stage_input_mode == Cinnamon.StageInputMode.FULLSCREEN)
-                global.stage_input_mode = Cinnamon.StageInputMode.NORMAL;
+            else if (global.stage_input_mode == Lemon.StageInputMode.FULLSCREEN)
+                global.stage_input_mode = Lemon.StageInputMode.NORMAL;
         }
     },
 

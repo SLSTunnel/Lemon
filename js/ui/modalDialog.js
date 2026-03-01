@@ -3,7 +3,7 @@
 const Clutter = imports.gi.Clutter;
 const St = imports.gi.St;
 const Atk = imports.gi.Atk;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const Signals = imports.signals;
 const GObject = imports.gi.GObject;
 const Gio = imports.gi.Gio;
@@ -61,7 +61,7 @@ var ModalDialog = GObject.registerClass({
     /**
      * _init:
      * @params (JSON): parameters for the modal dialog. Options include
-     * @cinnamonReactive, which determines whether the modal dialog should
+     * @lemonReactive, which determines whether the modal dialog should
      * block Lemon input, and @styleClass, which is the style class the
      * modal dialog should use.
      */
@@ -73,14 +73,14 @@ var ModalDialog = GObject.registerClass({
             accessible_role: Atk.Role.DIALOG,
         });
         params = Params.parse(params, {
-            cinnamonReactive: Main.virtualKeyboardManager.enabled,
+            lemonReactive: Main.virtualKeyboardManager.enabled,
             styleClass: null,
             destroyOnClose: true,
         });
 
         this._state = State.CLOSED;
         this._hasModal = false;
-        this._cinnamonReactive = params.cinnamonReactive;
+        this._lemonReactive = params.lemonReactive;
         this._destroyOnClose = params.destroyOnClose;
 
         Main.uiGroup.add_actor(this);
@@ -112,7 +112,7 @@ var ModalDialog = GObject.registerClass({
             enableRadialEffect = false;
         }
 
-        if (!this._cinnamonReactive) {
+        if (!this._lemonReactive) {
             this._lightbox = new Lightbox.Lightbox(this,
                                                    { inhibitEvents: true,
                                                      radialEffect: enableRadialEffect });
@@ -297,7 +297,7 @@ var ModalDialog = GObject.registerClass({
 
         this._hasModal = false;
 
-        if (!this._cinnamonReactive)
+        if (!this._lemonReactive)
             this._eventBlocker.raise_top();
     }
 
@@ -305,7 +305,7 @@ var ModalDialog = GObject.registerClass({
      * pushModal:
      * @timestamp (int): (optional) timestamp optionally used to associate the
      * call with a specific user initiated event
-     * @mode (Cinnamon.ActionMode): (optional) action mode, defaults to SYSTEM_MODAL
+     * @mode (Lemon.ActionMode): (optional) action mode, defaults to SYSTEM_MODAL
      *
      * Pushes the modal to the modal stack so that it grabs the required
      * inputs.
@@ -325,7 +325,7 @@ var ModalDialog = GObject.registerClass({
             focus.grab_key_focus();
         }
 
-        if (!this._cinnamonReactive)
+        if (!this._lemonReactive)
             this._eventBlocker.lower_bottom();
         return true;
     }

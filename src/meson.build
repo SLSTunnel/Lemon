@@ -3,81 +3,81 @@ subdir('hotplug-sniffer')
 
 include_src = include_directories('.')
 
-calendar_generated = gnome.gdbus_codegen('cinnamon-calendar',
-  sources: 'org.cinnamon.CalendarServer.xml',
-  interface_prefix: 'org.cinnamon.',
-  namespace: 'Cinnamon'
+calendar_generated = gnome.gdbus_codegen('lemon-calendar',
+  sources: 'org.lemon.CalendarServer.xml',
+  interface_prefix: 'org.lemon.',
+  namespace: 'Lemon'
 )
 
-cinnamon_headers = [
-    'cinnamon-action-mode.h',
-    'cinnamon-app.h',
-    'cinnamon-app-system.h',
-    'cinnamon-doc-system.h',
-    'cinnamon-embedded-window.h',
-    'cinnamon-generic-container.h',
-    'cinnamon-glsl-effect.h',
-    'cinnamon-gtk-embed.h',
-    'cinnamon-global.h',
-    'cinnamon-perf-log.h',
-    'cinnamon-screen.h',
-    'cinnamon-screenshot.h',
-    'cinnamon-slicer.h',
-    'cinnamon-stack.h',
-    'cinnamon-touchegg-client.h',
-    'cinnamon-tray-icon.h',
-    'cinnamon-tray-manager.h',
-    'cinnamon-util.h',
-    'cinnamon-window-tracker.h',
-    'cinnamon-wm.h',
+lemon_headers = [
+    'lemon-action-mode.h',
+    'lemon-app.h',
+    'lemon-app-system.h',
+    'lemon-doc-system.h',
+    'lemon-embedded-window.h',
+    'lemon-generic-container.h',
+    'lemon-glsl-effect.h',
+    'lemon-gtk-embed.h',
+    'lemon-global.h',
+    'lemon-perf-log.h',
+    'lemon-screen.h',
+    'lemon-screenshot.h',
+    'lemon-slicer.h',
+    'lemon-stack.h',
+    'lemon-touchegg-client.h',
+    'lemon-tray-icon.h',
+    'lemon-tray-manager.h',
+    'lemon-util.h',
+    'lemon-window-tracker.h',
+    'lemon-wm.h',
 ]
 
-cinnamon_private_headers = [
-    'cinnamon-app-private.h',
-    'cinnamon-app-system-private.h',
-    'cinnamon-embedded-window-private.h',
-    'cinnamon-global-private.h',
-    'cinnamon-window-tracker-private.h',
-    'cinnamon-wm-private.h',
+lemon_private_headers = [
+    'lemon-app-private.h',
+    'lemon-app-system-private.h',
+    'lemon-embedded-window-private.h',
+    'lemon-global-private.h',
+    'lemon-window-tracker-private.h',
+    'lemon-wm-private.h',
 ]
 
-cinnamon_sources = [
-    'cinnamon-plugin.c',
-    'cinnamon-app.c',
-    'cinnamon-app-system.c',
-    'cinnamon-doc-system.c',
-    'cinnamon-embedded-window.c',
-    'cinnamon-generic-container.c',
-    'cinnamon-glsl-effect.c',
-    'cinnamon-gtk-embed.c',
-    'cinnamon-global.c',
-    'cinnamon-keyring-prompt.c',
-    'cinnamon-keyring-prompt.h',
-    'cinnamon-perf-log.c',
-    'cinnamon-polkit-authentication-agent.c',
-    'cinnamon-polkit-authentication-agent.h',
-    'cinnamon-screen.c',
-    'cinnamon-screenshot.c',
-    'cinnamon-secure-text-buffer.c',
-    'cinnamon-secure-text-buffer.h',
-    'cinnamon-slicer.c',
-    'cinnamon-stack.c',
-    'cinnamon-touchegg-client.c',
-    'cinnamon-tray-icon.c',
-    'cinnamon-tray-manager.c',
-    'cinnamon-util.c',
-    'cinnamon-window-tracker.c',
-    'cinnamon-wm.c',
-    cinnamon_headers,
+lemon_sources = [
+    'lemon-plugin.c',
+    'lemon-app.c',
+    'lemon-app-system.c',
+    'lemon-doc-system.c',
+    'lemon-embedded-window.c',
+    'lemon-generic-container.c',
+    'lemon-glsl-effect.c',
+    'lemon-gtk-embed.c',
+    'lemon-global.c',
+    'lemon-keyring-prompt.c',
+    'lemon-keyring-prompt.h',
+    'lemon-perf-log.c',
+    'lemon-polkit-authentication-agent.c',
+    'lemon-polkit-authentication-agent.h',
+    'lemon-screen.c',
+    'lemon-screenshot.c',
+    'lemon-secure-text-buffer.c',
+    'lemon-secure-text-buffer.h',
+    'lemon-slicer.c',
+    'lemon-stack.c',
+    'lemon-touchegg-client.c',
+    'lemon-tray-icon.c',
+    'lemon-tray-manager.c',
+    'lemon-util.c',
+    'lemon-window-tracker.c',
+    'lemon-wm.c',
+    lemon_headers,
     calendar_generated
 ]
 
-cinnamon_enum_types = gnome.mkenums_simple(
-    'cinnamon-enum-types',
-    sources: cinnamon_headers,
+lemon_enum_types = gnome.mkenums_simple(
+    'lemon-enum-types',
+    sources: lemon_headers,
 )
 
-cinnamon_sources += cinnamon_enum_types
+lemon_sources += lemon_enum_types
 
 tray_headers = [
     'tray/na-tray-child.h',
@@ -90,7 +90,7 @@ tray_sources = [
     tray_headers,
 ]
 
-libcinnamon_deps = [
+liblemon_deps = [
     atk,
     cjs,
     clutter,
@@ -113,28 +113,28 @@ libcinnamon_deps = [
     xml,
 ]
 
-libcinnamon_deps += nm_deps
+liblemon_deps += nm_deps
 
 if internal_nm_agent
-    cinnamon_sources += [
-        'cinnamon-network-agent.c',
-        'cinnamon-network-agent.h',
+    lemon_sources += [
+        'lemon-network-agent.c',
+        'lemon-network-agent.h',
     ]
 endif
 
 non_gir = []
 if get_option('build_recorder')
-    cinnamon_sources += [
-        'cinnamon-recorder.c',
-        'cinnamon-recorder.h',
+    lemon_sources += [
+        'lemon-recorder.c',
+        'lemon-recorder.h',
     ]
 
     non_gir += [
-        'cinnamon-recorder-src.c',
-        'cinnamon-recorder-src.h',
+        'lemon-recorder-src.c',
+        'lemon-recorder-src.h',
     ]
 
-    libcinnamon_deps += [
+    liblemon_deps += [
         gstreamer,
         gstreamer_base,
     ]
@@ -143,27 +143,27 @@ endif
 install_rpath = ':'.join([muffin_typelibdir, pkglibdir])
 
 
-libcinnamon = library(
-    'cinnamon',
-    [cinnamon_sources, non_gir, tray_sources, st_enum_types[1]],
+liblemon = library(
+    'lemon',
+    [lemon_sources, non_gir, tray_sources, st_enum_types[1]],
     include_directories: [include_root, include_directories('st', 'tray')],
     install_rpath: install_rpath,
     build_rpath: muffin_typelibdir,
-    dependencies: libcinnamon_deps,
+    dependencies: liblemon_deps,
     install: true,
     install_dir: pkglibdir,
 )
 
-cinnamon_dep = declare_dependency(
+lemon_dep = declare_dependency(
     include_directories: include_directories('.'),
-    dependencies: libcinnamon_deps,
-    link_with: libcinnamon,
+    dependencies: liblemon_deps,
+    link_with: liblemon,
     link_args: ['-Wl,-Bsymbolic', '-Wl,-z,relro', '-Wl,-z,now'],
 )
 
 executable(
-    'cinnamon-perf-helper',
-    'cinnamon-perf-helper.c',
+    'lemon-perf-helper',
+    'lemon-perf-helper.c',
     include_directories: include_root,
     dependencies: [config_h, gtk],
     install: true,
@@ -175,32 +175,32 @@ executable(
 # FIXME
 # js_tester = executable(
 #     'run-js-test',
-#     ['run-js-test.c', cinnamon_enum_types[1], st_enum_types[1]],
+#     ['run-js-test.c', lemon_enum_types[1], st_enum_types[1]],
 #     c_args: [
-#         '-DCINNAMON_PKGLIBDIR="@0@"'.format(join_paths(prefix, pkglibdir)),
+#         '-DLEMON_PKGLIBDIR="@0@"'.format(join_paths(prefix, pkglibdir)),
 #     ],
 #     include_directories: include_root,
-#     dependencies: cinnamon_dep,
+#     dependencies: lemon_dep,
 #     install: false,
 # )
 
 executable(
-    'cinnamon',
-    ['main.c', cinnamon_enum_types[1], st_enum_types[1]],
+    'lemon',
+    ['main.c', lemon_enum_types[1], st_enum_types[1]],
     c_args: [
         '-DLOCALEDIR="@0@"'.format(join_paths(prefix, datadir, 'locale')),
-        '-DCINNAMON_PKGLIBDIR="@0@"'.format(join_paths(prefix, pkglibdir)),
+        '-DLEMON_PKGLIBDIR="@0@"'.format(join_paths(prefix, pkglibdir)),
     ],
     install_rpath: install_rpath,
     build_rpath: muffin_typelibdir,
     include_directories: [include_root, st_inc],
-    dependencies: cinnamon_dep,
+    dependencies: lemon_dep,
     install: true,
 )
 
 subdir('screensaver')
 
-cinnamon_gir_includes = [
+lemon_gir_includes = [
     'Clutter-0',
     'ClutterX11-0',
     'CoglPango-0',
@@ -213,19 +213,19 @@ cinnamon_gir_includes = [
 ]
 
 if internal_nm_agent
-    cinnamon_gir_includes += ['NM-1.0']
+    lemon_gir_includes += ['NM-1.0']
 endif
 
-cinnamon_gir = gnome.generate_gir(
-    libcinnamon,
-    namespace: 'Cinnamon',
+lemon_gir = gnome.generate_gir(
+    liblemon,
+    namespace: 'Lemon',
     nsversion: '0.1',
-    sources: cinnamon_sources,
-    dependencies: libcinnamon_deps,
-    identifier_prefix: 'Cinnamon',
-    symbol_prefix: 'cinnamon',
-    export_packages: 'cinnamon',
-    includes: cinnamon_gir_includes,
+    sources: lemon_sources,
+    dependencies: liblemon_deps,
+    identifier_prefix: 'Lemon',
+    symbol_prefix: 'lemon',
+    export_packages: 'lemon',
+    includes: lemon_gir_includes,
     install: true,
     install_dir_typelib: pkglibdir,
     install_dir_gir: pkgdatadir,

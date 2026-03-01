@@ -13,7 +13,7 @@ const ExtensionSystem = imports.ui.extensionSystem;
 const SearchProviderManager = imports.ui.searchProviderManager;
 const ModalDialog = imports.ui.modalDialog;
 const Util = imports.misc.util;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const Signals = imports.signals;
 const St = imports.gi.St;
 const Clutter = imports.gi.Clutter;
@@ -97,7 +97,7 @@ var ScreenshotService = class ScreenshotService {
     ScreenshotAreaAsync(params, invocation) {
         let [x, y, width, height, flash, filename, callback] = params;
 
-        let screenshot = new Cinnamon.Screenshot();
+        let screenshot = new Lemon.Screenshot();
         screenshot.screenshot_area(
             false,
             x * global.ui_scale,
@@ -112,7 +112,7 @@ var ScreenshotService = class ScreenshotService {
     ScreenshotWindowAsync(params, invocation) {
         let [include_frame, include_cursor, flash, filename, callback] = params;
 
-        let screenshot = new Cinnamon.Screenshot();
+        let screenshot = new Lemon.Screenshot();
         screenshot.screenshot_window(include_frame, include_cursor, filename,
             Lang.bind(this, this._onScreenshotComplete, flash, filename, invocation));
     }
@@ -120,7 +120,7 @@ var ScreenshotService = class ScreenshotService {
     ScreenshotAsync(params, invocation) {
         let [include_cursor, flash, filename] = params
 
-        let screenshot = new Cinnamon.Screenshot();
+        let screenshot = new Lemon.Screenshot();
         screenshot.screenshot(include_cursor, filename,
             Lang.bind(this, this._onScreenshotComplete, flash, filename, invocation));
     }
@@ -161,7 +161,7 @@ var ScreenshotService = class ScreenshotService {
                 let x = point.x / global.ui_scale;
                 let y = point.y / global.ui_scale;
 
-                let screenshot = new Cinnamon.Screenshot();
+                let screenshot = new Lemon.Screenshot();
 
                 screenshot.pick_color(
                     point.x,
@@ -255,11 +255,11 @@ class SelectArea {
     }
 
     show() {
-        if (!Main.pushModal(this._group, undefined, undefined, Cinnamon.ActionMode.SYSTEM_MODAL))
+        if (!Main.pushModal(this._group, undefined, undefined, Lemon.ActionMode.SYSTEM_MODAL))
             return;
         this._group.connect('key-press-event', Lang.bind(this, this._onKeyPressEvent));
 
-        global.set_cursor(Cinnamon.Cursor.CROSSHAIR);
+        global.set_cursor(Lemon.Cursor.CROSSHAIR);
         Main.uiGroup.set_child_above_sibling(this._group, null);
         this._group.visible = true;
     }
@@ -329,7 +329,7 @@ class SelectArea {
     }
 
     _onKeyPressEvent(object, keyPressEvent) {
-        let modifiers = Cinnamon.get_event_state(keyPressEvent);
+        let modifiers = Lemon.get_event_state(keyPressEvent);
         let ctrlAltMask = Clutter.ModifierType.CONTROL_MASK | Clutter.ModifierType.MOD1_MASK;
         let symbol = keyPressEvent.get_key_symbol();
         if (symbol === Clutter.KEY_Escape && !(modifiers & ctrlAltMask)) {
@@ -465,11 +465,11 @@ class PickColor {
     }
 
     show() {
-        if (!Main.pushModal(this._group, undefined, undefined, Cinnamon.ActionMode.SYSTEM_MODAL))
+        if (!Main.pushModal(this._group, undefined, undefined, Lemon.ActionMode.SYSTEM_MODAL))
             return;
         this._group.connect('key-press-event', Lang.bind(this, this._onKeyPressEvent));
 
-        global.set_cursor(Cinnamon.Cursor.CROSSHAIR);
+        global.set_cursor(Lemon.Cursor.CROSSHAIR);
         Main.uiGroup.set_child_above_sibling(this._group, null);
         this._group.visible = true;
     }
@@ -482,7 +482,7 @@ class PickColor {
     }
 
     _onKeyPressEvent(object, keyPressEvent) {
-        let modifiers = Cinnamon.get_event_state(keyPressEvent);
+        let modifiers = Lemon.get_event_state(keyPressEvent);
         let ctrlAltMask = Clutter.ModifierType.CONTROL_MASK | Clutter.ModifierType.MOD1_MASK;
         let symbol = keyPressEvent.get_key_symbol();
         if (symbol === Clutter.KEY_Escape && !(modifiers & ctrlAltMask)) {

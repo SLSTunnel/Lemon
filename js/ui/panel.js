@@ -13,7 +13,7 @@ const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 const Meta = imports.gi.Meta;
 const Pango = imports.gi.Pango;
-const Cinnamon = imports.gi.Cinnamon;  // Cinnamon C libraries using GObject Introspection
+const Lemon = imports.gi.Lemon;  // Lemon C libraries using GObject Introspection
 const St = imports.gi.St;
 const Gio = imports.gi.Gio;
 const Gtk = imports.gi.Gtk;
@@ -922,7 +922,7 @@ PanelManager.prototype = {
         if (panelProperties.length == 0) {
             let lastPanelRemovedDialog = new ModalDialog.ConfirmDialog(
                 _("You don't have any panels added.\nDo you want to open panel settings?"),
-                Lang.bind(this, function() { Util.spawnCommandLine("cinnamon-settings panel"); }));
+                Lang.bind(this, function() { Util.spawnCommandLine("lemon-settings panel"); }));
             lastPanelRemovedDialog.open();
         }
 
@@ -1095,7 +1095,7 @@ PanelDummy.prototype = {
         this.monitor = global.display.get_monitor_geometry(monitorIndex);
         let defaultheight = 40 * global.ui_scale;
 
-        this.actor = new Cinnamon.GenericContainer({style_class: "panel-dummy", reactive: true, track_hover: true, important: true});
+        this.actor = new Lemon.GenericContainer({style_class: "panel-dummy", reactive: true, track_hover: true, important: true});
 
         Main.layoutManager.addChrome(this.actor, { addToWindowgroup: false });
         //
@@ -1214,7 +1214,7 @@ function TextShadower() {
 TextShadower.prototype = {
     _init: function() {
 
-        this.actor = new Cinnamon.GenericContainer();
+        this.actor = new Lemon.GenericContainer();
 
         this.actor.connect('get-preferred-width', Lang.bind(this, this._getPreferredWidth));
         this.actor.connect('get-preferred-height', Lang.bind(this, this._getPreferredHeight));
@@ -1301,7 +1301,7 @@ SettingsLauncher.prototype = {
 
         this._keyword = keyword;
         this.connect('activate', Lang.bind(this, function() {
-            Util.spawnCommandLine("cinnamon-settings " + this._keyword);
+            Util.spawnCommandLine("lemon-settings " + this._keyword);
         }));
     },
 };
@@ -1408,7 +1408,7 @@ PanelContextMenu.prototype = {
 
         menu.troubleshootItem = new PopupMenu.PopupSubMenuMenuItem(_("Troubleshoot"));
         menu.troubleshootItem.menu.addAction(_("Restart Lemon"), function(event) {
-            Main.restartCinnamon(true);
+            Main.restartLemon(true);
         });
 
         menu.troubleshootItem.menu.addAction(_("Looking Glass"), function(event) {
@@ -1418,9 +1418,9 @@ PanelContextMenu.prototype = {
         menu.troubleshootItem.menu.addAction(_("Restore all settings to default"), function(event) {
             let confirm = new ModalDialog.ConfirmDialog(_("Are you sure you want to restore all settings to default?\n\n"),
                     function() {
-                        Util.spawnCommandLine("gsettings reset-recursively org.cinnamon");
-                        Util.spawnCommandLine("gsettings reset-recursively org.cinnamon.desktop.input-sources");
-                        Main.restartCinnamon(true);
+                        Util.spawnCommandLine("gsettings reset-recursively org.lemon");
+                        Util.spawnCommandLine("gsettings reset-recursively org.lemon.desktop.input-sources");
+                        Main.restartLemon(true);
                     });
             confirm.open();
         });
@@ -1673,7 +1673,7 @@ PanelZoneDNDHandler.prototype = {
  *
  * @monitor (Meta.Rectangle): the geometry (bounding box) of the monitor
  * @panelPosition (integer): where the panel is on the screen
- * @actor (Cinnamon.GenericContainer): the actor of the panel
+ * @actor (Lemon.GenericContainer): the actor of the panel
  *
  * @_leftBox (St.BoxLayout): the box containing all the applets in the left region
  * @_centerBox (St.BoxLayout): the box containing all the applets in the center region
@@ -1724,9 +1724,9 @@ Panel.prototype = {
         this._panelZoneSizes = this._createEmptyZoneSizes();
         this._peeking = false;
 
-        this.themeSettings = new Gio.Settings({ schema_id: 'org.cinnamon.theme' });
+        this.themeSettings = new Gio.Settings({ schema_id: 'org.lemon.theme' });
 
-        this.actor = new Cinnamon.GenericContainer({ name: 'panel', reactive: true });
+        this.actor = new Lemon.GenericContainer({ name: 'panel', reactive: true });
         this.addPanelStyleClass(this.panelPosition);
 
         this.actor._delegate = this;
@@ -2672,7 +2672,7 @@ Panel.prototype = {
 
             /* If one of the sizing key contains nothing, reset them to default before continuing */
             if (!settingsArray) {
-                log(`Panel zone size settings invalid, resetting org.cinnamon "${settingKey}"`);
+                log(`Panel zone size settings invalid, resetting org.lemon "${settingKey}"`);
                 global.settings.reset(settingKey);
                 settingsArray = this._getJSONProperty(settingKey);
             }

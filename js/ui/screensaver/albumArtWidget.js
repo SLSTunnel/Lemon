@@ -18,7 +18,7 @@ const ScreensaverWidget = imports.ui.screensaver.screensaverWidget;
 const SignalManager = imports.misc.signalManager;
 const Slider = imports.ui.slider;
 
-const SCREENSAVER_SCHEMA = 'org.cinnamon.desktop.screensaver';
+const SCREENSAVER_SCHEMA = 'org.lemon.desktop.screensaver';
 const ALBUM_ART_SIZE_BASE = 300;
 const CONTROL_ICON_SIZE_BASE = 24;
 

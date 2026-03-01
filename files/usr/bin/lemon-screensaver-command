@@ -1,0 +1,3 @@
+#!/bin/sh
+
+exec /usr/share/lemon/lemon-screensaver-command/lemon-screensaver-command.py "$@"

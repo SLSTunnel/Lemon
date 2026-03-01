@@ -111,7 +111,7 @@ function initEnabledExtensions() {
         promises.push(Extension.loadExtension(enabledExtensions[i], Extension.Type.EXTENSION))
     }
     return Promise.all(promises).then(function() {
-        Main.cinnamonDBusService.EmitXletsLoadedComplete();
+        Main.lemonDBusService.EmitXletsLoadedComplete();
         promises = [];
     });
 }

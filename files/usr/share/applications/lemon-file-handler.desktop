@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Lemon File Handler
+Comment=Handle Windows, Android, and iOS application files on Linux
+Exec=lemon-file-handler %f
+Icon=system-run
+Terminal=false
+Type=Application
+Categories=Utility;
+StartupNotify=false
+OnlyShowIn=X-Lemon;
+MimeType=application/x-ms-dos-executable;application/vnd.android.package-archive;application/octet-stream;
+NoDisplay=true

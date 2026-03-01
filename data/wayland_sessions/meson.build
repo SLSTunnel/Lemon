@@ -1,5 +1,5 @@
 session_deskop_files = [
-  'cinnamon-wayland.desktop',
+  'lemon-wayland.desktop',
 ]
 
 foreach session_deskop_file : session_deskop_files

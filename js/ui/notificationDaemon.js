@@ -4,7 +4,7 @@ const Clutter = imports.gi.Clutter;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const Lang = imports.lang;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const St = imports.gi.St;
 
 const Config = imports.misc.config;
@@ -113,7 +113,7 @@ NotificationDaemon.prototype = {
         Main.statusIconDispatcher.connect('message-icon-removed', Lang.bind(this, this._onTrayIconRemoved));
 
 // Settings
-        this.settings = new Gio.Settings({ schema_id: "org.cinnamon.desktop.notifications" });
+        this.settings = new Gio.Settings({ schema_id: "org.lemon.desktop.notifications" });
         function setting(self, source, type, camelCase, dashed) {
             function updater() { self[camelCase] = source["get_"+type](dashed); }
             source.connect('changed::'+dashed, updater);
@@ -122,7 +122,7 @@ NotificationDaemon.prototype = {
         setting(this, this.settings, "boolean", "removeOld", "remove-old");
         setting(this, this.settings, "int", "timeout", "timeout");
 
-        Cinnamon.WindowTracker.get_default().connect('notify::focus-app',
+        Lemon.WindowTracker.get_default().connect('notify::focus-app',
             Lang.bind(this, this._onFocusAppChanged));
         Main.overview.connect('hidden',
             Lang.bind(this, this._onFocusAppChanged));
@@ -578,7 +578,7 @@ NotificationDaemon.prototype = {
         if (!this._sources.length)
             return;
 
-        let tracker = Cinnamon.WindowTracker.get_default();
+        let tracker = Lemon.WindowTracker.get_default();
         if (!tracker.focus_app)
             return;
 
@@ -681,7 +681,7 @@ Source.prototype = {
     _getApp: function() {
         let app;
 
-        app = Cinnamon.WindowTracker.get_default().get_app_from_pid(this.pid);
+        app = Lemon.WindowTracker.get_default().get_app_from_pid(this.pid);
 
         // With flatpak apps, the notification's pid is that of the portal so use the desktop-entry hint instead.
         if (!app && this.desktopEntryHint) {
@@ -693,7 +693,7 @@ Source.prototype = {
                     "opera": "com.opera.Opera"
                 };
             const exception = exceptions[this.desktopEntryHint];
-            app = Cinnamon.AppSystem.get_default().lookup_flatpak_app_id(exception ? exception : this.desktopEntryHint);
+            app = Lemon.AppSystem.get_default().lookup_flatpak_app_id(exception ? exception : this.desktopEntryHint);
             if (!app) {
                 app = this._findUniqueAppByName(this.initialTitle);
             }
@@ -703,7 +703,7 @@ Source.prototype = {
         if (app) return app;
 
         if (this.trayIcon) {
-            app = Cinnamon.AppSystem.get_default().lookup_wmclass(this.trayIcon.wmclass);
+            app = Lemon.AppSystem.get_default().lookup_wmclass(this.trayIcon.wmclass);
             if (app != null)
                 return app;
         }
@@ -712,7 +712,7 @@ Source.prototype = {
     },
 
     _findUniqueAppByName(appName) {
-        const appSystem = Cinnamon.AppSystem.get_default();
+        const appSystem = Lemon.AppSystem.get_default();
         const runningApps = appSystem.get_running();
         const matches = [];
 
