@@ -75,6 +75,49 @@ be erased.
 
 After rebooting you will be greeted by the Cinnamon desktop.
 
+Building a custom ISO
+=====================
+
+The script ``tools/build-iso.sh`` builds a bootable live ISO containing the
+Cinnamon desktop using `live-build <https://salsa.debian.org/live-team/live-build>`_.
+
+**Requirements**
+
+* A Debian, Ubuntu, or Linux Mint host (live-build is Debian-specific).
+* The following packages installed on the host::
+
+    sudo apt-get install live-build xorriso squashfs-tools debootstrap
+
+**Basic usage**::
+
+    sudo ./tools/build-iso.sh
+
+The finished image is placed in ``build/iso/noble-cinnamon-amd64.iso``.
+
+**Options**
+
+=====================  ===================================  =========================
+Flag                   Description                          Default
+=====================  ===================================  =========================
+``--arch ARCH``        Target CPU architecture              ``amd64``
+``--suite SUITE``      Debian/Ubuntu suite (codename)       ``noble``
+``--output DIR``       Directory for the finished ISO       ``build/iso``
+=====================  ===================================  =========================
+
+**Examples**::
+
+    # ARM64 image based on Ubuntu 24.04 (noble)
+    sudo ./tools/build-iso.sh --arch arm64 --suite noble
+
+    # AMD64 image saved to a custom location
+    sudo ./tools/build-iso.sh --output /tmp/my-isos
+
+The script must be run as root (or via ``sudo``) because live-build chroots
+into the build environment.  A full build takes 20–40 minutes depending on
+network speed and host performance.
+
+Build logs are written to ``/tmp/cinnamon-iso-build.log``.
+
 Contributing
 ============
 Cinnamon is on GitHub at https://github.com/SLSTunnel/cinnamon.
