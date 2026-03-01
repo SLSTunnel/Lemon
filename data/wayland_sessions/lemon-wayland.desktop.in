@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Lemon on Wayland (Experimental)
+Comment=This session logs you into Lemon
+Exec=lemon-session-lemon --wayland
+TryExec=@bindir@/lemon
+Icon=
+Type=Application
+

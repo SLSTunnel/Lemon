@@ -1,0 +1,8 @@
+{
+ "uuid": "panel-launchers@lemon.org",
+ "name": "Panel launchers",
+ "description": "Launch applications from the panel",
+ "icon": "lemon-panel-launcher",
+ "role": "panellauncher",
+ "max-instances": -1
+}

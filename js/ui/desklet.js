@@ -1,5 +1,5 @@
 //-*- indent-tabs-mode: nil-*-
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const Clutter = imports.gi.Clutter;
 const GLib = imports.gi.GLib;
 const Lang = imports.lang;
@@ -239,7 +239,7 @@ var Desklet = class Desklet {
 
         this.context_menu_item_remove = new PopupMenu.PopupMenuItem(_("Remove this desklet"));
         this.context_menu_item_remove.connect("activate", Lang.bind(this, function(actor, event) {
-            if (Clutter.ModifierType.CONTROL_MASK & Cinnamon.get_event_state(event)) {
+            if (Clutter.ModifierType.CONTROL_MASK & Lemon.get_event_state(event)) {
                 this._onRemoveDesklet();
             } else {
                 let dialog = new ModalDialog.ConfirmDialog(
@@ -260,7 +260,7 @@ var Desklet = class Desklet {
         // if it looks translated, return the translation of the domain
         if (translated !== str)
             return translated;
-        // else, use the default cinnamon domain
+        // else, use the default lemon domain
         return _(str);
     }
 

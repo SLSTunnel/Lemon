@@ -11,7 +11,7 @@ option('deprecated_warnings',
 option('build_recorder',
     type: 'boolean',
     value: true,
-    description: 'Build the cinnamon recorder into source'
+    description: 'Build the lemon recorder into source'
 )
 option('nm_agent',
     type: 'combo',

@@ -1,12 +1,12 @@
 // -*- mode: js; js-indent-level: 4; indent-tabs-mode: nil -*-
 
-const { GLib, Gio, Cinnamon, Meta, Cvc } = imports.gi;
+const { GLib, Gio, Lemon, Meta, Cvc } = imports.gi;
 const Main = imports.ui.main;
 const { GestureType } = imports.ui.gestures.ToucheggTypes;
 const { MprisController } = imports.ui.gestures.mprisController;
 const Magnifier = imports.ui.magnifier;
 
-const touchpad_settings = new  Gio.Settings({ schema_id: "org.cinnamon.desktop.peripherals.touchpad" });
+const touchpad_settings = new  Gio.Settings({ schema_id: "org.lemon.desktop.peripherals.touchpad" });
 
 var make_action = (settings, definition, device) => {
     var threshold = 100;
@@ -252,7 +252,7 @@ var GlobalDesktopAction = class extends BaseAction {
     }
 
     _cancel_current_mode() {
-        if (global.stage_input_mode === Cinnamon.StageInputMode.FULLSCREEN) {
+        if (global.stage_input_mode === Lemon.StageInputMode.FULLSCREEN) {
             Main.expo.hide()
             Main.overview.hide();
             return true;
@@ -302,7 +302,7 @@ var init_mixer = () => {
         return;
     }
 
-    mixer = new Cvc.MixerControl({ name: "cinnamon-gestures" });
+    mixer = new Cvc.MixerControl({ name: "lemon-gestures" });
     mixer.open();
 }
 
@@ -312,7 +312,7 @@ var VolumeAction = class extends BaseAction {
 
         this.ignoring = true;
 
-        const soundSettings = new Gio.Settings({ schema_id: "org.cinnamon.desktop.sound" });
+        const soundSettings = new Gio.Settings({ schema_id: "org.lemon.desktop.sound" });
 
         if(soundSettings.get_boolean("allow-amplified-volume"))
             this.max_volume = mixer.get_vol_max_amplified();

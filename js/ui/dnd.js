@@ -5,7 +5,7 @@ const GLib = imports.gi.GLib;
 const Gtk = imports.gi.Gtk;
 const St = imports.gi.St;
 const Lang = imports.lang;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const Signals = imports.signals;
 const Tweener = imports.ui.tweener;
 const Main = imports.ui.main;
@@ -29,10 +29,10 @@ var DragMotionResult = {
 };
 
 var DRAG_CURSOR_MAP = {
-    0: Cinnamon.Cursor.NO_DROP,
-    1: Cinnamon.Cursor.COPY,
-    2: Cinnamon.Cursor.MOVE,
-    3: Cinnamon.Cursor.POINTER
+    0: Lemon.Cursor.NO_DROP,
+    1: Lemon.Cursor.COPY,
+    2: Lemon.Cursor.MOVE,
+    3: Lemon.Cursor.POINTER
 };
 
 var DragDropResult = {
@@ -172,7 +172,7 @@ var _Draggable = new Lang.Class({
 
     _grabEvents: function(event) {
         if (!this._eventsGrabbed) {
-            this._eventsGrabbed = Main.pushModal(_getEventHandlerActor(), undefined, undefined, Cinnamon.ActionMode.NORMAL);
+            this._eventsGrabbed = Main.pushModal(_getEventHandlerActor(), undefined, undefined, Lemon.ActionMode.NORMAL);
             if (this._eventsGrabbed) {
                 this.drag_device = event.get_device()
                 this.drag_device.grab(_getEventHandlerActor());
@@ -269,7 +269,7 @@ var _Draggable = new Lang.Class({
         if (this._onEventId)
             this._ungrabActor(event);
         this._grabEvents(event);
-        global.set_cursor(Cinnamon.Cursor.NO_DROP);
+        global.set_cursor(Lemon.Cursor.NO_DROP);
 
         this._dragX = this._dragStartX = stageX;
         this._dragY = this._dragStartY = stageY;
@@ -278,7 +278,7 @@ var _Draggable = new Lang.Class({
             this._dragActor = this.actor._delegate.getDragActor();
             global.reparentActor(this._dragActor, Main.uiGroup);
             this._dragActor.raise_top();
-            Cinnamon.util_set_hidden_from_pick(this._dragActor, true);
+            Lemon.util_set_hidden_from_pick(this._dragActor, true);
 
             // Drag actor does not always have to be the same as actor. For example drag actor
             // can be an image that's part of the actor. So to perform "snap back" correctly we need
@@ -327,7 +327,7 @@ var _Draggable = new Lang.Class({
 
             global.reparentActor(this._dragActor, Main.uiGroup);
             this._dragActor.raise_top();
-            Cinnamon.util_set_hidden_from_pick(this._dragActor, true);
+            Lemon.util_set_hidden_from_pick(this._dragActor, true);
         }
 
         this._dragOrigOpacity = this._dragActor.opacity;
@@ -393,7 +393,7 @@ var _Draggable = new Lang.Class({
         let y = this._overrideY == undefined ? this._dragY : this._overrideY;
 
         if (this.recentDropTarget) {
-            let allocation = Cinnamon.util_get_transformed_allocation(this.recentDropTarget);
+            let allocation = Lemon.util_get_transformed_allocation(this.recentDropTarget);
 
             if (x < allocation.x1 || x > allocation.x2 || y < allocation.y1 || y > allocation.y2) {
                 this.recentDropTarget._delegate.handleDragOut();
@@ -447,7 +447,7 @@ var _Draggable = new Lang.Class({
             target = target.get_parent();
         }
         if (result in DRAG_CURSOR_MAP) global.set_cursor(DRAG_CURSOR_MAP[result]);
-        else global.set_cursor(Cinnamon.Cursor.NO_DROP);
+        else global.set_cursor(Lemon.Cursor.NO_DROP);
         return false;
     },
 
@@ -658,7 +658,7 @@ var _Draggable = new Lang.Class({
 
     _dragComplete: function() {
         if (this._dragOrigParent)
-            Cinnamon.util_set_hidden_from_pick(this._dragActor, false);
+            Lemon.util_set_hidden_from_pick(this._dragActor, false);
 
         this._ungrabEvents();
         global.sync_pointer();
@@ -706,7 +706,7 @@ function GenericDragItemContainer() {
 
 GenericDragItemContainer.prototype = {
     _init: function() {
-        this.actor = new Cinnamon.GenericContainer({ style_class: 'drag-item-container' });
+        this.actor = new Lemon.GenericContainer({ style_class: 'drag-item-container' });
         this.actor.connect('get-preferred-width',
                            Lang.bind(this, this._getPreferredWidth));
         this.actor.connect('get-preferred-height',

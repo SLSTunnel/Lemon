@@ -1,0 +1,8 @@
+{
+ "uuid": "launcher@lemon.org",
+ "name": "Launcher desklet",
+ "description": "A desklet that launches a program",
+ "prevent-decorations": false,
+ "max-instances": "100",
+ "icon": "lemon-panel-launcher"
+}

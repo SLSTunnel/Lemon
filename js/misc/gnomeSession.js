@@ -75,7 +75,7 @@ var SessionManagerIface = '\
        <method name="GetInhibitors"> \
            <arg type="ao" name="inhibitors" direction="out"/> \
        </method> \
-       <method name="RestartCinnamonLauncher" /> \
+       <method name="RestartLemonLauncher" /> \
        <signal name="InhibitorAdded"> \
            <arg type="o" name="id" direction="out"/> \
        </signal> \

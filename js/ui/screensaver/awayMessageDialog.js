@@ -11,7 +11,7 @@ const ModalDialog = imports.ui.modalDialog;
  * AwayMessageDialog:
  *
  * A modal dialog that prompts the user for an away message before locking
- * the screen. Used when org.cinnamon.desktop.screensaver 'ask-for-away-message'
+ * the screen. Used when org.lemon.desktop.screensaver 'ask-for-away-message'
  * is enabled.
  */
 var AwayMessageDialog = GObject.registerClass(

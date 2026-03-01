@@ -4,7 +4,7 @@ const GObject = imports.gi.GObject;
 const Clutter = imports.gi.Clutter;
 const Lang = imports.lang;
 const Mainloop = imports.mainloop;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const St = imports.gi.St;
 const Signals = imports.signals;
 const Tweener = imports.tweener.tweener;
@@ -86,7 +86,7 @@ function addCaller(target, tweeningParameters) {
  *  - @transition (string/function): The type of transition to use. Different
  *    equations can be used, producing different tweening updates based on time
  *    spent. You can specify this parameter by their internal string names
- *    (which you can find by seeing what's offered in the cinnamon-settings
+ *    (which you can find by seeing what's offered in the lemon-settings
  *    effects page), or use any custom function to have a customized easing
  *    (see below for examples and a more in-depth description). The default
  *    transition is "easeOutExpo".
@@ -228,21 +228,21 @@ function _wrapTweening(target, tweeningParameters) {
 function _getTweenState(target) {
     // If we were paranoid, we could keep a plist mapping targets to
     // states... but we're not that paranoid.
-    if (!target.__CinnamonTweenerState)
-        target.__CinnamonTweenerState = {};
-    return target.__CinnamonTweenerState;
+    if (!target.__LemonTweenerState)
+        target.__LemonTweenerState = {};
+    return target.__LemonTweenerState;
 }
 
 function _resetTweenState(target) {
     if (!target || (target instanceof GObject.Object && target.is_finalized())) return;
-    let state = target.__CinnamonTweenerState;
+    let state = target.__LemonTweenerState;
 
     if (state && state.actor && !state.actor.is_finalized()) {
         if (state.destroyedId)
             state.actor.disconnect(state.destroyedId);
     }
 
-    target.__CinnamonTweenerState = {};
+    target.__LemonTweenerState = {};
 }
 
 function _addHandler(target, params, name, handler) {
@@ -389,7 +389,7 @@ ClutterFrameTicker.prototype = {
                 this._onNewFrame(frame);
             }));
 
-        let perf_log = Cinnamon.PerfLog.get_default();
+        let perf_log = Lemon.PerfLog.get_default();
         perf_log.define_event("tweener.framePrepareStart",
                               "Start of a new animation frame",
                               "");
@@ -408,7 +408,7 @@ ClutterFrameTicker.prototype = {
             this._startTime = this._timeline.get_elapsed_time();
 
         // currentTime is in milliseconds
-        let perf_log = Cinnamon.PerfLog.get_default();
+        let perf_log = Lemon.PerfLog.get_default();
         perf_log.event("tweener.framePrepareStart");
         this.emit('prepare-frame');
         perf_log.event("tweener.framePrepareDone");

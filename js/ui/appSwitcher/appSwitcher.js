@@ -7,7 +7,7 @@ const St = imports.gi.St;
 const Meta = imports.gi.Meta;
 const Mainloop = imports.mainloop;
 const Main = imports.ui.main;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 
 const DISABLE_HOVER_TIMEOUT = 500; // milliseconds
 
@@ -121,7 +121,7 @@ AppSwitcher.prototype = {
         }
         this._modifierMask = primaryModifier(binding.get_mask());
 
-        this._tracker = Cinnamon.WindowTracker.get_default();
+        this._tracker = Lemon.WindowTracker.get_default();
         this._windowManager = global.window_manager;
 
         this._dcid = this._windowManager.connect('destroy', Lang.bind(this, this._windowDestroyed));
@@ -132,10 +132,10 @@ AppSwitcher.prototype = {
     },
 
     _setupModal: function () {
-        this._haveModal = Main.pushModal(this.actor, undefined, undefined, Cinnamon.ActionMode.SYSTEM_MODAL);
+        this._haveModal = Main.pushModal(this.actor, undefined, undefined, Lemon.ActionMode.SYSTEM_MODAL);
         if (!this._haveModal) {
             // Probably someone else has a pointer grab, try again with keyboard only
-            this._haveModal = Main.pushModal(this.actor, global.get_current_time(), Meta.ModalOptions.POINTER_ALREADY_GRABBED, Cinnamon.ActionMode.SYSTEM_MODAL);
+            this._haveModal = Main.pushModal(this.actor, global.get_current_time(), Meta.ModalOptions.POINTER_ALREADY_GRABBED, Lemon.ActionMode.SYSTEM_MODAL);
         }
         if (!this._haveModal)
             this._failedGrabAction();
@@ -263,7 +263,7 @@ AppSwitcher.prototype = {
     },
 
     _keyPressEvent: function (actor, event) {
-        let modifiers = Cinnamon.get_event_state(event);
+        let modifiers = Lemon.get_event_state(event);
         let symbol = event.get_key_symbol();
         let keycode = event.get_key_code();
         // This relies on the fact that Clutter.ModifierType is the same as Gdk.ModifierType

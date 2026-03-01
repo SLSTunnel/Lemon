@@ -1,6 +1,6 @@
 // -*- mode: js; js-indent-level: 4; indent-tabs-mode: nil -*-
 
-const CinnamonDesktop = imports.gi.CinnamonDesktop;
+const LemonDesktop = imports.gi.LemonDesktop;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
@@ -9,7 +9,7 @@ const Clutter = imports.gi.Clutter;
 
 const ScreensaverWidget = imports.ui.screensaver.screensaverWidget;
 
-const SCREENSAVER_SCHEMA = 'org.cinnamon.desktop.screensaver';
+const SCREENSAVER_SCHEMA = 'org.lemon.desktop.screensaver';
 
 var ClockWidget = GObject.registerClass(
 class ClockWidget extends ScreensaverWidget.ScreensaverWidget {
@@ -53,7 +53,7 @@ class ClockWidget extends ScreensaverWidget.ScreensaverWidget {
         });
         this.add_child(this._messageAuthor);
 
-        this._wallClock = new CinnamonDesktop.WallClock();
+        this._wallClock = new LemonDesktop.WallClock();
         this._wallClock.connect('notify::clock', this._updateClock.bind(this));
 
         this._setClockFormat();

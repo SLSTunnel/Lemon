@@ -1,0 +1,6 @@
+[Lemon Session]
+Name=Lemon (Software Rendering)
+RequiredComponents=lemon2d;nemo-autostart;@REQUIRED@lemon-killer-daemon;
+DesktopName=X-Lemon
+
+

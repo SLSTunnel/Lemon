@@ -1,0 +1,6 @@
+{
+ "uuid": "sound@lemon.org",
+ "name": "Sound",
+ "description": "A Lemon applet to control sound and music",
+ "icon": "cs-sound"
+}

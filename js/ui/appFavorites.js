@@ -1,6 +1,6 @@
 // -*- mode: js; js-indent-level: 4; indent-tabs-mode: nil -*-
 
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const Lang = imports.lang;
 const Signals = imports.signals;
 
@@ -24,7 +24,7 @@ AppFavorites.prototype = {
 
     _reload: function() {
         let ids = global.settings.get_strv(this.FAVORITE_APPS_KEY);
-        let appSys = Cinnamon.AppSystem.get_default();
+        let appSys = Lemon.AppSystem.get_default();
         this._favorites = ids.reduce((favorites, id) => {
             const app = appSys.lookup_app(id);
             if (app) {
@@ -55,7 +55,7 @@ AppFavorites.prototype = {
         if (appId in this._favorites)
             return false;
 
-        let appSys = Cinnamon.AppSystem.get_default();
+        let appSys = Lemon.AppSystem.get_default();
         let app = appSys.lookup_app(appId);
 
         if (!app)

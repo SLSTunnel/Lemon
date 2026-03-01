@@ -4,7 +4,7 @@ const Clutter = imports.gi.Clutter;
 const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 const Meta = imports.gi.Meta;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const Signals = imports.signals;
 const St = imports.gi.St;
 const DND = imports.ui.dnd;
@@ -106,7 +106,7 @@ ExpoWindowClone.prototype = {
         let iconActor = null;
         let app = this.metaWindow._expoApp; // will be non-null if the window comes from another ws
         if (!app) {
-            let tracker = Cinnamon.WindowTracker.get_default();
+            let tracker = Lemon.WindowTracker.get_default();
             app = tracker.get_window_app(this.metaWindow);
             // Cache the app, as the tracker has difficulty in finding the app for windows
             // that come from recently removed workspaces.
@@ -245,7 +245,7 @@ ExpoWindowClone.prototype = {
     },
 
     onButtonRelease : function (actor, event) {
-        const state = Cinnamon.get_event_state(event);
+        const state = Lemon.get_event_state(event);
 
         if (state !== 0) {
             return true;
@@ -340,7 +340,7 @@ ExpoWorkspaceThumbnail.prototype = {
                     return true;
                 }
 
-                const state = Cinnamon.get_event_state(event);
+                const state = Lemon.get_event_state(event);
                 if (state !== 0) {
                     return false;
                 }
@@ -1054,7 +1054,7 @@ function ExpoThumbnailsBox() {
 
 ExpoThumbnailsBox.prototype = {
     _init: function() {
-        this.actor = new Cinnamon.GenericContainer({ style_class: 'workspace-thumbnails',
+        this.actor = new Lemon.GenericContainer({ style_class: 'workspace-thumbnails',
                                                    reactive: true,
                                                   request_mode: Clutter.RequestMode.WIDTH_FOR_HEIGHT });
         this.actor.connect('get-preferred-width', Lang.bind(this, this.getPreferredWidth));
@@ -1135,7 +1135,7 @@ ExpoThumbnailsBox.prototype = {
             this.emit('set-overview-mode', forceOverviewMode === 1);
         };
         this.actor.connect('button-release-event', Lang.bind(this, function(actor, event) {
-            if (Cinnamon.get_event_state(event) === 0 &&
+            if (Lemon.get_event_state(event) === 0 &&
                     event.get_button() == Clutter.BUTTON_MIDDLE) {
                 this.toggleGlobalOverviewMode();
             }
@@ -1180,7 +1180,7 @@ ExpoThumbnailsBox.prototype = {
     },
 
     handleKeyPressEvent: function(actor, event) {
-        let modifiers = Cinnamon.get_event_state(event);
+        let modifiers = Lemon.get_event_state(event);
         let ctrlAltMask = Clutter.ModifierType.CONTROL_MASK | Clutter.ModifierType.MOD1_MASK;
         let symbol = event.get_key_symbol();
         if (symbol === Clutter.KEY_Return ||
@@ -1714,7 +1714,7 @@ ExpoThumbnailsBox.prototype = {
 
         let buttonWidth = this.button.get_theme_node().get_length('width');
         let buttonHeight = this.button.get_theme_node().get_length('height');
-        let buttonOverlap = this.button.get_theme_node().get_length('-cinnamon-close-overlap');
+        let buttonOverlap = this.button.get_theme_node().get_length('-lemon-close-overlap');
 
         if (this.lastHovered && this.lastHovered.actor != null && !this.lastHovered.doomed){
             x = this.lastHovered.actor.allocation.x1 + ((this.lastHovered.actor.allocation.x2 - this.lastHovered.actor.allocation.x1) * this.lastHovered.actor.get_scale()[0]) - buttonOverlap;

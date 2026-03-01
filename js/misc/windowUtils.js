@@ -1,5 +1,5 @@
 const Clutter = imports.gi.Clutter;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const Meta = imports.gi.Meta;
 const Main = imports.ui.main;
 

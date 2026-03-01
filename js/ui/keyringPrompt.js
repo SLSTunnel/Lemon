@@ -1,4 +1,4 @@
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const Clutter = imports.gi.Clutter;
 const St = imports.gi.St;
 const Pango = imports.gi.Pango;
@@ -8,7 +8,7 @@ const Gcr = imports.gi.Gcr;
 
 const Dialog = imports.ui.dialog;
 const ModalDialog = imports.ui.modalDialog;
-const CinnamonEntry = imports.ui.cinnamonEntry;
+const LemonEntry = imports.ui.lemonEntry;
 const CheckBox = imports.ui.checkBox;
 const Util = imports.misc.util;
 
@@ -17,7 +17,7 @@ class KeyringDialog extends ModalDialog.ModalDialog {
     _init() {
         super._init({ styleClass: 'prompt-dialog' });
 
-        this.prompt = new Cinnamon.KeyringPrompt();
+        this.prompt = new Lemon.KeyringPrompt();
         this.prompt.connect('show-password', this._onShowPassword.bind(this));
         this.prompt.connect('show-confirm', this._onShowConfirm.bind(this));
         this.prompt.connect('prompt-close', this._onHidePrompt.bind(this));
@@ -39,7 +39,7 @@ class KeyringDialog extends ModalDialog.ModalDialog {
             can_focus: true,
             x_align: Clutter.ActorAlign.CENTER,
         });
-        CinnamonEntry.addContextMenu(this._passwordEntry);
+        LemonEntry.addContextMenu(this._passwordEntry);
         this._passwordEntry.clutter_text.connect('activate', this._onPasswordActivate.bind(this));
         this.prompt.bind_property('password-visible',
             this._passwordEntry, 'visible', GObject.BindingFlags.SYNC_CREATE);
@@ -50,7 +50,7 @@ class KeyringDialog extends ModalDialog.ModalDialog {
             can_focus: true,
             x_align: Clutter.ActorAlign.CENTER,
         });
-        CinnamonEntry.addContextMenu(this._confirmEntry);
+        LemonEntry.addContextMenu(this._confirmEntry);
         this._confirmEntry.clutter_text.connect('activate', this._onConfirmActivate.bind(this));
         this.prompt.bind_property('confirm-visible',
             this._confirmEntry, 'visible', GObject.BindingFlags.SYNC_CREATE);
@@ -61,7 +61,7 @@ class KeyringDialog extends ModalDialog.ModalDialog {
 
         let warningBox = new St.BoxLayout({ vertical: true });
 
-        let capsLockWarning = new CinnamonEntry.CapsLockWarning();
+        let capsLockWarning = new LemonEntry.CapsLockWarning();
         let syncCapsLockWarningVisibility = () => {
             capsLockWarning.visible =
                 this.prompt.password_visible || this.prompt.confirm_visible;

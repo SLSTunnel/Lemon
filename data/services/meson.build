@@ -1,9 +1,9 @@
 service_files = [
-  'org.cinnamon.BackupLocker.service',
-  'org.cinnamon.CalendarServer.service',
-  'org.Cinnamon.HotplugSniffer.service',
-  'org.Cinnamon.Melange.service',
-  'org.Cinnamon.Slideshow.service',
+  'org.lemon.BackupLocker.service',
+  'org.lemon.CalendarServer.service',
+  'org.Lemon.HotplugSniffer.service',
+  'org.Lemon.Melange.service',
+  'org.Lemon.Slideshow.service',
 ]
 
 foreach service_file : service_files

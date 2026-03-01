@@ -1,0 +1,6 @@
+{
+ "uuid": "on-screen-keyboard@lemon.org",
+ "name": "On-Screen keyboard",
+ "icon": "lemon-virtual-keyboard",
+ "description": "A Lemon applet to launch the on-screen keyboard"
+}

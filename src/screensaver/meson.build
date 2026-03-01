@@ -5,8 +5,8 @@ screensaver_sources = [
     'subprocs.c',
 ]
 
-libcinnamon_screensaver = static_library(
-    'cinnamon_screensaver',
+liblemon_screensaver = static_library(
+    'lemon_screensaver',
     screensaver_sources,
     include_directories: include_root,
     dependencies: [glib, gio, gio_unix, pam],
@@ -14,9 +14,9 @@ libcinnamon_screensaver = static_library(
 
 # PAM helper executable
 executable(
-    'cinnamon-screensaver-pam-helper',
-    'cinnamon-screensaver-pam-helper.c',
-    link_with: libcinnamon_screensaver,
+    'lemon-screensaver-pam-helper',
+    'lemon-screensaver-pam-helper.c',
+    link_with: liblemon_screensaver,
     include_directories: include_root,
     dependencies: [glib, gio, gio_unix],
     install: true,

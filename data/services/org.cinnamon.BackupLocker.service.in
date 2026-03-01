@@ -1,3 +1,0 @@
-[D-BUS Service]
-Name=org.cinnamon.BackupLocker
-Exec=@libexecdir@/cinnamon-backup-locker

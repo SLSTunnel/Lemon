@@ -1,0 +1,8 @@
+prefix="/usr"
+datadir="/usr/share"
+localedir=datadir+"/locale"
+libdir="/usr/share/lemon"
+libexecdir="/usr/share/lemon/lemon-menu-editor"
+PACKAGE="lemon-menu-editor"
+VERSION="1.6.1"
+GETTEXT_PACKAGE="lemon"

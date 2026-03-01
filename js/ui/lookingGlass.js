@@ -1,6 +1,6 @@
 // -*- mode: js; js-indent-level: 4; indent-tabs-mode: nil -*-
 
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const Clutter = imports.gi.Clutter;
 const Cogl = imports.gi.Cogl;
 const Gio = imports.gi.Gio;
@@ -22,7 +22,7 @@ var commandHeader = 'const Clutter = imports.gi.Clutter; ' +
                     'const Gtk = imports.gi.Gtk; ' +
                     'const Mainloop = imports.mainloop; ' +
                     'const Meta = imports.gi.Meta; ' +
-                    'const Cinnamon = imports.gi.Cinnamon; ' +
+                    'const Lemon = imports.gi.Lemon; ' +
                     'const Main = imports.ui.main; ' +
                     /* Utility functions...we should probably be able to use these
                      * in Lemon core code too. */
@@ -151,7 +151,7 @@ class WindowList {
         this.latestWindowList = [];
         this.delayedUpdateId = 0;
 
-        let tracker = Cinnamon.WindowTracker.get_default();
+        let tracker = Lemon.WindowTracker.get_default();
         global.display.connect('window-created', () => { this._queueDelayedUpdate() });
         tracker.connect('window-app-changed', () => { this._queueDelayedUpdate() });
     }
@@ -179,7 +179,7 @@ class WindowList {
 
     _updateWindowList() {
         let windows = global.get_window_actors();
-        let tracker = Cinnamon.WindowTracker.get_default();
+        let tracker = Lemon.WindowTracker.get_default();
 
         let oldWindowList = this.latestWindowList;
         this.latestWindowList = [];
@@ -285,7 +285,7 @@ var Inspector = GObject.registerClass({
             reactive: true,
         });
         this._eventHandler = eventHandler;
-        Main.pushModal(this._eventHandler, undefined, undefined, Cinnamon.ActionMode.LOOKING_GLASS);
+        Main.pushModal(this._eventHandler, undefined, undefined, Lemon.ActionMode.LOOKING_GLASS);
         this.add_child(eventHandler);
         this._displayText = new St.Label({ style: 'text-align: center;' });
         eventHandler.add(this._displayText, { expand: true });
@@ -453,7 +453,7 @@ var Inspector = GObject.registerClass({
 
 const melangeIFace =
     '<node> \
-        <interface name="org.Cinnamon.Melange"> \
+        <interface name="org.Lemon.Melange"> \
             <method name="show" /> \
             <method name="hide" /> \
             <method name="getVisible"> \
@@ -464,7 +464,7 @@ const melangeIFace =
 
 const lgIFace =
     '<node> \
-        <interface name="org.Cinnamon.LookingGlass"> \
+        <interface name="org.Lemon.LookingGlass"> \
             <method name="Eval"> \
                 <arg type="s" direction="in" name="code"/> \
             </method> \
@@ -518,7 +518,7 @@ var Melange = class {
         this.proxy = null;
         this._it = null;
         this._open = false;
-        this._settings = new Gio.Settings({schema_id: "org.cinnamon.desktop.keybindings"});
+        this._settings = new Gio.Settings({schema_id: "org.lemon.desktop.keybindings"});
         this._settings.connect("changed::looking-glass-keybinding", () => { this._update_keybinding() });
         this._update_keybinding();
 
@@ -529,9 +529,9 @@ var Melange = class {
         this._history = new History.HistoryManager({ gsettingsKey: HISTORY_KEY });
 
         this._dbusImpl = Gio.DBusExportedObject.wrapJSObject(lgIFace, this);
-        this._dbusImpl.export(Gio.DBus.session, '/org/Cinnamon/LookingGlass');
+        this._dbusImpl.export(Gio.DBus.session, '/org/Lemon/LookingGlass');
 
-        Gio.DBus.session.own_name('org.Cinnamon.LookingGlass', Gio.BusNameOwnerFlags.REPLACE, null, null);
+        Gio.DBus.session.own_name('org.Lemon.LookingGlass', Gio.BusNameOwnerFlags.REPLACE, null, null);
         this.ensureProxy();
     }
 
@@ -546,10 +546,10 @@ var Melange = class {
         Gio.DBusProxy.new(
               Gio.DBus.session,
               Gio.DBusProxyFlags.DO_NOT_AUTO_START_AT_CONSTRUCTION,
-              nodeInfo.lookup_interface("org.Cinnamon.Melange"),
-              "org.Cinnamon.Melange",
-              "/org/Cinnamon/Melange",
-              "org.Cinnamon.Melange",
+              nodeInfo.lookup_interface("org.Lemon.Melange"),
+              "org.Lemon.Melange",
+              "/org/Lemon/Melange",
+              "org.Lemon.Melange",
               null,
               this._onProxyReady.bind(this)
         );
@@ -559,7 +559,7 @@ var Melange = class {
         try {
             this.proxy = Gio.DBusProxy.new_finish(res);
         } catch (e) {
-            log('error creating org.Cinnamon.Melange proxy: %s'.format(e.message));
+            log('error creating org.Lemon.Melange proxy: %s'.format(e.message));
             return;
         }
     }
@@ -610,7 +610,7 @@ var Melange = class {
     getWindowApp(idx) {
         let metaWindow = this._windowList.getWindowById(idx)
         if (metaWindow) {
-            let tracker = Cinnamon.WindowTracker.get_default();
+            let tracker = Lemon.WindowTracker.get_default();
             return tracker.get_window_app(metaWindow);
         }
         return null;

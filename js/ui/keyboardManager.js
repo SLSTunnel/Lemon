@@ -1,6 +1,6 @@
 // -*- mode: js; js-indent-level: 4; indent-tabs-mode: nil -*-
 
-const { Clutter, Gio, GLib, GObject, IBus, Meta, Cinnamon, St, CinnamonDesktop } = imports.gi;
+const { Clutter, Gio, GLib, GObject, IBus, Meta, Lemon, St, LemonDesktop } = imports.gi;
 
 const Gettext = imports.gettext;
 const Signals = imports.signals;
@@ -12,7 +12,7 @@ const PopupMenu = imports.ui.popupMenu;
 const Cairo = imports.cairo;
 const Util = imports.misc.util;
 
-DESKTOP_INPUT_SOURCES_SCHEMA = 'org.cinnamon.desktop.input-sources';
+DESKTOP_INPUT_SOURCES_SCHEMA = 'org.lemon.desktop.input-sources';
 KEY_INPUT_SOURCES = 'sources';
 KEY_KEYBOARD_OPTIONS = 'xkb-options';
 KEY_PER_WINDOW = 'per-window';
@@ -30,7 +30,7 @@ let _xkbInfo = null;
 
 function getXkbInfo() {
     if (_xkbInfo == null)
-        _xkbInfo = CinnamonDesktop.XkbInfo.new_with_extras();
+        _xkbInfo = LemonDesktop.XkbInfo.new_with_extras();
     return _xkbInfo;
 }
 
@@ -146,9 +146,9 @@ var KeyboardManager = class {
         if (!locale.includes('_'))
             locale = DEFAULT_LOCALE;
 
-        let [found, , id] = CinnamonDesktop.get_input_source_from_locale(locale);
+        let [found, , id] = LemonDesktop.get_input_source_from_locale(locale);
         if (!found)
-            [, , id] = CinnamonDesktop.get_input_source_from_locale(DEFAULT_LOCALE);
+            [, , id] = LemonDesktop.get_input_source_from_locale(DEFAULT_LOCALE);
 
         let _layout, _variant;
         [found, , , _layout, _variant] = this._xkbInfo.get_layout_info(id);
@@ -469,9 +469,9 @@ var InputSourceManager = class {
 
         this._currentSource = null;
 
-        this._interface_settings = new Gio.Settings({ schema_id: "org.cinnamon.desktop.interface" });
+        this._interface_settings = new Gio.Settings({ schema_id: "org.lemon.desktop.interface" });
 
-        this._kb_settings = new Gio.Settings({ schema_id: "org.cinnamon.desktop.keybindings.wm" });
+        this._kb_settings = new Gio.Settings({ schema_id: "org.lemon.desktop.keybindings.wm" });
         this._setupKeybindings();
         this._kb_settings.connect("changed", () => this._setupKeybindings());
 
@@ -581,7 +581,7 @@ var InputSourceManager = class {
         [oldSource, this._currentSource] = [this._currentSource, newSource];
 
         this.emit('current-source-changed', oldSource);
-        Main.cinnamonDBusService.EmitCurrentInputSourceChanged(newSource.id);
+        Main.lemonDBusService.EmitCurrentInputSourceChanged(newSource.id);
         this._changePerWindowSource();
     }
 
@@ -776,7 +776,7 @@ var InputSourceManager = class {
         // All ibus engines are preloaded here to reduce the launching time
         // when users switch the input sources.
         this._ibusManager.preloadEngines(Object.keys(this._ibusSources));
-        Main.cinnamonDBusService.EmitInputSourcesChanged();
+        Main.lemonDBusService.EmitInputSourcesChanged();
     }
 
     _makeEngineShortName(engineDesc) {

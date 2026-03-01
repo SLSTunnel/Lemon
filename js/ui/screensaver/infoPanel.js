@@ -7,7 +7,7 @@ const St = imports.gi.St;
 const NotificationWidget = imports.ui.screensaver.notificationWidget;
 const PowerWidget = imports.ui.screensaver.powerWidget;
 
-const SCREENSAVER_SCHEMA = 'org.cinnamon.desktop.screensaver';
+const SCREENSAVER_SCHEMA = 'org.lemon.desktop.screensaver';
 
 var InfoPanel = GObject.registerClass(
 class InfoPanel extends St.BoxLayout {

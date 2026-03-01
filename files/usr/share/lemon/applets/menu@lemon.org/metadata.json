@@ -1,0 +1,7 @@
+{
+ "uuid": "menu@lemon.org",
+ "name": "Menu",
+ "description": "Main Lemon menu",
+ "icon": "applications-other",
+ "max-instances": -1
+}

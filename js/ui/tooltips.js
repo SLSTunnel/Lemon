@@ -10,7 +10,7 @@ const Main = imports.ui.main;
 const SignalManager = imports.misc.signalManager;
 const {PanelLoc} = imports.ui.panel;
 
-const DESKTOP_SCHEMA = 'org.cinnamon.desktop.interface';
+const DESKTOP_SCHEMA = 'org.lemon.desktop.interface';
 const CURSOR_SIZE_KEY = 'cursor-size';
 
 /**

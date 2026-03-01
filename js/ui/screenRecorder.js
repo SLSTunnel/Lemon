@@ -1,6 +1,6 @@
 // -*- mode: js; js-indent-level: 4; indent-tabs-mode: nil -*-
 
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const Meta = imports.gi.Meta;
 const Signals = imports.signals;
 const Gio = imports.gi.Gio;
@@ -9,10 +9,10 @@ const Main = imports.ui.main;
 var ScreenRecorder = class ScreenRecorder {
     constructor() {
         this.recorder = null;
-        this.recorderSettings = new Gio.Settings({ schema_id: 'org.cinnamon.recorder' });
+        this.recorderSettings = new Gio.Settings({ schema_id: 'org.lemon.recorder' });
 
         Main.keybindingManager.setBuiltinHandler('toggle-recording', Meta.KeyBindingAction.TOGGLE_RECORDING,
-            () => this.toggle_recording(), Cinnamon.ActionMode.NORMAL);
+            () => this.toggle_recording(), Lemon.ActionMode.NORMAL);
     }
 
     get recording() {
@@ -34,7 +34,7 @@ var ScreenRecorder = class ScreenRecorder {
 
     _ensure_recorder() {
         if (this.recorder === null) {
-            this.recorder = new Cinnamon.Recorder({ stage: global.stage, display: global.display });
+            this.recorder = new Lemon.Recorder({ stage: global.stage, display: global.display });
         }
     }
 
@@ -47,7 +47,7 @@ var ScreenRecorder = class ScreenRecorder {
 
         // read the parameters from GSettings always in case they have changed
         this.recorder.set_framerate(this.recorderSettings.get_int('framerate'));
-        this.recorder.set_file_template('cinnamon-%Y-%m-%dT%H%M%S%z.' + this.recorderSettings.get_string('file-extension'));
+        this.recorder.set_file_template('lemon-%Y-%m-%dT%H%M%S%z.' + this.recorderSettings.get_string('file-extension'));
         let pipeline = this.recorderSettings.get_string('pipeline');
 
         if (Main.layoutManager.monitors.length > 1) {

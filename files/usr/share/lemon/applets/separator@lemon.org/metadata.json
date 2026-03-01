@@ -1,0 +1,7 @@
+{
+ "uuid": "separator@lemon.org",
+ "name": "Separator",
+ "description": "A separator icon which can be added multiple times",
+ "icon": "cs-applets",
+ "max-instances": -1
+}

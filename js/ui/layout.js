@@ -5,7 +5,7 @@
  * @short_description: The file responsible for managing Lemon chrome
  */
 const Clutter = imports.gi.Clutter;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const GObject = imports.gi.GObject;
 const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
@@ -835,7 +835,7 @@ var Chrome = class {
             let actorData = this._trackedActors[i], visible;
             if (!actorData.isToplevel)
                 continue;
-            else if (global.stage_input_mode == Cinnamon.StageInputMode.FULLSCREEN) {
+            else if (global.stage_input_mode == Lemon.StageInputMode.FULLSCREEN) {
                 let monitor = this.findMonitorForActor(actorData.actor);
 
                 if (global.display.get_n_monitors() == 1 || !monitor.inFullscreen) {

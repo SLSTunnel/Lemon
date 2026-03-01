@@ -15,7 +15,7 @@ export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
 override_dh_auto_configure:
 	dh_auto_configure -- \
-		--libexecdir=/usr/libexec/cinnamon \
+		--libexecdir=/usr/libexec/lemon \
 		-D docs=true \
 		-D deprecated_warnings=false \
 		-D exclude_info_settings=true \
@@ -27,11 +27,11 @@ override_dh_auto_configure:
 override_dh_dwz:
 
 override_dh_python3:
-	dh_python3 /usr/share/cinnamon
+	dh_python3 /usr/share/lemon
 
 override_dh_makeshlibs:
-	dh_makeshlibs -pcinnamon -Xlibcinnamon
+	dh_makeshlibs -plemon -Xliblemon
 	dh_makeshlibs --remaining-packages
 
 override_dh_strip:
-	dh_strip --dbg-package=cinnamon-dbg
+	dh_strip --dbg-package=lemon-dbg

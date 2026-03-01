@@ -1,3 +1,0 @@
-[D-BUS Service]
-Name=org.cinnamon.CalendarServer
-Exec=@bindir@/cinnamon-calendar-server

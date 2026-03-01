@@ -5,14 +5,14 @@ endif
 
 if get_option('use_debian_pam')
   install_data(
-    'cinnamon.pam.debian',
-    rename: 'cinnamon',
+    'lemon.pam.debian',
+    rename: 'lemon',
     install_dir: join_paths(pamdir, 'pam.d')
   )
 else
   install_data(
-    'cinnamon.pam',
-    rename: 'cinnamon',
+    'lemon.pam',
+    rename: 'lemon',
     install_dir: join_paths(pamdir, 'pam.d')
   )
 endif

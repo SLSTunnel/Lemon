@@ -30,9 +30,9 @@ function A11yHandler(){
 
 A11yHandler.prototype = {
     _init: function() {
-        this.a11y_keyboard_settings = new Gio.Settings( { schema_id: "org.cinnamon.desktop.a11y.keyboard" });
-        this.a11y_mouse_settings = new Gio.Settings( { schema_id: "org.cinnamon.desktop.a11y.mouse" });
-        this.wm_settings = new Gio.Settings( { schema_id: "org.cinnamon.desktop.wm.preferences" });
+        this.a11y_keyboard_settings = new Gio.Settings( { schema_id: "org.lemon.desktop.a11y.keyboard" });
+        this.a11y_mouse_settings = new Gio.Settings( { schema_id: "org.lemon.desktop.a11y.mouse" });
+        this.wm_settings = new Gio.Settings( { schema_id: "org.lemon.desktop.wm.preferences" });
 
         this._signalManager = new SignalManager.SignalManager(null);
 
@@ -158,14 +158,14 @@ A11yHandler.prototype = {
 
         switch (key) {
             case CAPS:
-                icon = Gio.ThemedIcon.new(state ? "cinnamon-caps-lock-symbolic" :
-                                                  "cinnamon-caps-lock-off-symbolic");
+                icon = Gio.ThemedIcon.new(state ? "lemon-caps-lock-symbolic" :
+                                                  "lemon-caps-lock-off-symbolic");
                 text = state ? _("Caps Lock On"):
                                _("Caps Lock Off");
                 break;
             case NUM:
-                icon = Gio.ThemedIcon.new(state ? "cinnamon-num-lock-symbolic" :
-                                                  "cinnamon-num-lock-off-symbolic");
+                icon = Gio.ThemedIcon.new(state ? "lemon-num-lock-symbolic" :
+                                                  "lemon-num-lock-off-symbolic");
                 text = state ? _("Number Lock On"):
                                _("Number Lock Off");
                 break;

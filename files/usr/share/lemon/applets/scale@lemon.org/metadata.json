@@ -1,0 +1,7 @@
+{
+"uuid": "scale@lemon.org",
+"name": "Scale",
+"description": "Click or hover to activate Scale view",
+"icon": "cs-overview",
+ "max-instances": -1
+}

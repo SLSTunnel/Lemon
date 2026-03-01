@@ -1,0 +1,179 @@
+<chapter id="xlet-settings">
+  <title>Applet, desklet and extension settings</title>
+  <sect2>
+    <title>Introduction</title>
+    <para>
+      Once you have written an applet, desklet or extension you will often find that you want to offer some configuration options to your users. Fortunately, Lemon provides an easy-to use API to do just that. In this tutorial, we will go over the ins and outs of the settings API.
+    </para>
+  </sect2>
+  <sect2>
+    <title>Overview</title>
+    <para>
+      Part of the API for applet settings is an automatically generated settings window for user configuration. This means that you will not have to worry about building the application, the settings widgets, or the back-end that notifies your applet when something changes. Because of this, there are really only two things that you will have to worry about: defining the settings, and using them in your applet.
+    </para>
+  </sect2>
+  <sect2>
+    <title>The settings-schema.json file</title>
+    <para>
+      The first thing you will need to do is create a file named <code>settings-schema.json</code> in your applet directory. This file is where you will define all your settings. It is also the place where the API will go to figure out how to generate the settings window.
+    </para>
+    <para>
+      We will talk about some of the more advanced options we can use in this file later, but for now we will keep it simple. Let's suppose we want to define two settings which will allow the user to configure the width and height of our applet. In that case our <code>settings-schema.json</code> file might look something like this:
+    </para>
+    <informalexample>
+      <programlisting>
+{
+    "width": {
+        "type" : "scale",
+        "default" : 50,
+        "min" : 10,
+        "max" : 400,
+        "step" : 1,
+        "description" : "Width of the applet in pixels"
+    },
+    "height": {
+        "type" : "scale",
+        "default" : 50,
+        "min" : 10,
+        "max" : 400,
+        "step" : 1,
+        "description" : "Height of the applet in pixels"
+    }
+}</programlisting>
+    </informalexample>
+    <para>
+      The first thing you will need is the outer brackets <code>{}</code>. All of your settings will be placed inside these brackets. If you have more than one, they must be separated with commas, just like a javascript object.
+    </para>
+    <para>
+      Each setting consists of a key, followed by a colon, and then the definition in it's own set of brackets. The purpose of the key is to identify which setting is being referenced. The key can be whatever you want, but it must be unique. So, for example, we could just as easily use "John" and "Fred" for our keys instead of "height" and "width", or "height1" and "height2", but we could not call them both "height".
+    </para>
+    <para>
+      Each definition contains it's own set of key/value pairs. The keys we include in each definition will vary depending on the type of setting we use, but there are a few that are always or almost always used:
+    </para>
+    <itemizedlist>
+      <listitem>
+        <code>type</code>: This defines what type of setting, widget, or layout element you are defining. This is always required.
+      </listitem>
+      <listitem>
+        <code>default</code>: Every key that stores a setting must specify a default value. Unless you are using a non-setting type, you must include this. It is your responsibility to make sure this value is supported by the setting type.
+      </listitem>
+      <listitem>
+        <code>description</code>: Any type that will show up in the settings window needs a description to specify the text that will appear. For settings, this will describe the purpose
+      </listitem>
+    </itemizedlist>
+    <para>
+      For a complete list of all settings types and the keys they require, see the <xref linkend="xlet-settings-ref" /> page.
+    </para>
+  </sect2>
+  <sect2>
+    <title>Using the settings in your applet</title>
+    <para>
+      Now that you have your settings defined in settings-schema.json, you will need to set up your applet to use them. The first thing you will need to do is import the settings library. To do so, simply place the following line with the other imports at the beginning of your file:
+    </para>
+    <informalexample>
+      <programlisting>
+const Settings = imports.ui.settings;</programlisting>
+    </informalexample>
+    <para>
+      Now you will need to initialize the settings provider. It is recommended that you do this early in the <code>_init</code> function of your applet, since you can't use any of the settings until the provider is initialized. We do this by using the AppletSettings class as follows:
+    </para>
+    <informalexample>
+      <programlisting>
+this.settings = new Settings.AppletSettings(bindObject, uuid, instanceId);</programlisting>
+    </informalexample>
+    <para>
+      Now let's take a look at these arguments and what they do.
+    </para>
+    <itemizedlist>
+      <listitem>
+        <code>bindObject</code>: This is an object (usually the applet itself though it can be anything you want) to which the settings will be bound by default. We'll talk about the ins and outs of bindings later, but for now, suffice it to say that they allow you to access the value directly from the bind object without having to make a call to the settings provider.
+      </listitem>
+      <listitem>
+        <code>uuid</code>: This is your applet uuid. It can be obtained from the metadata, which is passed as the first argument in the <code>main</code> function of your applet, or you can hard-code it directly with a string. This is needed so that the settings provider can find the settings-schema.json file you created earlier.
+      </listitem>
+      <listitem>
+        <code>instanceId</code>: This is the unique identifier that represents a particular instance of the applet. It is passed to the <code>main</code> function as the fourth argument. This is what the settings provider will use to differentiate the settings of one instance of the applet from another.
+      </listitem>
+      <listitem>
+        Note: you will want to save a reference to your settings provider as we did above. This is what you will use to access and change your settings.
+      </listitem>
+    </itemizedlist>
+    <para>
+      Now that you've initialized the settings provider, you're ready to start accessing your settings so you can use them in your applet.
+    </para>
+  </sect2>
+  <sect2>
+    <title>Accessing your settings in your applet</title>
+    <para>
+      There are three different ways you can interface with the settings provider to access and change your settings:
+    </para>
+    <sect3>
+      <title>Getters and Setters</title>
+      <para>
+        The settings provider has methods for getting and setting values directly. In our example above, if we want to set the applet height when we first load the applet, we could do something like
+      </para>
+      <informalexample>
+        <programlisting>
+this.actor.set_height(this.settings.getValue("height"));</programlisting>
+      </informalexample>
+      <para>
+        This is useful for setting the initial state, but we probably want to update the height of our applet if the user changes the height in settings. In that case we would either have to poll the settings frequently to see if anything changed (very costly in resources), or else find another way to interface with the settings provider.
+      </para>
+    </sect3>
+    <sect3>
+      <title>Connecting to signals</title>
+      <para>
+        Fortunately, the next interface method allows us to react when the setting changes. The are two different types of signals that the provider emits. One is a generic <code>changed</code> signal that is emitted by any key that's changed. The other is only emitted when a particular setting is changed, and has a signal name of "changed::" followed by the key name.
+      </para>
+      <para>
+        Now lets suppose that we write a function to update the applet height, and we want to call it every time the user changes the height setting. We would include a line like
+      </para>
+      <informalexample>
+        <programlisting>
+this.settings.connect("changed::height", Lang.bind(this, this.setAppletHeight));</programlisting>
+      </informalexample>
+    </sect3>
+    <sect3>
+      <title>Binding your settings</title>
+      <para>
+        Often we want to be able to both access the setting and react to changes. Binding is our third method for interfacing with the settings, and provides us an easy way to do both at once. Because of it's versatility, this is generally the method you will use.
+      </para>
+      <para>
+        The settings provider offers several methods for binding a setting, but for this tutorial we will only use <code>bind</code> as it is sufficient for almost all situations. In our example it would look something like this:
+      </para>
+      <informalexample>
+        <programlisting>
+this.settings.bind("height", "appletHeight", this.setAppletHeight);</programlisting>
+      </informalexample>
+      <para>
+        Now lets take a close look at what's happening here.
+      </para>
+      <para>
+        The first argument is of course the name of the key in your settings-schema.json file.
+      </para>
+      <para>
+        The third argument is a callback function which, like before, is called whenever the value changes. You don't need to pass a callback, but you wont be able to react to changes if you don't.
+      </para>
+      <para>
+        However, it's the second argument that makes bindings so powerful. During the binding process, a new property is created on the <code>bindObject</code>. The bindObject is usually the one we passed to the provider when we initialized it, but there is now a bind function that will allow us to bind to something else if we want. The property can be used just like any variable, but it always reflects the current value of the settings, and if you assign a value to it, it will update the settings accordingly. This means that we can do things like this:
+      </para>
+      <informalexample>
+        <programlisting>
+this.settings.bind("height", "appletHeight", this.setAppletHeight);
+this.actor.set_height(this.height);
+this.height = 100;  //now our height is 100</programlisting>
+      </informalexample>
+    </sect3>
+  </sect2>
+  <sect2>
+    <title>Overrides</title>
+    <para>As of Lemon 4.4, it is now possible to override individual settings and their properties. This is to allow distributions to make changes that help lemon feel more 'at home' in that distribution, such as default icons, strings, etc.</para>
+    <para>To create an override, place a file called settings-override.json, in the folder of the applet, desklet or extension you wish to override. This file will have the same format as settings-schema.json, but you only need to include the settings you wish to override. Note: the settings need to have the same settings 'key' as the one you're overriding - otherwise it will add a new, unused setting rather than replacing the old.</para>
+    <para>If you would just like to add or replace one or two properties, there is an additional option as well. In the settings key, include the property <code>override-prop</code> (it's value can be anything - even false), and it will use the original setting definition and only add or change the properties you define. This is particularly useful if you want to change a default, add a tooltip, or other minor changes like that.</para>
+    <para>Tip: If you wish to remove a setting, you can do that too! Because the applet almost certainly relies on there being a value for that setting, you will need to replace it, rather than removing it completely. All you need to do, is redefine the setting with a type of <code>generic</code>. Be sure to also define the <code>default</code> property. Please note that if a user already has a value set that is not the default, it will continue to use the old value rather than the default, but the user will no longer be able to set it.</para>
+  </sect2>
+  <sect2>
+    <title>More information</title>
+    <para>The available settings items and widgets can be found an the <xref linkend="xlet-settings-ref" />, alongside with some extra options. The settings objects themselves are <link linkend="lemon-js-ui-settings-AppletSettings"><code>Settings.AppletSettings</code></link>, <link linkend="lemon-js-ui-settings-DeskletSettings"><code>Settings.DeskletSettings</code></link> and <link linkend="lemon-js-ui-settings-ExtensionSettings"><code>Settings.ExtensionSettings</code></link>, which all inherit <link linkend="lemon-js-ui-settings-_provider"><code>Settings._provider</code></link>. Most useful functions will be found inside the <code>_provider</code> object.</para>
+  </sect2>
+</chapter>

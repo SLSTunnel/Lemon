@@ -131,7 +131,7 @@ for root, dirs, files in os.walk("."):
 if not found:
     print("... no problems found")
 
-print("\nChecking for missing comma separators between prototype methods - cinnamon crashes if one is missed...")
+print("\nChecking for missing comma separators between prototype methods - lemon crashes if one is missed...")
 found = False
 
 for root, dirs, files in os.walk("."):

@@ -6,7 +6,7 @@ const Lang = imports.lang;
 
 const dbusIFace =
     '<node> \
-        <interface name="org.Cinnamon.Slideshow"> \
+        <interface name="org.Lemon.Slideshow"> \
             <method name="begin" /> \
             <method name="end" /> \
             <method name="getNextImage" /> \
@@ -23,7 +23,7 @@ SlideshowManager.prototype = {
 
     _init: function() {
         this.proxy = null;
-        this._slideshowSettings = new Gio.Settings({ schema_id: "org.cinnamon.desktop.background.slideshow" });
+        this._slideshowSettings = new Gio.Settings({ schema_id: "org.lemon.desktop.background.slideshow" });
         this._slideshowSettings.connect("changed::slideshow-enabled", Lang.bind(this, this._onSlideshowEnabledChanged));
 
         if (this._slideshowSettings.get_boolean("slideshow-enabled")) {
@@ -40,7 +40,7 @@ SlideshowManager.prototype = {
 
     ensureProxy: function() {
         if (!this.proxy)
-            this.proxy = new proxy(Gio.DBus.session, 'org.Cinnamon.Slideshow', '/org/Cinnamon/Slideshow');
+            this.proxy = new proxy(Gio.DBus.session, 'org.Lemon.Slideshow', '/org/Lemon/Slideshow');
     },
 
     begin: function() {

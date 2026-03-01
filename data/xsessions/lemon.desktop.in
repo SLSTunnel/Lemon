@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Lemon
+Comment=This session logs you into Lemon
+Exec=lemon-session-lemon
+TryExec=@bindir@/lemon
+Icon=
+Type=Application
+

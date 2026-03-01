@@ -23,14 +23,14 @@ jobs:
     uses: linuxmint/github-actions/.github/workflows/do-builds.yml@master
     with:
       commit_id: master
-      ############################## Comma separated list - like 'linuxmint/xapp, linuxmint/cinnamon-desktop'
+      ############################## Comma separated list - like 'linuxmint/xapp, linuxmint/lemon-desktop'
       dependencies: >
-        linuxmint/cinnamon-control-center,
-        linuxmint/cinnamon-desktop,
-        linuxmint/cinnamon-menus,
-        linuxmint/cinnamon-session,
-        linuxmint/cinnamon-settings-daemon,
-        linuxmint/cinnamon-translations,
+        linuxmint/lemon-control-center,
+        linuxmint/lemon-desktop,
+        linuxmint/lemon-menus,
+        linuxmint/lemon-session,
+        linuxmint/lemon-settings-daemon,
+        linuxmint/lemon-translations,
         linuxmint/cjs,
         linuxmint/muffin,
         linuxmint/nemo,
@@ -48,14 +48,14 @@ jobs:
       comment_user: ${{ github.event.comment.user.login }}
       comment_id: ${{ github.event.comment.id }}
       issue_number: ${{ github.event.issue.number }}
-      ############################## Comma separated list - like 'linuxmint/xapp, linuxmint/cinnamon-desktop'
+      ############################## Comma separated list - like 'linuxmint/xapp, linuxmint/lemon-desktop'
       dependencies: >
-        linuxmint/cinnamon-control-center,
-        linuxmint/cinnamon-desktop,
-        linuxmint/cinnamon-menus,
-        linuxmint/cinnamon-session,
-        linuxmint/cinnamon-settings-daemon,
-        linuxmint/cinnamon-translations,
+        linuxmint/lemon-control-center,
+        linuxmint/lemon-desktop,
+        linuxmint/lemon-menus,
+        linuxmint/lemon-session,
+        linuxmint/lemon-settings-daemon,
+        linuxmint/lemon-translations,
         linuxmint/cjs,
         linuxmint/muffin,
         linuxmint/nemo,

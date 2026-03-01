@@ -4,7 +4,7 @@ const Clutter = imports.gi.Clutter;
 const GObject = imports.gi.GObject;
 const Meta = imports.gi.Meta;
 const St = imports.gi.St;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 
 const Params = imports.misc.params;
 
@@ -41,7 +41,7 @@ var RadialShaderEffect = GObject.registerClass({
             0, 1, 0
         )
     }
-}, class RadialShaderEffect extends Cinnamon.GLSLEffect {
+}, class RadialShaderEffect extends Lemon.GLSLEffect {
     _init(params) {
         this._brightness = undefined;
         this._sharpness = undefined;
@@ -56,7 +56,7 @@ var RadialShaderEffect = GObject.registerClass({
     }
 
     vfunc_build_pipeline() {
-        this.add_glsl_snippet(Cinnamon.SnippetHook.FRAGMENT,
+        this.add_glsl_snippet(Lemon.SnippetHook.FRAGMENT,
                               VIGNETTE_DECLARATIONS, VIGNETTE_CODE, true);
     }
 

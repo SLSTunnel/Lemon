@@ -4,7 +4,7 @@ const Clutter = imports.gi.Clutter;
 const GObject = imports.gi.GObject;
 const Meta = imports.gi.Meta;
 const Gio = imports.gi.Gio;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const St = imports.gi.St;
 const Lang = imports.lang;
 const Mainloop = imports.mainloop;
@@ -42,10 +42,10 @@ const MOUSE_POLL_FREQUENCY = 15;
 const CROSSHAIRS_CLIP_SIZE = [100, 100];
 
 // Settings
-const APPLICATIONS_SCHEMA       = 'org.cinnamon.desktop.a11y.applications';
+const APPLICATIONS_SCHEMA       = 'org.lemon.desktop.a11y.applications';
 const SHOW_KEY                  = 'screen-magnifier-enabled';
 
-const MAGNIFIER_SCHEMA          = 'org.cinnamon.desktop.a11y.magnifier';
+const MAGNIFIER_SCHEMA          = 'org.lemon.desktop.a11y.magnifier';
 const SCREEN_POSITION_KEY       = 'screen-position';
 const MAG_FACTOR_KEY            = 'mag-factor';
 const LENS_MODE_KEY             = 'lens-mode';
@@ -59,7 +59,7 @@ const CROSS_HAIRS_OPACITY_KEY   = 'cross-hairs-opacity';
 const CROSS_HAIRS_LENGTH_KEY    = 'cross-hairs-length';
 const CROSS_HAIRS_CLIP_KEY      = 'cross-hairs-clip';
 
-const KEYBINDING_SCHEMA         = "org.cinnamon.desktop.keybindings"
+const KEYBINDING_SCHEMA         = "org.lemon.desktop.keybindings"
 const ZOOM_IN_KEY               = "magnifier-zoom-in"
 const ZOOM_OUT_KEY              = "magnifier-zoom-out"
 const ZOOM_RESET_KEY            = "magnifier-zoom-reset"
@@ -188,7 +188,7 @@ Magnifier.prototype = {
             });
 
         // Export to dbus.
-        magDBusService = new MagnifierDBus.CinnamonMagnifier(this.enabled);
+        magDBusService = new MagnifierDBus.LemonMagnifier(this.enabled);
         magInputHandler = new MagnifierInputHandler(this);
 
         let factor = parseFloat(this._settings.get_double(MAG_FACTOR_KEY).toFixed(2));
@@ -1175,7 +1175,7 @@ ZoomRegion.prototype = {
         global.stage.add_actor(this._magView);
 
         // hide the magnified region from CLUTTER_PICK_ALL
-        Cinnamon.util_set_hidden_from_pick (this._magView, true);
+        Lemon.util_set_hidden_from_pick (this._magView, true);
 
         // Append a Clutter.Group to clip the contents of the magnified view.
         let mainGroup = new Clutter.Group({ clip_to_allocation: true });
@@ -1703,7 +1703,7 @@ Crosshairs.prototype = {
 };
 
 const INCR = 0.1;
-const MAX_ZOOM = 15.0; /* from range of org.cinnamon.desktop.a11y.magnifier mag-factor key */
+const MAX_ZOOM = 15.0; /* from range of org.lemon.desktop.a11y.magnifier mag-factor key */
 
 function MagnifierInputHandler(magnifier) {
     this._init(magnifier);

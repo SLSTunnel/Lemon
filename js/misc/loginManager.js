@@ -192,7 +192,7 @@ var LoginManagerSystemd = class {
         _log(`LoginManager: Requesting sleep inhibitor: "${reason}"`);
 
         let inVariant = GLib.Variant.new('(ssss)',
-            ['sleep', 'cinnamon-screensaver', reason, 'delay']);
+            ['sleep', 'lemon-screensaver', reason, 'delay']);
 
         this._managerProxy.call_with_unix_fd_list(
             'Inhibit', inVariant, 0, -1, null, null,

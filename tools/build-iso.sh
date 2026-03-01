@@ -96,7 +96,7 @@ lb config \
     --apt-recommends true \
     --bootappend-live "boot=live components quiet splash" \
     --iso-application "Lemon Desktop Live" \
-    --iso-publisher   "SLSTunnel/cinnamon" \
+    --iso-publisher   "SLSTunnel/lemon" \
     --iso-volume      "LEMON_LIVE"
 
 # ---------------------------------------------------------------------------
@@ -106,8 +106,8 @@ mkdir -p config/package-lists
 
 cat > config/package-lists/lemon.list.chroot <<'EOF'
 # Lemon desktop and essentials
-cinnamon
-cinnamon-core
+lemon
+lemon-core
 nemo
 nemo-fileroller
 lightdm
@@ -145,7 +145,7 @@ cat > config/includes.chroot/etc/lightdm/lightdm.conf <<'EOF'
 [Seat:*]
 autologin-user=user
 autologin-user-timeout=0
-user-session=cinnamon
+user-session=lemon
 EOF
 
 # ---------------------------------------------------------------------------

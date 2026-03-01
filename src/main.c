@@ -18,18 +18,18 @@
 #include <meta/util.h>
 
 #include <atk-bridge.h>
-#include "cinnamon-global.h"
-#include "cinnamon-global-private.h"
-#include "cinnamon-perf-log.h"
+#include "lemon-global.h"
+#include "lemon-global-private.h"
+#include "lemon-perf-log.h"
 #include "st.h"
 
-extern GType cinnamon_plugin_get_type (void);
+extern GType lemon_plugin_get_type (void);
 
-#define CINNAMON_DBUS_SERVICE "org.Cinnamon"
+#define LEMON_DBUS_SERVICE "org.Lemon"
 #define MAGNIFIER_DBUS_SERVICE "org.gnome.Magnifier"
 
 static void
-cinnamon_dbus_acquire_name (GDBusProxy *bus,
+lemon_dbus_acquire_name (GDBusProxy *bus,
                          guint32     request_name_flags,
                          guint32    *request_name_result,
                          gchar      *name,
@@ -57,13 +57,13 @@ cinnamon_dbus_acquire_name (GDBusProxy *bus,
 }
 
 static void
-cinnamon_dbus_acquire_names (GDBusProxy *bus,
+lemon_dbus_acquire_names (GDBusProxy *bus,
                           guint32     request_name_flags,
                           gchar      *name,
                           gboolean    fatal, ...) G_GNUC_NULL_TERMINATED;
 
 static void
-cinnamon_dbus_acquire_names (GDBusProxy *bus,
+lemon_dbus_acquire_names (GDBusProxy *bus,
                           guint32     request_name_flags,
                           gchar      *name,
                           gboolean    fatal, ...)
@@ -73,7 +73,7 @@ cinnamon_dbus_acquire_names (GDBusProxy *bus,
   va_start (al, fatal);
   for (;;)
   {
-    cinnamon_dbus_acquire_name (bus,
+    lemon_dbus_acquire_name (bus,
                              request_name_flags,
                              &request_name_result,
                              name, fatal);
@@ -86,7 +86,7 @@ cinnamon_dbus_acquire_names (GDBusProxy *bus,
 }
 
 static void
-cinnamon_dbus_init (gboolean  replace,
+lemon_dbus_init (gboolean  replace,
                     gboolean *session_running)
 {
   GDBusConnection *session;
@@ -122,14 +122,14 @@ cinnamon_dbus_init (gboolean  replace,
   if (replace)
     request_name_flags |= DBUS_NAME_FLAG_REPLACE_EXISTING;
 
-  cinnamon_dbus_acquire_name (bus,
+  lemon_dbus_acquire_name (bus,
                            request_name_flags,
                            &request_name_result,
-                           CINNAMON_DBUS_SERVICE, TRUE);
+                           LEMON_DBUS_SERVICE, TRUE);
   if (!(request_name_result == DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER
         || request_name_result == DBUS_REQUEST_NAME_REPLY_ALREADY_OWNER))
     {
-      g_printerr (CINNAMON_DBUS_SERVICE " already exists on bus and --replace not specified\n");
+      g_printerr (LEMON_DBUS_SERVICE " already exists on bus and --replace not specified\n");
       exit (1);
     }
 
@@ -139,7 +139,7 @@ cinnamon_dbus_init (gboolean  replace,
    */
   request_name_flags |= G_BUS_NAME_OWNER_FLAGS_REPLACE;
 
-  cinnamon_dbus_acquire_names (bus,
+  lemon_dbus_acquire_names (bus,
                             request_name_flags,
   /* Also grab org.gnome.Panel to replace any existing panel process */
                             "org.gnome.Panel", TRUE,
@@ -147,26 +147,26 @@ cinnamon_dbus_init (gboolean  replace,
                             MAGNIFIER_DBUS_SERVICE, FALSE,
                             NULL);
   /* ...and the on-screen keyboard service */
-  cinnamon_dbus_acquire_name (bus,
+  lemon_dbus_acquire_name (bus,
                            DBUS_NAME_FLAG_REPLACE_EXISTING,
                            &request_name_result,
                            "org.gnome.Caribou.Keyboard", FALSE);
 
-  /* At login, cinnamon.desktop requests that cinnamon-session start cinnamon
+  /* At login, lemon.desktop requests that lemon-session start lemon
    * during CSM_MANAGER_PHASE_WINDOW_MANAGER.  This call should return FALSE.
    *
    * By the time main.js gets around to setting up the startup animation,
-   * cinnamon-session is in running mode, and this would return TRUE, so this
-   * check has to be done before registering with cinnamon-session (which is its
+   * lemon-session is in running mode, and this would return TRUE, so this
+   * check has to be done before registering with lemon-session (which is its
    * queue that it can continue to the remaining phases).
    *
-   * When cinnamon is restarted during the session, this should always return
+   * When lemon is restarted during the session, this should always return
    * TRUE.
    *
-   * This gets passed to cinnamon-global, which main.js can access and help it
+   * This gets passed to lemon-global, which main.js can access and help it
    * to decide whether or not to run the startup animation.
    *
-   * Timeout after 1 second - this shouldn't be allowed to hold up cinnamon's
+   * Timeout after 1 second - this shouldn't be allowed to hold up lemon's
    * start-up.
    */
   session_result = g_dbus_connection_call_sync (session,
@@ -197,26 +197,26 @@ cinnamon_dbus_init (gboolean  replace,
 }
 
 static void
-malloc_statistics_callback (CinnamonPerfLog *perf_log,
+malloc_statistics_callback (LemonPerfLog *perf_log,
                             gpointer      data)
 {
 #ifdef HAVE_MALLINFO
   struct mallinfo info = mallinfo ();
 
-  cinnamon_perf_log_update_statistic_i (perf_log,
+  lemon_perf_log_update_statistic_i (perf_log,
                                      "malloc.arenaSize",
                                      info.arena);
-  cinnamon_perf_log_update_statistic_i (perf_log,
+  lemon_perf_log_update_statistic_i (perf_log,
                                      "malloc.mmapSize",
                                      info.hblkhd);
-  cinnamon_perf_log_update_statistic_i (perf_log,
+  lemon_perf_log_update_statistic_i (perf_log,
                                      "malloc.usedSize",
                                      info.uordblks);
 #endif
 }
 
 static void
-cinnamon_a11y_init (void)
+lemon_a11y_init (void)
 {
   cally_accessibility_init ();
 
@@ -232,28 +232,28 @@ cinnamon_a11y_init (void)
 }
 
 static void
-cinnamon_perf_log_init (void)
+lemon_perf_log_init (void)
 {
-  CinnamonPerfLog *perf_log = cinnamon_perf_log_get_default ();
+  LemonPerfLog *perf_log = lemon_perf_log_get_default ();
 
   /* For probably historical reasons, mallinfo() defines the returned values,
    * even those in bytes as int, not size_t. We're determined not to use
    * more than 2G of malloc'ed memory, so are OK with that.
    */
-  cinnamon_perf_log_define_statistic (perf_log,
+  lemon_perf_log_define_statistic (perf_log,
                                    "malloc.arenaSize",
                                    "Amount of memory allocated by malloc() with brk(), in bytes",
                                    "i");
-  cinnamon_perf_log_define_statistic (perf_log,
+  lemon_perf_log_define_statistic (perf_log,
                                    "malloc.mmapSize",
                                    "Amount of memory allocated by malloc() with mmap(), in bytes",
                                    "i");
-  cinnamon_perf_log_define_statistic (perf_log,
+  lemon_perf_log_define_statistic (perf_log,
                                    "malloc.usedSize",
                                    "Amount of allocated memory currently in use",
                                    "i");
 
-  cinnamon_perf_log_add_statistics_callback (perf_log,
+  lemon_perf_log_add_statistics_callback (perf_log,
                                           malloc_statistics_callback,
                                           NULL, NULL);
 }
@@ -273,11 +273,11 @@ print_version (const gchar    *option_name,
                gpointer        data,
                GError        **error)
 {
-  g_print ("Cinnamon %s\n", VERSION);
+  g_print ("Lemon %s\n", VERSION);
   exit (0);
 }
 
-GOptionEntry gnome_cinnamon_options[] = {
+GOptionEntry gnome_lemon_options[] = {
   {
     "version", 0, G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK,
     print_version,
@@ -319,7 +319,7 @@ main (int argc, char **argv)
   g_setenv ("GDK_SCALE", "1", TRUE);
 
   ctx = meta_get_option_context ();
-  g_option_context_add_main_entries (ctx, gnome_cinnamon_options, GETTEXT_PACKAGE);
+  g_option_context_add_main_entries (ctx, gnome_lemon_options, GETTEXT_PACKAGE);
   if (!g_option_context_parse (ctx, &argc, &argv, &error))
     {
       g_printerr ("%s: %s\n", argv[0], error->message);
@@ -328,7 +328,7 @@ main (int argc, char **argv)
 
   g_option_context_free (ctx);
 
-  meta_plugin_manager_set_plugin_type (cinnamon_plugin_get_type ());
+  meta_plugin_manager_set_plugin_type (lemon_plugin_get_type ());
 
   /* Prevent meta_init() from causing gtk to load gail and at-bridge */
   env_no_gail = g_strdup (g_getenv ("NO_GAIL"));
@@ -357,19 +357,19 @@ main (int argc, char **argv)
   g_setenv ("GJS_DEBUG_OUTPUT", "stderr", TRUE);
   g_setenv ("GJS_DEBUG_TOPICS", "JS ERROR;JS LOG", TRUE);
 
-  g_setenv ("CINNAMON_VERSION", VERSION, TRUE);
+  g_setenv ("LEMON_VERSION", VERSION, TRUE);
 
   if (!meta_is_wayland_compositor ())
     {
       center_pointer_on_screen ();
     }
 
-  cinnamon_dbus_init (meta_get_replace_current_wm (),
+  lemon_dbus_init (meta_get_replace_current_wm (),
                       &session_running);
-  cinnamon_a11y_init ();
-  cinnamon_perf_log_init ();
+  lemon_a11y_init ();
+  lemon_perf_log_init ();
 
-  g_irepository_prepend_search_path (CINNAMON_PKGLIBDIR);
+  g_irepository_prepend_search_path (LEMON_PKGLIBDIR);
   g_irepository_prepend_search_path (MUFFIN_TYPELIB_DIR);
 
   /* We need to explicitly add the directories where the private libraries are
@@ -377,7 +377,7 @@ main (int argc, char **argv)
    * when linking using DT_RUNPATH (instead of DT_RPATH), which is the default
    * for some linkers (e.g. gold) and in some distros (e.g. Debian).
    */
-  g_irepository_prepend_library_path (CINNAMON_PKGLIBDIR);
+  g_irepository_prepend_library_path (LEMON_PKGLIBDIR);
   g_irepository_prepend_library_path (MUFFIN_TYPELIB_DIR);
 
   /* Disable debug spew from various libraries */
@@ -390,17 +390,17 @@ main (int argc, char **argv)
   g_log_set_handler ("XApp", G_LOG_LEVEL_DEBUG,
                      muted_log_handler, NULL);
   /* Initialize the global object */
-  _cinnamon_global_init ("session-running", session_running,
+  _lemon_global_init ("session-running", session_running,
                          NULL);
 
   g_unsetenv ("GDK_SCALE");
 
   ecode = meta_run ();
 
-  if (g_getenv ("CINNAMON_ENABLE_CLEANUP"))
+  if (g_getenv ("LEMON_ENABLE_CLEANUP"))
     {
       g_printerr ("Doing final cleanup...\n");
-      g_object_unref (cinnamon_global_get ());
+      g_object_unref (lemon_global_get ());
     }
 
   return ecode;

@@ -29,7 +29,7 @@ var AuthClient = class {
         this.cancellable = new Gio.Cancellable();
 
         try {
-            let helper_path = GLib.build_filenamev([Config.LIBEXECDIR, 'cinnamon-screensaver-pam-helper']);
+            let helper_path = GLib.build_filenamev([Config.LIBEXECDIR, 'lemon-screensaver-pam-helper']);
 
             let argv = [helper_path];
             let flags = Gio.SubprocessFlags.STDIN_PIPE | Gio.SubprocessFlags.STDOUT_PIPE;
@@ -42,7 +42,7 @@ var AuthClient = class {
 
             this.proc = Gio.Subprocess.new(argv, flags);
         } catch (e) {
-            global.logError('authClient: error starting cinnamon-screensaver-pam-helper: ' + e.message);
+            global.logError('authClient: error starting lemon-screensaver-pam-helper: ' + e.message);
             return false;
         }
 

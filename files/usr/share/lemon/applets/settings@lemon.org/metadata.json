@@ -1,0 +1,7 @@
+{
+ "uuid": "settings@lemon.org",
+ "name": "Settings Applet",
+ "description": "Lemon Settings",
+ "icon": "preferences-desktop",
+ "max-instances": -1
+}

@@ -1,2 +1,0 @@
-
-from cinnamon.updates import *

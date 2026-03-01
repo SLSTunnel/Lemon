@@ -1,0 +1,6 @@
+{
+"uuid": "notifications@lemon.org",
+"name": "Notifications",
+"description": "Click to display and manage system notifications",
+"icon": "cs-notifications"
+}

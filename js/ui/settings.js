@@ -8,7 +8,7 @@
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const Lang = imports.lang;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const Main = imports.ui.main;
 const Signals = imports.signals;
 const Extension = imports.ui.extension;
@@ -695,11 +695,11 @@ XletSettingsBase.prototype = {
             throw "Unable to load template file for " + this.uuid + ": settings-schema.json could not be found";
         }
 
-        let templateString = Cinnamon.get_file_contents_utf8_sync(templateFile.get_path());
+        let templateString = Lemon.get_file_contents_utf8_sync(templateFile.get_path());
         let newChecksum = global.get_md5_for_string(templateString);
 
         if (overrideFile.query_exists(null)) {
-            overrideString = Cinnamon.get_file_contents_utf8_sync(overrideFile.get_path());
+            overrideString = Lemon.get_file_contents_utf8_sync(overrideFile.get_path());
             newChecksum += global.get_md5_for_string(overrideString);
         }
 
@@ -741,13 +741,13 @@ XletSettingsBase.prototype = {
     },
 
     _ensureSettingsFiles: function() {
-        let configPath = [GLib.get_user_config_dir(), "cinnamon", "spices", this.uuid].join("/");
+        let configPath = [GLib.get_user_config_dir(), "lemon", "spices", this.uuid].join("/");
         let configDir = Gio.file_new_for_path(configPath);
         if (!configDir.query_exists(null)) configDir.make_directory_with_parents(null);
 
         let configFile = configDir.get_child(this.instanceId + ".json")
 
-        let oldConfigDir = Gio.file_new_for_path([GLib.get_home_dir(), ".cinnamon", "configs", this.uuid].join("/"));
+        let oldConfigDir = Gio.file_new_for_path([GLib.get_home_dir(), ".lemon", "configs", this.uuid].join("/"));
         let oldConfigFile = oldConfigDir.get_child(this.instanceId + ".json");
 
         // We only use the config under the old path if it's the only one for backwards compatibility
@@ -883,7 +883,7 @@ XletSettingsBase.prototype = {
     },
 
     _loadFromFile: function() {
-        let rawData = Cinnamon.get_file_contents_utf8_sync(this.file.get_path());
+        let rawData = Lemon.get_file_contents_utf8_sync(this.file.get_path());
         let json = JSON.parse(rawData);
 
         return json;
@@ -893,11 +893,11 @@ XletSettingsBase.prototype = {
         let rawData = JSON.stringify(this.settingsData, null, 4);
         let raw = this.file.replace(null, false, Gio.FileCreateFlags.NONE, null);
         let out_file = Gio.BufferedOutputStream.new_sized(raw, 4096);
-        Cinnamon.write_string_to_stream(out_file, rawData);
+        Lemon.write_string_to_stream(out_file, rawData);
         out_file.close(null);
     },
 
-    // Called by cinnamonDBus.js when a setting is changed remotely in order to trigger
+    // Called by lemonDBus.js when a setting is changed remotely in order to trigger
     // setting callbacks.
     remoteUpdate: function(key, payload) {
         this._checkSettings();

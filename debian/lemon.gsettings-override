@@ -1,0 +1,3 @@
+[org.lemon]
+favorite-apps=[ 'org.gnome.Calculator.desktop', 'org.gnome.Calendar.desktop', 'org.x.editor.desktop', 'mintinstall.desktop', 'lemon-settings.desktop' ]
+

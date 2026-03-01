@@ -21,7 +21,7 @@ var HoverClickHelper = class {
         try {
             this.proc = Gio.Subprocess.new(
                 [
-                "cinnamon-hover-click"
+                "lemon-hover-click"
                 ],
                 0);
 

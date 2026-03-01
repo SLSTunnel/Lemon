@@ -14,7 +14,7 @@ function save(callback, params) {
 }
 
 function _launchDialog(type, callback, params) {
-	let args = ["cinnamon-file-dialog"];
+	let args = ["lemon-file-dialog"];
 	if (params.selectMultiple) type += 3; //add 3 to use the select-multiple version
 	args.push(String(type));
 	if (params.path) args.push("-p", params.path.replace("~", GLib.get_home_dir()));

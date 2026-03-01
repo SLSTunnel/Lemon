@@ -1,4 +1,4 @@
-project('Cinnamon', 'c', version : '6.6.5', meson_version : '>=0.56.0')
+project('Lemon', 'c', version : '6.6.5', meson_version : '>=0.56.0')
 
 gnome = import('gnome')
 i18n = import('i18n')
@@ -27,7 +27,7 @@ servicedir = dbus.get_variable(pkgconfig: 'session_bus_services_dir', pkgconfig_
 # dependencies
 cjs = dependency('cjs-1.0', version: '>= 4.8.0')
 clutter = dependency('muffin-clutter-0')
-cmenu = dependency('libcinnamon-menu-3.0', version: '>= 4.8.0')
+cmenu = dependency('liblemon-menu-3.0', version: '>= 4.8.0')
 cogl = dependency('muffin-cogl-0')
 cogl_path = dependency('muffin-cogl-path-0')
 gcr = dependency('gcr-base-3', version: '>= 3.7.5')
@@ -106,32 +106,32 @@ endif
 python = find_program('python3')
 
 # generate config.h
-cinnamon_conf = configuration_data()
-cinnamon_conf.set_quoted('VERSION', version)
-cinnamon_conf.set_quoted('GETTEXT_PACKAGE', meson.project_name().to_lower())
-cinnamon_conf.set('BUILT_NM_AGENT', internal_nm_agent)
+lemon_conf = configuration_data()
+lemon_conf.set_quoted('VERSION', version)
+lemon_conf.set_quoted('GETTEXT_PACKAGE', meson.project_name().to_lower())
+lemon_conf.set('BUILT_NM_AGENT', internal_nm_agent)
 
 have_mallinfo = cc.has_function('mallinfo', prefix: '#include <malloc.h>')
 if have_mallinfo
-    cinnamon_conf.set10('HAVE_MALLINFO', true)
+    lemon_conf.set10('HAVE_MALLINFO', true)
 endif
 
 # Check for unistd.h (needed by PAM helper)
 if cc.has_header('unistd.h')
-    cinnamon_conf.set('HAVE_UNISTD_H', true)
+    lemon_conf.set('HAVE_UNISTD_H', true)
 endif
 
 # Check for sigaction (needed by PAM helper)
 if cc.has_function('sigaction', args: '-D_GNU_SOURCE')
-    cinnamon_conf.set('HAVE_SIGACTION', true)
+    lemon_conf.set('HAVE_SIGACTION', true)
 endif
 
 # PAM configuration checks
 if cc.compiles(pam_compile, dependencies: pam)
-  cinnamon_conf.set('PAM_STRERROR_TWO_ARGS', 1)
+  lemon_conf.set('PAM_STRERROR_TWO_ARGS', 1)
 endif
 if cc.has_function('pam_syslog', dependencies: pam)
-  cinnamon_conf.set('HAVE_PAM_SYSLOG', 1)
+  lemon_conf.set('HAVE_PAM_SYSLOG', 1)
 endif
 
 langinfo_test = '''
@@ -145,17 +145,17 @@ have_nl_time_first_weekday = cc.compiles(
     name : 'langinfo _NL_TIME_FIRST_WEEKDAY check')
 
 if have_nl_time_first_weekday
-    cinnamon_conf.set10('HAVE__NL_TIME_FIRST_WEEKDAY', true)
+    lemon_conf.set10('HAVE__NL_TIME_FIRST_WEEKDAY', true)
 endif
 
 # Check for X11 Shape extension (needed by backup-locker)
 if cc.has_header('X11/extensions/shape.h', dependencies: [X11, xext])
-    cinnamon_conf.set('HAVE_SHAPE_EXT', 1)
+    lemon_conf.set('HAVE_SHAPE_EXT', 1)
 endif
 
 config_h_file = configure_file(
     output : 'config.h',
-    configuration : cinnamon_conf
+    configuration : lemon_conf
 )
 
 config_h = declare_dependency(
@@ -176,7 +176,7 @@ c_args = [
     '-DDATADIR="@0@"'.format(join_paths(prefix, datadir)),
     '-DLIBDIR="@0@"'.format(join_paths(prefix, libdir)),
     '-DBINDIR="@0@"'.format(join_paths(prefix, bindir)),
-    '-DCINNAMON_DATADIR="@0@"'.format(join_paths(prefix, pkgdatadir)),
+    '-DLEMON_DATADIR="@0@"'.format(join_paths(prefix, pkgdatadir)),
     '-DJSDIR="@0@/js"'.format(join_paths(prefix, pkgdatadir)),
     '-DMUFFIN_TYPELIB_DIR="@0@"'.format(muffin_typelibdir),
     '-DPOLKIT_VERSION=@0@'.format(pkv),
@@ -214,23 +214,23 @@ configure_file(
     input: 'js/misc/config.js.in',
     output: 'config.js',
     configuration: config_js_conf,
-    install_dir: 'share/cinnamon/js/misc/'
+    install_dir: 'share/lemon/js/misc/'
 )
 
 
 excluded_files = []
 if get_option('exclude_info_settings')
-    excluded_files += ['usr/share/applications/cinnamon-settings-info.desktop']
-    excluded_files += ['usr/share/cinnamon/cinnamon-settings/modules/cs_info.py']
+    excluded_files += ['usr/share/applications/lemon-settings-info.desktop']
+    excluded_files += ['usr/share/lemon/lemon-settings/modules/cs_info.py']
 endif
 if get_option('exclude_users_settings')
-    excluded_files += ['usr/bin/cinnamon-settings-users']
-    excluded_files += ['usr/share/applications/cinnamon-settings-user.desktop']
-    excluded_files += ['usr/share/applications/cinnamon-settings-users.desktop']
-    excluded_files += ['usr/share/cinnamon/cinnamon-settings-users/cinnamon-settings-users.py']
-    excluded_files += ['usr/share/cinnamon/cinnamon-settings-users/cinnamon-settings-users.ui']
-    excluded_files += ['usr/share/cinnamon/cinnamon-settings-users/cinnamon-settings-users.svg']
-    excluded_files += ['usr/share/cinnamon/cinnamon-settings/modules/cs_user.py']
+    excluded_files += ['usr/bin/lemon-settings-users']
+    excluded_files += ['usr/share/applications/lemon-settings-user.desktop']
+    excluded_files += ['usr/share/applications/lemon-settings-users.desktop']
+    excluded_files += ['usr/share/lemon/lemon-settings-users/lemon-settings-users.py']
+    excluded_files += ['usr/share/lemon/lemon-settings-users/lemon-settings-users.ui']
+    excluded_files += ['usr/share/lemon/lemon-settings-users/lemon-settings-users.svg']
+    excluded_files += ['usr/share/lemon/lemon-settings/modules/cs_user.py']
 endif
 
 install_subdir(
@@ -240,9 +240,9 @@ install_subdir(
     exclude_files : excluded_files
 )
 
-session_files = ['cinnamon.session', 'cinnamon2d.session']
+session_files = ['lemon.session', 'lemon2d.session']
 if get_option('wayland')
-    session_files += ['cinnamon-wayland.session']
+    session_files += ['lemon-wayland.session']
 endif
 
 foreach session_file : session_files
@@ -250,7 +250,7 @@ foreach session_file : session_files
         input: session_file + '.in',
         output: session_file,
         configuration: session_conf,
-        install_dir: join_paths(prefix, datadir, 'cinnamon-session', 'sessions'),
+        install_dir: join_paths(prefix, datadir, 'lemon-session', 'sessions'),
     )
 endforeach
 

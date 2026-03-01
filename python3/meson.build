@@ -13,13 +13,13 @@ message('Installing python modules to: @0@'.format(install_path))
 # recognize install_dir.
 install_data(
   [
-    'cinnamon/__init__.py',
-    'cinnamon/file_handler.py',
-    'cinnamon/harvester.py',
-    'cinnamon/logger.py',
-    'cinnamon/proxygsettings.py',
-    'cinnamon/updates.py',
-    'cinnamon/zram_setup.py',
+    'lemon/__init__.py',
+    'lemon/file_handler.py',
+    'lemon/harvester.py',
+    'lemon/logger.py',
+    'lemon/proxygsettings.py',
+    'lemon/updates.py',
+    'lemon/zram_setup.py',
   ],
-  install_dir: join_paths(install_path, 'cinnamon'),
+  install_dir: join_paths(install_path, 'lemon'),
 )

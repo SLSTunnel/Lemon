@@ -6,7 +6,7 @@ WORKDIR=".osk-layout-workbench"
 CLDR2JSON="cldr2json/cldr2json.py"
 SRCDIR="$WORKDIR/keyboards/android"
 DESTDIR="osk-layouts"
-GRESOURCE_FILE="cinnamon-osk-layouts.gresource.xml"
+GRESOURCE_FILE="lemon-osk-layouts.gresource.xml"
 TMP_GRESOURCE_FILE=".$GRESOURCE_FILE.tmp"
 
 cd `dirname $0`
@@ -29,7 +29,7 @@ $CLDR2JSON $SRCDIR $DESTDIR
 cat >$TMP_GRESOURCE_FILE <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-  <gresource prefix="/org/cinnamon/osk-layouts">
+  <gresource prefix="/org/lemon/osk-layouts">
 EOF
 
 for f in $DESTDIR/*.json

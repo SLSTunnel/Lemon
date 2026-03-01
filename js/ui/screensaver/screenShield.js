@@ -6,7 +6,7 @@ const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
 const Meta = imports.gi.Meta;
 const St = imports.gi.St;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 
 const LoginManager = imports.misc.loginManager;
 const Util = imports.misc.util;
@@ -17,8 +17,8 @@ const AlbumArtWidget = imports.ui.screensaver.albumArtWidget;
 const InfoPanel = imports.ui.screensaver.infoPanel;
 const NameBlocker = imports.ui.screensaver.nameBlocker;
 
-const SCREENSAVER_SCHEMA = 'org.cinnamon.desktop.screensaver';
-const POWER_SCHEMA = 'org.cinnamon.settings-daemon.plugins.power';
+const SCREENSAVER_SCHEMA = 'org.lemon.desktop.screensaver';
+const POWER_SCHEMA = 'org.lemon.settings-daemon.plugins.power';
 const FADE_TIME = 200;
 const MOTION_THRESHOLD = 100;
 
@@ -293,7 +293,7 @@ var ScreenShield = GObject.registerClass({
         this._setState(State.UNLOCKING);
 
         this._lastPointerMonitor = global.display.get_current_monitor();
-        Main.setActionMode(this, Cinnamon.ActionMode.UNLOCK_SCREEN);
+        Main.setActionMode(this, Lemon.ActionMode.UNLOCK_SCREEN);
 
         global.stage.show_cursor();
 
@@ -341,7 +341,7 @@ var ScreenShield = GObject.registerClass({
 
                 this._setState(State.LOCKED);
 
-                Main.setActionMode(this, Cinnamon.ActionMode.LOCK_SCREEN);
+                Main.setActionMode(this, Lemon.ActionMode.LOCK_SCREEN);
 
                 global.stage.hide_cursor();
                 this._onSleep();
@@ -409,7 +409,7 @@ var ScreenShield = GObject.registerClass({
         this._lastMotionY = -1;
         this._activationTime = GLib.get_monotonic_time();
 
-        if (!Main.pushModal(this, global.get_current_time(), 0, Cinnamon.ActionMode.LOCK_SCREEN)) {
+        if (!Main.pushModal(this, global.get_current_time(), 0, Lemon.ActionMode.LOCK_SCREEN)) {
             global.logError('ScreenShield: Failed to acquire modal grab');
             return;
         }
@@ -1132,9 +1132,9 @@ var ScreenShield = GObject.registerClass({
 
     _backupLockerCall(method, params, callback, noAutoStart = false) {
         Gio.DBus.session.call(
-            'org.cinnamon.BackupLocker',
-            '/org/cinnamon/BackupLocker',
-            'org.cinnamon.BackupLocker',
+            'org.lemon.BackupLocker',
+            '/org/lemon/BackupLocker',
+            'org.lemon.BackupLocker',
             method,
             params,
             null,
@@ -1159,10 +1159,10 @@ var ScreenShield = GObject.registerClass({
         if (Meta.is_wayland_compositor()) {
             // TODO: Waiting on:
             //   muffin: https://github.com/linuxmint/muffin/pull/784
-            //   cinnamon-settings-daemon: https://github.com/SLSTunnel/cinnamon-settings-daemon/pull/437
+            //   lemon-settings-daemon: https://github.com/SLSTunnel/lemon-settings-daemon/pull/437
             // 
             // Once those are merged we can access the layer-shell surfaces of csd-background and avoid
-            // having to load them in Cinnamon.
+            // having to load them in Lemon.
             //
             // For now, there is only a black background for the screensaver.
             return;

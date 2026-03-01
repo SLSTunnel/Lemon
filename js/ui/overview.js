@@ -6,7 +6,7 @@ const Mainloop = imports.mainloop;
 const Signals = imports.signals;
 const Lang = imports.lang;
 const St = imports.gi.St;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 
 const Main = imports.ui.main;
 const MessageTray = imports.ui.messageTray;
@@ -228,7 +228,7 @@ Overview.prototype = {
         if (this._shown)
             return;
         // Do this manually instead of using _syncInputMode, to handle failure
-        if (!Main.pushModal(this._group, undefined, undefined, Cinnamon.ActionMode.OVERVIEW))
+        if (!Main.pushModal(this._group, undefined, undefined, Lemon.ActionMode.OVERVIEW))
             return;
         this._modal = true;
         this._shown = true;
@@ -363,7 +363,7 @@ Overview.prototype = {
 
         if (this._shown) {
             if (!this._modal) {
-                if (Main.pushModal(this._group, undefined, undefined, Cinnamon.ActionMode.OVERVIEW))
+                if (Main.pushModal(this._group, undefined, undefined, Lemon.ActionMode.OVERVIEW))
                     this._modal = true;
                 else
                     this.hide();
@@ -373,14 +373,14 @@ Overview.prototype = {
                 Main.popModal(this._group);
                 this._modal = false;
             }
-            global.stage_input_mode = Cinnamon.StageInputMode.FULLSCREEN;
+            global.stage_input_mode = Lemon.StageInputMode.FULLSCREEN;
         } else {
             if (this._modal) {
                 Main.popModal(this._group);
                 this._modal = false;
             }
-            else if (global.stage_input_mode == Cinnamon.StageInputMode.FULLSCREEN)
-                global.stage_input_mode = Cinnamon.StageInputMode.NORMAL;
+            else if (global.stage_input_mode == Lemon.StageInputMode.FULLSCREEN)
+                global.stage_input_mode = Lemon.StageInputMode.NORMAL;
         }
     },
 

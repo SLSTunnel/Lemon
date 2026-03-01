@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Lemon 2D
+Comment=Window management and application launching
+Exec=@bindir@/lemon2d
+Categories=GNOME;GTK;System;Core;
+OnlyShowIn=X-Lemon;
+NoDisplay=true
+X-GNOME-Autostart-Phase=WindowManager
+X-GNOME-Provides=panel;windowmanager;
+X-GNOME-Autostart-Notify=true
+X-GNOME-AutoRestart=true
+X-Ubuntu-Gettext-Domain=lemon

@@ -1,7 +1,0 @@
-#!/bin/sh
-
-if [ "$1" = "--wayland" ]; then
-    exec cinnamon-session --session cinnamon-wayland
-else
-    exec cinnamon-session --session cinnamon "$@"
-fi

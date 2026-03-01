@@ -1,7 +1,7 @@
 # moved to /usr/share
-usr/lib/cinnamon-*
+usr/lib/lemon-*
 # libtool not installed
-usr/lib/*/cinnamon/libcinnamon-js.la
-usr/lib/*/cinnamon/libcinnamon.la
+usr/lib/*/lemon/liblemon-js.la
+usr/lib/*/lemon/liblemon.la
 # manpages are compressed
 usr/share/man/man1/*.1

@@ -3,7 +3,7 @@
 import os
 import subprocess
 
-link_path = os.path.join('etc', 'xdg', 'menus', 'cinnamon-applications-merged')
+link_path = os.path.join('etc', 'xdg', 'menus', 'lemon-applications-merged')
 dest = os.environ.get('DESTDIR')
 
 if dest:

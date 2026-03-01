@@ -1,0 +1,6 @@
+[Lemon Session]
+Name=Lemon
+RequiredComponents=lemon-wayland;nemo-autostart;@REQUIRED@
+DesktopName=X-Lemon
+
+

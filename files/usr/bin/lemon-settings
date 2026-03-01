@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /usr/share/lemon/lemon-settings/lemon-settings.py "$@"

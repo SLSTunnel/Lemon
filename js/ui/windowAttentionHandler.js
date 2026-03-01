@@ -1,7 +1,7 @@
 // -*- mode: js; js-indent-level: 4; indent-tabs-mode: nil -*-
 
 const Lang = imports.lang;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const St = imports.gi.St;
 const GLib = imports.gi.GLib;
 
@@ -17,7 +17,7 @@ function WindowAttentionHandler() {
 
 WindowAttentionHandler.prototype = {
     _init : function() {
-        this._tracker = Cinnamon.WindowTracker.get_default();
+        this._tracker = Lemon.WindowTracker.get_default();
 
         Mainloop.timeout_add_seconds(4, () => {
             log("Enabling WindowAttentionHandler");

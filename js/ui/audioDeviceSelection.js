@@ -1,4 +1,4 @@
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const Clutter = imports.gi.Clutter;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
@@ -14,7 +14,7 @@ const Util = imports.misc.util;
 
 const AudioDeviceSelectionIface = `
 <node>
-<interface name="org.Cinnamon.AudioDeviceSelection">
+<interface name="org.Lemon.AudioDeviceSelection">
 <method name="Open">
     <arg name="devices" direction="in" type="as" />
 </method>
@@ -146,7 +146,7 @@ const AudioDeviceSelectionDialog = GObject.registerClass({
     }
 
      _openSettings() {
-        Util.spawnCommandLine('cinnamon-settings sound');
+        Util.spawnCommandLine('lemon-settings sound');
         this.close();
     }
 });
@@ -156,9 +156,9 @@ var AudioDeviceSelectionDBus = class AudioDeviceSelectionDBus {
         this._audioSelectionDialog = null;
 
         this._dbusImpl = Gio.DBusExportedObject.wrapJSObject(AudioDeviceSelectionIface, this);
-        this._dbusImpl.export(Gio.DBus.session, '/org/Cinnamon/AudioDeviceSelection');
+        this._dbusImpl.export(Gio.DBus.session, '/org/Lemon/AudioDeviceSelection');
 
-        Gio.DBus.session.own_name('org.Cinnamon.AudioDeviceSelection', Gio.BusNameOwnerFlags.REPLACE, null, null);
+        Gio.DBus.session.own_name('org.Lemon.AudioDeviceSelection', Gio.BusNameOwnerFlags.REPLACE, null, null);
     }
 
     _onDialogClosed() {

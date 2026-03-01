@@ -15,7 +15,7 @@ const Flashspot = imports.ui.flashspot;
 const ModalDialog = imports.ui.modalDialog;
 const Signals = imports.signals;
 const Gettext = imports.gettext;
-const Cinnamon = imports.gi.Cinnamon;
+const Lemon = imports.gi.Lemon;
 const SignalManager = imports.misc.signalManager;
 
 var AllowedLayout = {  // the panel layout that an applet is suitable for
@@ -563,7 +563,7 @@ var Applet = class Applet {
     }
 
     confirmRemoveApplet (event) {
-        if (Clutter.ModifierType.CONTROL_MASK & Cinnamon.get_event_state(event)) {
+        if (Clutter.ModifierType.CONTROL_MASK & Lemon.get_event_state(event)) {
             AppletManager._removeAppletFromPanel(this._uuid, this.instance_id);
         } else {
             let dialog = new ModalDialog.ConfirmDialog(
@@ -628,7 +628,7 @@ var Applet = class Applet {
         // if it looks translated, return the translation of the domain
         if (translated !== str)
             return translated;
-        // else, use the default cinnamon domain
+        // else, use the default lemon domain
         return _(str);
     }
 
@@ -1171,21 +1171,21 @@ var PopupResizeHandler = class PopupResizeHandler {
 
         this._no_edges_draggable = false;
         if (this._top_edge_draggable && this._left_edge_draggable) {
-            cursor = Cinnamon.Cursor.RESIZE_TOP_LEFT;
+            cursor = Lemon.Cursor.RESIZE_TOP_LEFT;
         } else if (this._top_edge_draggable && this._right_edge_draggable) {
-            cursor = Cinnamon.Cursor.RESIZE_TOP_RIGHT;
+            cursor = Lemon.Cursor.RESIZE_TOP_RIGHT;
         } else if (this._bottom_edge_draggable && this._left_edge_draggable) {
-            cursor = Cinnamon.Cursor.RESIZE_BOTTOM_LEFT;
+            cursor = Lemon.Cursor.RESIZE_BOTTOM_LEFT;
         } else if (this._bottom_edge_draggable && this._right_edge_draggable) {
-            cursor = Cinnamon.Cursor.RESIZE_BOTTOM_RIGHT;
+            cursor = Lemon.Cursor.RESIZE_BOTTOM_RIGHT;
         } else if (this._top_edge_draggable) {
-            cursor = Cinnamon.Cursor.RESIZE_TOP;
+            cursor = Lemon.Cursor.RESIZE_TOP;
         } else if (this._bottom_edge_draggable) {
-            cursor = Cinnamon.Cursor.RESIZE_BOTTOM;
+            cursor = Lemon.Cursor.RESIZE_BOTTOM;
         } else if (this._left_edge_draggable) {
-            cursor = Cinnamon.Cursor.RESIZE_LEFT;
+            cursor = Lemon.Cursor.RESIZE_LEFT;
         } else if (this._right_edge_draggable) {
-            cursor = Cinnamon.Cursor.RESIZE_RIGHT;
+            cursor = Lemon.Cursor.RESIZE_RIGHT;
         } else {
             global.unset_cursor();
             this._no_edges_draggable = true;

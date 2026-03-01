@@ -222,13 +222,13 @@ on_mag_factor_changed (GSettings   *ally_settings,
 static void
 st_settings_init (StSettings *settings)
 {
-  settings->interface_settings = g_settings_new ("org.cinnamon.desktop.interface");
+  settings->interface_settings = g_settings_new ("org.lemon.desktop.interface");
   g_signal_connect (settings->interface_settings, "changed",
                     G_CALLBACK (on_interface_settings_changed), settings);
   settings->font_name = g_settings_get_string (settings->interface_settings, KEY_FONT_NAME);
   settings->gtk_icon_theme = g_settings_get_string (settings->interface_settings, KEY_GTK_ICON_THEME);
 
-  settings->a11y_settings = g_settings_new ("org.cinnamon.desktop.a11y.magnifier");
+  settings->a11y_settings = g_settings_new ("org.lemon.desktop.a11y.magnifier");
   g_signal_connect (settings->a11y_settings, "changed::" KEY_MAGNIFIER_FACTOR,
                     G_CALLBACK (on_mag_factor_changed), settings);
   settings->mag_active = g_settings_get_double (settings->a11y_settings, KEY_MAGNIFIER_FACTOR) > 1.0;

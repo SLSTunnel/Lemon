@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if [ "$1" = "--wayland" ]; then
+    exec lemon-session --session lemon-wayland
+else
+    exec lemon-session --session lemon "$@"
+fi

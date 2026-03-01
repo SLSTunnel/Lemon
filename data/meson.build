@@ -13,7 +13,7 @@ install_subdir(
         'theme-changelog.txt',
         'meson.build'
     ],
-    exclude_directories: ['cinnamon-sass'],
+    exclude_directories: ['lemon-sass'],
     install_dir: pkgdatadir,
 )
 
@@ -22,9 +22,9 @@ desktop_conf.set('bindir', join_paths(prefix, bindir))
 desktop_conf.set('libexecdir', join_paths(prefix, libexecdir))
 desktop_conf.set('VERSION', meson.project_version())
 
-desktop_files = ['cinnamon.desktop', 'cinnamon2d.desktop']
+desktop_files = ['lemon.desktop', 'lemon2d.desktop']
 if get_option('wayland')
-    desktop_files += ['cinnamon-wayland.desktop']
+    desktop_files += ['lemon-wayland.desktop']
 endif
 
 foreach desktop_file : desktop_files
@@ -50,13 +50,13 @@ subdir('xsessions')
 subdir('services')
 
 install_data(
-    ['org.cinnamon.gschema.xml', 'org.cinnamon.gestures.gschema.xml'],
+    ['org.lemon.gschema.xml', 'org.lemon.gestures.gschema.xml'],
     install_dir: schemadir,
 )
 
 gnome.compile_resources(
-    'cinnamon-osk-layouts',
-    'cinnamon-osk-layouts.gresource.xml',
+    'lemon-osk-layouts',
+    'lemon-osk-layouts.gresource.xml',
     source_dir: 'osk-layouts',
     gresource_bundle: true,
     install: true,
